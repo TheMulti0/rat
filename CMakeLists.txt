@@ -3,7 +3,7 @@ project(CClientServer)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(CClientServer main.cpp Client.cpp Client.h Server.cpp Server.h)
+add_executable(CClientServer main.cpp Client.h)
 
 if(WIN32)
     target_link_libraries(CClientServer wsock32 ws2_32)
