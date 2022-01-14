@@ -1,0 +1,5 @@
+# ninja log v5
+1	1043	6628398116415419	CMakeFiles/CClientServer.dir/main.cpp.obj	537530df95d08bca
+1044	1334	6628398118965420	CClientServer.exe	7c20f13cec4c23e8
+0	1164	6627372380275295	CMakeFiles/CClientServer.dir/server.cpp.obj	3270ae4be6da466c
+1	872	6628397238125413	CMakeFiles/CClientServer.dir/Client.cpp.obj	83527de37290442
