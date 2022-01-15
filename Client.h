@@ -4,6 +4,7 @@
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #include <iostream>
+#include <string.h>
 
 
 // Need to link with Ws2_32.lib, Mswsock.lib, and Advapi32.lib
@@ -43,19 +44,26 @@ void Start(const char* ip) {
 
 	SOCKET socket = ConnectToServer(addressInfo);
 
-	const char* sendBuffer = "this is a test";
-	int sent = Send(socket, sendBuffer);
-	printf("Bytes Sent: %ld\n", sent);
+	while (true) {
+		printf("Enter text to send (type 'cancel' to stop)");
+		std::string sendBuffer;
+		std::cin >> sendBuffer;
 
-	// shutdown the connection since no more data will be sent
+		if (sendBuffer == "cancel") {
+			break;
+		}
+
+		int sent = Send(socket, sendBuffer.c_str());
+		printf("Bytes sent: %ld\n", sent);
+
+		char recvBuffer[DEFAULT_BUFLEN];
+		int recvBufferLen = DEFAULT_BUFLEN;
+
+		// Receive until the peer closes the connection
+		Receive(socket, recvBuffer, recvBufferLen);
+	}
+
 	ShutdownSocket(socket);
-
-	char recvBuffer[DEFAULT_BUFLEN];
-	int recvBufferLen = DEFAULT_BUFLEN;
-
-	// Receive until the peer closes the connection
-	Receive(socket, recvBuffer, recvBufferLen);
-
 	Cleanup(socket);
 }
 
@@ -71,11 +79,18 @@ void Receive(SOCKET socket, char* recvBuffer, int recvBufferLen) {
 		result = recv(socket, recvBuffer, recvBufferLen, 0);
 
 		if (result > 0)
+		{
 			printf("Bytes received: %d\n", result);
+			printf("Received: %s", recvBuffer);
+		}
 		else if (result == 0)
+		{
 			printf("Connection closed\n");
+		}
 		else
+		{
 			printf("recv failed with error: %d\n", WSAGetLastError());
+		}
 
 	} while (result > 0);
 }

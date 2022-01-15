@@ -50,12 +50,10 @@ void Start() {
 
 	// Setup the TCP listening socket
 	BindListenSocket(addressInfo, listenSocket);
+
 	ListenToConnections(listenSocket);
 
 	SOCKET clientSocket = AcceptClientConnection(listenSocket);
-
-	// No longer need server socket
-	CloseListenSocket(listenSocket);
 
 	// Receive until the peer shuts down the connection
 	char recvBuffer[DEFAULT_BUFLEN];
@@ -63,11 +61,14 @@ void Start() {
 	Receive(clientSocket, recvBuffer, recvBufferLen);
 
 	ShutdownClientSocket(clientSocket);
+
+	CloseListenSocket(listenSocket);
 	Cleanup(clientSocket);
 }
 
 void Receive(SOCKET clientSocket, char* recvBuffer, int recvBufferLen) {
 	int result;
+
 	do {
 		result = recv(clientSocket, recvBuffer, recvBufferLen, 0);
 
