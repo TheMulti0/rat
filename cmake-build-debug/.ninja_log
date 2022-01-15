@@ -1,5 +1,20 @@
 # ninja log v5
 1	1043	6628398116415419	CMakeFiles/CClientServer.dir/main.cpp.obj	537530df95d08bca
-1044	1334	6628398118965420	CClientServer.exe	7c20f13cec4c23e8
 0	1164	6627372380275295	CMakeFiles/CClientServer.dir/server.cpp.obj	3270ae4be6da466c
 1	872	6628397238125413	CMakeFiles/CClientServer.dir/Client.cpp.obj	83527de37290442
+22	1475	6639356894514472	CMakeFiles/CClientServer.dir/ClientMain.cpp.obj	aceee9b869ce0968
+1	1476	6639356894439460	CMakeFiles/CClientServer.dir/ServerMain.cpp.obj	1b2c14d3c33ff6d4
+1	911	6639357898899440	CMakeFiles/CServer.dir/ServerMain.cpp.obj	fff6f8c970b1f88c
+912	1559	6639357905294456	CServer.exe	89810e1813f894a
+1	857	6639358879919483	CMakeFiles/CServer.dir/ServerMain.cpp.obj	fff6f8c970b1f88c
+857	1154	6639358882714458	CServer.exe	89810e1813f894a
+0	1203	6639359480744447	CMakeFiles/CServer.dir/ServerMain.cpp.obj	fff6f8c970b1f88c
+1204	1494	6639359483364580	CServer.exe	89810e1813f894a
+1	930	6639360229904446	CMakeFiles/CServer.dir/ServerMain.cpp.obj	fff6f8c970b1f88c
+931	1231	6639360232659439	CServer.exe	89810e1813f894a
+0	893	6639360963244444	CMakeFiles/CServer.dir/ServerMain.cpp.obj	fff6f8c970b1f88c
+894	1402	6639360967279449	CServer.exe	89810e1813f894a
+1	961	6639361146769472	CMakeFiles/CServer.dir/ServerMain.cpp.obj	fff6f8c970b1f88c
+961	1247	6639361149359449	CServer.exe	89810e1813f894a
+2	1059	6639361455569444	CMakeFiles/CClient.dir/ClientMain.cpp.obj	a81bf91c9a495201
+1060	1599	6639361460874569	CClient.exe	12c1545026dbd6e6

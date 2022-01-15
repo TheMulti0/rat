@@ -13,15 +13,15 @@
 
 
 #define DEFAULT_BUFLEN 512
-#define DEFAULT_PORT "27015"
+#define DEFAULT_PORT "159823"
 
 void InitializeWinSock();
 
-addrinfo CreateAddressInfoHints();
+void CreateAddressInfoHints(addrinfo& hints);
 
 addrinfo* ResolveAddressInfo(addrinfo& hints, const char* ip, const char* port);
 
-SOCKET ConnectToServer(addrinfo* result);
+SOCKET ConnectToServer(addrinfo* addressInfo);
 
 int Send(SOCKET socket, const char* sendBuffer);
 
@@ -32,25 +32,17 @@ void Receive(SOCKET socket, char* recvBuffer, int recvBufferLen);
 void Cleanup(SOCKET socket);
 
 void Start(const char* ip) {
-	// Initialize Winsock
 	InitializeWinSock();
 
-	addrinfo hints = CreateAddressInfoHints();
+	addrinfo hints;
+	CreateAddressInfoHints(hints);
 
 	const char* port = DEFAULT_PORT;
 
-	// Resolve the server address and port
-	addrinfo* result = ResolveAddressInfo(hints, ip, port);
+	addrinfo* addressInfo = ResolveAddressInfo(hints, ip, port);
 
-	SOCKET socket = ConnectToServer(result);
+	SOCKET socket = ConnectToServer(addressInfo);
 
-	if (socket == INVALID_SOCKET) {
-		printf("Unable to connect to server!\n");
-		WSACleanup();
-		throw std::exception();
-	}
-
-	// Send an initial buffer
 	const char* sendBuffer = "this is a test";
 	int sent = Send(socket, sendBuffer);
 	printf("Bytes Sent: %ld\n", sent);
@@ -64,7 +56,6 @@ void Start(const char* ip) {
 	// Receive until the peer closes the connection
 	Receive(socket, recvBuffer, recvBufferLen);
 
-	// cleanup
 	Cleanup(socket);
 }
 
@@ -74,19 +65,19 @@ void Cleanup(SOCKET socket) {
 }
 
 void Receive(SOCKET socket, char* recvBuffer, int recvBufferLen) {
-	int returnCode;
+	int result;
 
 	do {
-		returnCode = recv(socket, recvBuffer, recvBufferLen, 0);
+		result = recv(socket, recvBuffer, recvBufferLen, 0);
 
-		if (returnCode > 0)
-			printf("Bytes received: %d\n", returnCode);
-		else if (returnCode == 0)
+		if (result > 0)
+			printf("Bytes received: %d\n", result);
+		else if (result == 0)
 			printf("Connection closed\n");
 		else
 			printf("recv failed with error: %d\n", WSAGetLastError());
 
-	} while (returnCode > 0);
+	} while (result > 0);
 }
 
 void ShutdownSocket(SOCKET socket) {
@@ -113,40 +104,47 @@ int Send(SOCKET socket, const char* sendBuffer) {
 	return result;
 }
 
-SOCKET ConnectToServer(addrinfo* result) {
+SOCKET ConnectToServer(addrinfo* addressInfo) {
 	addrinfo* ptr;
-	auto socket = INVALID_SOCKET;
+	auto connectSocket = INVALID_SOCKET;
 
 	// Attempt to connect to an address until one succeeds
-	for (ptr = result; ptr != nullptr; ptr = ptr->ai_next) {
+	for (ptr = addressInfo; ptr != nullptr; ptr = ptr->ai_next) {
 
 		// Create a SOCKET for connecting to server
-		socket = socket(ptr->ai_family, ptr->ai_socktype, ptr->ai_protocol);
+		connectSocket = socket(ptr->ai_family, ptr->ai_socktype, ptr->ai_protocol);
 
-		if (socket == INVALID_SOCKET) {
-			printf("socket failed with error: %ld\n", WSAGetLastError());
+		if (connectSocket == INVALID_SOCKET) {
+			printf("connectSocket failed with error: %ld\n", WSAGetLastError());
 			WSACleanup();
 			throw std::exception();
 		}
 
 		// Connect to server.
-		int returnCode = connect(socket, ptr->ai_addr, (int) ptr->ai_addrlen);
+		int returnCode = connect(connectSocket, ptr->ai_addr, (int) ptr->ai_addrlen);
 
 		if (returnCode == SOCKET_ERROR) {
-			closesocket(socket);
-			socket = INVALID_SOCKET;
+			closesocket(connectSocket);
+			connectSocket = INVALID_SOCKET;
 			continue;
 		}
 		break;
 	}
 
-	freeaddrinfo(result);
+	freeaddrinfo(addressInfo);
 
-	return socket;
+	if (connectSocket == INVALID_SOCKET) {
+		printf("Unable to connect to server!\n");
+		WSACleanup();
+		throw std::exception();
+	}
+
+	return connectSocket;
 }
 
 addrinfo* ResolveAddressInfo(addrinfo& hints, const char* ip, const char* port) {
 	addrinfo* result = nullptr;
+
 	int returnCode = getaddrinfo(ip, port, &hints, &result);
 
 	if (returnCode != 0) {
@@ -158,14 +156,12 @@ addrinfo* ResolveAddressInfo(addrinfo& hints, const char* ip, const char* port) 
 	return result;
 }
 
-addrinfo CreateAddressInfoHints() {
-	addrinfo hints;
+void CreateAddressInfoHints(addrinfo& hints) {
+	memset(&hints, 0, sizeof(hints));
 
 	hints.ai_family = AF_UNSPEC;
 	hints.ai_socktype = SOCK_STREAM;
 	hints.ai_protocol = IPPROTO_TCP;
-
-	return hints;
 }
 
 void InitializeWinSock() {
