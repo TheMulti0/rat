@@ -23,8 +23,9 @@ private:
 	SOCKET ConnectToServer();
 };
 
-Client::Client(const char* ip, const char* port) {
-	_addressInfo = CreateAddressInfo(ip, port);
+Client::Client(const char* ip, const char* port) :
+	_addressInfo (CreateAddressInfo(ip, port))
+{
 }
 
 Connection* Client::Connect() {
@@ -34,7 +35,6 @@ Connection* Client::Connect() {
 
 	if (connectSocket == INVALID_SOCKET) {
 		printf("Unable to connect to server!\n");
-		CleanupWinSock();
 		throw std::exception();
 	}
 
@@ -59,7 +59,6 @@ addrinfo* Client::ResolveAddressInfo(addrinfo& hints, const char* ip, const char
 
 	if (returnCode != 0) {
 		printf("getaddrinfo failed with error: %d\n", returnCode);
-		CleanupWinSock();
 		throw std::exception();
 	}
 
@@ -74,7 +73,6 @@ SOCKET Client::ConnectToServer() {
 
 	if (connectSocket == INVALID_SOCKET) {
 		printf("connectSocket failed with error: %ld\n", WSAGetLastError());
-		CleanupWinSock();
 		throw std::exception();
 	}
 

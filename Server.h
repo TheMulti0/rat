@@ -28,7 +28,7 @@ private:
 
 	SOCKET CreateListenSocket();
 
-	void ListenToConnections();
+	void ListenForConnections();
 
 	Connection* AcceptClientConnection();
 };
@@ -46,7 +46,6 @@ void Server::Bind() {
 		printf("bind failed with error: %d\n", WSAGetLastError());
 		freeaddrinfo(_addressInfo);
 		Unbind();
-		CleanupWinSock();
 		throw std::exception();
 	}
 
@@ -54,7 +53,7 @@ void Server::Bind() {
 }
 
 Connection* Server::WaitForConnection() {
-	ListenToConnections();
+	ListenForConnections();
 
 	return AcceptClientConnection();
 }
@@ -81,20 +80,18 @@ Connection* Server::AcceptClientConnection() {
 	if (clientSocket == INVALID_SOCKET) {
 		printf("accept failed with error: %d\n", WSAGetLastError());
 		closesocket(_listenSocket);
-		CleanupWinSock();
 		throw std::exception();
 	}
 
 	return new Connection(clientSocket);
 }
 
-void Server::ListenToConnections() {
+void Server::ListenForConnections() {
 	int returnCode = listen(_listenSocket, SOMAXCONN);
 
 	if (returnCode == SOCKET_ERROR) {
 		printf("listen failed with error: %d\n", WSAGetLastError());
 		closesocket(_listenSocket);
-		CleanupWinSock();
 		throw std::exception();
 	}
 }
@@ -107,7 +104,6 @@ SOCKET Server::CreateListenSocket() {
 	if (listenSocket == INVALID_SOCKET) {
 		printf("socket failed with error: %ld\n", WSAGetLastError());
 		freeaddrinfo(_addressInfo);
-		CleanupWinSock();
 		throw std::exception();
 	}
 
@@ -121,7 +117,6 @@ addrinfo* Server::ResolveAddressInfo(addrinfo& hints) {
 
 	if (returnCode != 0) {
 		printf("getaddrinfo failed with error: %d\n", returnCode);
-		CleanupWinSock();
 		throw std::exception();
 	}
 

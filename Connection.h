@@ -27,7 +27,6 @@ int Connection::Send(const char* buffer, int length) {
 	if (result == SOCKET_ERROR) {
 		printf("send failed with error: %d\n", WSAGetLastError());
 		closesocket(_socket);
-		CleanupWinSock();
 		throw std::exception();
 	}
 
@@ -63,7 +62,6 @@ void Connection::Shutdown() {
 	if (returnCode == SOCKET_ERROR) {
 		printf("shutdown failed with error: %d\n", WSAGetLastError());
 		closesocket(_socket);
-		CleanupWinSock();
 		throw std::exception();
 	}
 }

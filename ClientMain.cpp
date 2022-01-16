@@ -7,6 +7,9 @@ int main() {
 
 	auto connection = client.Connect();
 
+	char recvBuffer[DEFAULT_BUFLEN];
+	int recvBufferLen = DEFAULT_BUFLEN;
+
 	while (true) {
 		printf("Enter text to send (type 'cancel' to stop)");
 		std::string sendBuffer;
@@ -19,8 +22,6 @@ int main() {
 		int sent = connection->Send(sendBuffer.c_str(), sendBuffer.size());
 		printf("Bytes sent: %ld\n", sent);
 
-		char recvBuffer[DEFAULT_BUFLEN];
-		int recvBufferLen = DEFAULT_BUFLEN;
 
 		// Receive until the peer closes the connection
 		connection->Receive(recvBuffer, recvBufferLen);
