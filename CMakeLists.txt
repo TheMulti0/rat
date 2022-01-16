@@ -3,10 +3,16 @@ project(CClientServer)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(CClient Client.h ClientMain.cpp)
-add_executable(CServer Server.h ServerMain.cpp)
+file(GLOB LIB_SOURCES *.cpp)
+file(GLOB LIB_HEADERS *.h)
+add_library(CClientServer SHARED ${LIB_SOURCES} ${LIB_HEADERS})
 
 if(WIN32)
-    target_link_libraries(CClient wsock32 ws2_32)
-    target_link_libraries(CServer wsock32 ws2_32)
+    target_link_libraries(CClientServer wsock32 ws2_32)
 endif()
+
+add_executable(CClient ClientMain.cpp)
+target_link_libraries(CClient CClientServer)
+
+add_executable(CServer ServerMain.cpp)
+target_link_libraries(CServer CClientServer)

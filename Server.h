@@ -1,212 +1,129 @@
 #undef UNICODE
 
-#define WIN32_LEAN_AND_MEAN
-
-#include <windows.h>
-#include <winsock2.h>
-#include <ws2tcpip.h>
+#include <Windows.h>
+#include <WinSock2.h>
+#include <WS2tcpip.h>
 #include <iostream>
+#include "Connection.h"
+#include "Config.h"
 
-// Need to link with Ws2_32.lib
-#pragma comment (lib, "Ws2_32.lib")
-// #pragma comment (lib, "Mswsock.lib")
+class Server {
+public:
+	Server(const char* port);
 
-#define DEFAULT_BUFLEN 512
-#define DEFAULT_PORT "159823"
+	void Bind();
 
-void InitializeWinSock();
+	Connection* WaitForConnection();
 
-void CreateAddressInfoHints(addrinfo& hints);
+	void Unbind();
 
-addrinfo* ResolveAddressInfo(addrinfo& hints);
+private:
+	const char* _port;
+	addrinfo* _addressInfo;
+	SOCKET _listenSocket;
 
-SOCKET CreateListenSocket(addrinfo* addressInfo);
+	addrinfo* CreateAddressInfo();
 
-void BindListenSocket(addrinfo* addressInfo, SOCKET listenSocket);
+	addrinfo* ResolveAddressInfo(addrinfo& hints);
 
-void ListenToConnections(SOCKET listenSocket);
+	SOCKET CreateListenSocket();
 
-SOCKET AcceptClientConnection(SOCKET listenSocket);
+	void ListenToConnections();
 
-void CloseListenSocket(SOCKET listenSocket);
+	Connection* AcceptClientConnection();
+};
 
-void ShutdownClientSocket(SOCKET clientSocket);
-
-void Cleanup(SOCKET clientSocket);
-
-int SendBufferBack(SOCKET clientSocket, const char* sendBuffer, int sendBufferLen);
-
-void Receive(SOCKET clientSocket, char* recvBuffer, int recvBufferLen);
-
-void Start() {
-	InitializeWinSock();
-
-	addrinfo hints;
-	CreateAddressInfoHints(hints);
-
-	addrinfo* addressInfo = ResolveAddressInfo(hints);
-
-	SOCKET listenSocket = CreateListenSocket(addressInfo);
-
-	// Setup the TCP listening socket
-	BindListenSocket(addressInfo, listenSocket);
-
-	ListenToConnections(listenSocket);
-
-	SOCKET clientSocket = AcceptClientConnection(listenSocket);
-
-	// Receive until the peer shuts down the connection
-	char recvBuffer[DEFAULT_BUFLEN];
-	int recvBufferLen = DEFAULT_BUFLEN;
-	Receive(clientSocket, recvBuffer, recvBufferLen);
-
-	ShutdownClientSocket(clientSocket);
-
-	CloseListenSocket(listenSocket);
-	Cleanup(clientSocket);
+Server::Server(const char* port) {
+	_port = port;
+	_addressInfo = CreateAddressInfo();
+	_listenSocket = CreateListenSocket();
 }
 
-void Receive(SOCKET clientSocket, char* recvBuffer, int recvBufferLen) {
-	int result;
-
-	do {
-		result = recv(clientSocket, recvBuffer, recvBufferLen, 0);
-
-		if (result > 0) {
-			printf("Bytes received: %d\n", result);
-
-			// Echo the buffer back to the sender
-			int sent = SendBufferBack(clientSocket, recvBuffer, result);
-			printf("Bytes sent: %d\n", sent);
-		}
-		else if (result == 0) {
-			printf("Connection closing...\n");
-		}
-		else {
-			printf("recv failed with error: %d\n", WSAGetLastError());
-			closesocket(clientSocket);
-			WSACleanup();
-			throw std::exception();
-		}
-
-	} while (result > 0);
-}
-
-int SendBufferBack(SOCKET clientSocket, const char* sendBuffer, int sendBufferLen) {
-	int result = send(clientSocket, sendBuffer, sendBufferLen, 0);
-
-	if (result == SOCKET_ERROR) {
-		printf("send failed with error: %d\n", WSAGetLastError());
-		closesocket(clientSocket);
-		WSACleanup();
-		throw std::exception();
-	}
-
-	return result;
-}
-
-void Cleanup(SOCKET clientSocket) {
-	closesocket(clientSocket);
-	WSACleanup();
-}
-
-void ShutdownClientSocket(SOCKET clientSocket) {
-	int returnCode = shutdown(clientSocket, SD_SEND);
-
-	if (returnCode == SOCKET_ERROR) {
-		printf("shutdown failed with error: %d\n", WSAGetLastError());
-		closesocket(clientSocket);
-		WSACleanup();
-		throw std::exception();
-	}
-}
-
-void CloseListenSocket(SOCKET listenSocket) { closesocket(listenSocket); }
-
-SOCKET AcceptClientConnection(SOCKET listenSocket) {
-	auto clientSocket = INVALID_SOCKET;
-
-	clientSocket = accept(listenSocket, nullptr, nullptr);
-
-	if (clientSocket == INVALID_SOCKET) {
-		printf("accept failed with error: %d\n", WSAGetLastError());
-		closesocket(listenSocket);
-		WSACleanup();
-		throw std::exception();
-	}
-
-	return clientSocket;
-}
-
-void ListenToConnections(SOCKET listenSocket) {
-	int returnCode = listen(listenSocket, SOMAXCONN);
-
-	if (returnCode == SOCKET_ERROR) {
-		printf("listen failed with error: %d\n", WSAGetLastError());
-		closesocket(listenSocket);
-		WSACleanup();
-		throw std::exception();
-	}
-}
-
-void BindListenSocket(addrinfo* addressInfo, SOCKET listenSocket) {
-	int returnCode = bind(listenSocket, addressInfo->ai_addr, (int) addressInfo->ai_addrlen);
+void Server::Bind() {
+	int returnCode = bind(_listenSocket, _addressInfo->ai_addr, (int) _addressInfo->ai_addrlen);
 
 	if (returnCode == SOCKET_ERROR) {
 		printf("bind failed with error: %d\n", WSAGetLastError());
-		freeaddrinfo(addressInfo);
-		closesocket(listenSocket);
-		WSACleanup();
+		freeaddrinfo(_addressInfo);
+		Unbind();
+		CleanupWinSock();
 		throw std::exception();
 	}
 
-	freeaddrinfo(addressInfo);
+	freeaddrinfo(_addressInfo);
 }
 
-SOCKET CreateListenSocket(addrinfo* addressInfo) {
-	auto listenSocket = INVALID_SOCKET;
+Connection* Server::WaitForConnection() {
+	ListenToConnections();
 
-	listenSocket = socket(addressInfo->ai_family, addressInfo->ai_socktype, addressInfo->ai_protocol);
-
-	if (listenSocket == INVALID_SOCKET) {
-		printf("socket failed with error: %ld\n", WSAGetLastError());
-		freeaddrinfo(addressInfo);
-		WSACleanup();
-		throw std::exception();
-	}
-
-	return listenSocket;
+	return AcceptClientConnection();
 }
 
-addrinfo* ResolveAddressInfo(addrinfo& hints) {
-	addrinfo* result = nullptr;
-
-	int returnCode = getaddrinfo(nullptr, DEFAULT_PORT, &hints, &result);
-
-	if (returnCode != 0) {
-		printf("getaddrinfo failed with error: %d\n", returnCode);
-		WSACleanup();
-		throw std::exception();
-	}
-
-	return result;
-}
-
-void CreateAddressInfoHints(addrinfo& hints) {
+addrinfo* Server::CreateAddressInfo() {
+	addrinfo hints;
 	memset(&hints, 0, sizeof(hints));
 
 	hints.ai_family = AF_INET;
 	hints.ai_socktype = SOCK_STREAM;
 	hints.ai_protocol = IPPROTO_TCP;
 	hints.ai_flags = AI_PASSIVE;
+
+	return ResolveAddressInfo(hints);
 }
 
-void InitializeWinSock() {
-	WSADATA wsaData;
-	int returnCode = WSAStartup(MAKEWORD(2, 2), &wsaData);
-	
-	if (returnCode != 0) {
-		printf("WSAStartup failed with error: %d\n", returnCode);
+void Server::Unbind() { closesocket(_listenSocket); }
+
+Connection* Server::AcceptClientConnection() {
+	auto clientSocket = INVALID_SOCKET;
+
+	clientSocket = accept(_listenSocket, nullptr, nullptr);
+
+	if (clientSocket == INVALID_SOCKET) {
+		printf("accept failed with error: %d\n", WSAGetLastError());
+		closesocket(_listenSocket);
+		CleanupWinSock();
 		throw std::exception();
 	}
+
+	return new Connection(clientSocket);
+}
+
+void Server::ListenToConnections() {
+	int returnCode = listen(_listenSocket, SOMAXCONN);
+
+	if (returnCode == SOCKET_ERROR) {
+		printf("listen failed with error: %d\n", WSAGetLastError());
+		closesocket(_listenSocket);
+		CleanupWinSock();
+		throw std::exception();
+	}
+}
+
+SOCKET Server::CreateListenSocket() {
+	auto listenSocket = INVALID_SOCKET;
+
+	listenSocket = socket(_addressInfo->ai_family, _addressInfo->ai_socktype, _addressInfo->ai_protocol);
+
+	if (listenSocket == INVALID_SOCKET) {
+		printf("socket failed with error: %ld\n", WSAGetLastError());
+		freeaddrinfo(_addressInfo);
+		CleanupWinSock();
+		throw std::exception();
+	}
+
+	return listenSocket;
+}
+
+addrinfo* Server::ResolveAddressInfo(addrinfo& hints) {
+	addrinfo* result = nullptr;
+
+	int returnCode = getaddrinfo(nullptr, _port, &hints, &result);
+
+	if (returnCode != 0) {
+		printf("getaddrinfo failed with error: %d\n", returnCode);
+		CleanupWinSock();
+		throw std::exception();
+	}
+
+	return result;
 }
