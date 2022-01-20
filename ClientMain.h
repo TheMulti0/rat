@@ -1,11 +1,15 @@
+#pragma once
+
 #include "Client.h"
 
-int main() {
+void ClientMain() {
 	WinSock winSock;
 
 	Client client = Client("localhost", DEFAULT_PORT);
 
 	auto connection = client.Connect();
+
+	printf("client connected");
 
 	char recvBuffer[DEFAULT_BUFLEN];
 	int recvBufferLen = DEFAULT_BUFLEN;
@@ -28,6 +32,4 @@ int main() {
 	}
 
 	connection->Shutdown();
-
-	return 0;
 }

@@ -1,9 +1,11 @@
-#include <Windows.h>
+#pragma once
+
+//#include <Windows.h>
 #include <WinSock2.h>
 #include <iostream>
 
 #define DEFAULT_BUFLEN 512
-#define DEFAULT_PORT "159823"
+#define DEFAULT_PORT 159823
 
 struct WinSock {
 	WinSock() {

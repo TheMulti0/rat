@@ -1,39 +1,42 @@
-#include <Windows.h>
+#pragma once
+
+#include "Config.h"
+#include "AddressInfo.h"
+#include "Connection.h"
+
+//#include <Windows.h>
 #include <WinSock2.h>
 #include <WS2tcpip.h>
 #include <iostream>
 #include <string>
+#include <memory>
 
-#include "Config.h"
-#include "Connection.h"
-
-class Client {
+class Client
+{
 public:
-	Client(const char* ip, const char* port);
+	Client(const char* ip, int port);
 
 	Connection* Connect();
 
 private:
-	addrinfo* _addressInfo;
-
-	addrinfo* CreateAddressInfo(const char* ip, const char* port);
-
-	addrinfo* ResolveAddressInfo(addrinfo& hints, const char* ip, const char* port);
-
 	SOCKET ConnectToServer();
+
+	AddressInfo _addressInfo;
+	addrinfo& _addrInfo;
 };
 
-Client::Client(const char* ip, const char* port) :
-	_addressInfo (CreateAddressInfo(ip, port))
+Client::Client(const char* ip, int port) :
+		_addressInfo(ip, port),
+		_addrInfo(_addressInfo.get())
 {
 }
 
-Connection* Client::Connect() {
+Connection* Client::Connect()
+{
 	auto connectSocket = ConnectToServer();
 
-	freeaddrinfo(_addressInfo);
-
-	if (connectSocket == INVALID_SOCKET) {
+	if (connectSocket == INVALID_SOCKET)
+	{
 		printf("Unable to connect to server!\n");
 		throw std::exception();
 	}
@@ -41,45 +44,24 @@ Connection* Client::Connect() {
 	return new Connection(connectSocket);
 }
 
-addrinfo* Client::CreateAddressInfo(const char* ip, const char* port) {
-	addrinfo hints;
-	memset(&hints, 0, sizeof(hints));
-
-	hints.ai_family = AF_UNSPEC;
-	hints.ai_socktype = SOCK_STREAM;
-	hints.ai_protocol = IPPROTO_TCP;
-
-	return ResolveAddressInfo(hints, ip, port);
-}
-
-addrinfo* Client::ResolveAddressInfo(addrinfo& hints, const char* ip, const char* port) {
-	addrinfo* result = nullptr;
-
-	int returnCode = getaddrinfo(ip, port, &hints, &result);
-
-	if (returnCode != 0) {
-		printf("getaddrinfo failed with error: %d\n", returnCode);
-		throw std::exception();
-	}
-
-	return result;
-}
-
-SOCKET Client::ConnectToServer() {
+SOCKET Client::ConnectToServer()
+{
 	auto connectSocket = INVALID_SOCKET;
 
 	// Create a SOCKET for connecting to server
-	connectSocket = socket(_addressInfo->ai_family, _addressInfo->ai_socktype, _addressInfo->ai_protocol);
+	connectSocket = socket(_addrInfo.ai_family, _addrInfo.ai_socktype, _addrInfo.ai_protocol);
 
-	if (connectSocket == INVALID_SOCKET) {
+	if (connectSocket == INVALID_SOCKET)
+	{
 		printf("connectSocket failed with error: %ld\n", WSAGetLastError());
 		throw std::exception();
 	}
 
 	// Connect to server
-	int returnCode = connect(connectSocket, _addressInfo->ai_addr, (int) _addressInfo->ai_addrlen);
+	int returnCode = connect(connectSocket, _addrInfo.ai_addr, (int)_addrInfo.ai_addrlen);
 
-	if (returnCode == SOCKET_ERROR) {
+	if (returnCode == SOCKET_ERROR)
+	{
 		closesocket(connectSocket);
 		return INVALID_SOCKET;
 	}
