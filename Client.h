@@ -5,10 +5,6 @@
 #include "AddressInfo.h"
 #include "Connection.h"
 
-//#include <Windows.h>
-#include <WinSock2.h>
-#include <WS2tcpip.h>
-
 class Client
 {
 public:

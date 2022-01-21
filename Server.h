@@ -5,9 +5,6 @@
 #include "Config.h"
 #include "AddressInfo.h"
 
-#include <Windows.h>
-#include <WinSock2.h>
-#include <WS2tcpip.h>
 #include <iostream>
 
 class Server

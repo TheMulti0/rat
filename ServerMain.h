@@ -5,8 +5,6 @@
 #include "Config.h"
 
 void ServerMain() {
-	WinSock winSock;
-
 	Server server = Server(DEFAULT_PORT);
 
 	Trace("server bound\n");

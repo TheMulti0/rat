@@ -4,8 +4,6 @@
 #include "Client.h"
 
 void ClientMain() {
-	WinSock winSock;
-
 	Client client = Client("localhost", DEFAULT_PORT);
 
 	auto connection = client.Connect();

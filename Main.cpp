@@ -1,13 +1,12 @@
 #include "ServerMain.h"
 #include "ClientMain.h"
-#include "Trace.h"
 
 #include <thread>
-#include <iostream>
 
 int main()
 {
-	Trace("Hello world %d %s\n", 1, "goodbye");
+	WinSock winSock;
+
 	std::thread client(ClientMain);
 	std::thread server(ServerMain);
 
