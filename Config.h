@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Trace.h"
+
 //#include <Windows.h>
 #include <WinSock2.h>
 #include <iostream>
@@ -13,7 +15,7 @@ struct WinSock {
 		int returnCode = WSAStartup(MAKEWORD(2, 2), &wsaData);
 
 		if (returnCode != 0) {
-			printf("WSAStartup failed with error: %d\n", returnCode);
+			Trace("WSAStartup failed with error: %d\n", returnCode);
 			throw std::exception();
 		}
 	}

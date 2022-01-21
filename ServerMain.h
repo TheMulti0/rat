@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Trace.h"
 #include "Server.h"
 #include "Config.h"
 
@@ -7,13 +8,12 @@ void ServerMain() {
 	WinSock winSock;
 
 	Server server = Server(DEFAULT_PORT);
-	server.Bind();
 
-	printf("server bound");
+	Trace("server bound\n");
 
 	auto connection = server.WaitForConnection();
 
-	printf("server got connection");
+	Trace("server got connection\n");
 
 	char receiveBuffer[DEFAULT_BUFLEN];
 	connection->Receive(receiveBuffer, DEFAULT_BUFLEN);
@@ -21,10 +21,8 @@ void ServerMain() {
 	const char* sendBuffer = "Received";
 	int size = connection->Send(sendBuffer, strlen(sendBuffer));
 
-	printf("server sent %d", size);
+	Trace("server sent %d\n", size);
 
 	connection->Shutdown();
-
-	server.Unbind();
 }
 

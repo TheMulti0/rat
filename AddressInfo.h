@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Trace.h"
+
 //#include <Windows.h>
 #include <WinSock2.h>
 #include <WS2tcpip.h>
@@ -40,7 +42,7 @@ private:
 
 		if (returnCode != 0)
 		{
-			printf("getaddrinfo failed with error: %d\n", returnCode);
+			Trace("getaddrinfo failed with error: %d\n", returnCode);
 			throw std::runtime_error("getaddrinfo failed with error");
 		}
 

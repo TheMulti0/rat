@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Trace.h"
 #include "Client.h"
 
 void ClientMain() {
@@ -9,14 +10,14 @@ void ClientMain() {
 
 	auto connection = client.Connect();
 
-	printf("client connected");
+	Trace("client connected\n");
 
 	char recvBuffer[DEFAULT_BUFLEN];
 	int recvBufferLen = DEFAULT_BUFLEN;
 
 	while (true) {
-		printf("Enter text to send (type 'cancel' to stop)");
-		std::string sendBuffer;
+		Trace("Enter text to send (type 'cancel' to stop)\n");
+		std::string sendBuffer = "hi";
 		std::cin >> sendBuffer;
 
 		if (sendBuffer == "cancel") {
@@ -24,8 +25,7 @@ void ClientMain() {
 		}
 
 		int sent = connection->Send(sendBuffer.c_str(), sendBuffer.size());
-		printf("Bytes sent: %ld\n", sent);
-
+		Trace("Bytes sent: %ld\n", sent);
 
 		// Receive until the peer closes the connection
 		connection->Receive(recvBuffer, recvBufferLen);
