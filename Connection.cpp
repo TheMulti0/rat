@@ -1,7 +1,6 @@
 #include "Connection.h"
 #include "Trace.h"
 
-//#include <Windows.h>
 #include <WS2tcpip.h>
 
 Connection::Connection(SOCKET& s) {

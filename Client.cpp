@@ -4,7 +4,6 @@
 #include "Trace.h"
 #include "Connection.h"
 
-//#include <Windows.h>
 #include <WS2tcpip.h>
 
 Client::Client(const char* ip, int port) :
