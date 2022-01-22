@@ -5,10 +5,11 @@
 class Connection {
 public:
 	Connection(SOCKET& s);
+	~Connection();
 
 	int Send(const char* buffer, int length);
 
-	void Receive(char* buffer, int length);
+	int Receive(char* buffer, int length);
 
 	void Shutdown();
 

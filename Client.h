@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Trace.h"
-#include "Config.h"
 #include "AddressInfo.h"
 #include "Connection.h"
 

@@ -11,7 +11,7 @@ class AddressInfo
 public:
 
 	AddressInfo(const char* ip, int port) :
-		_addressInfo(ResolveAddressInfo(ip, port))
+			_addressInfo(ResolveAddressInfo(ip, port))
 	{
 	}
 
@@ -20,7 +20,8 @@ public:
 		freeaddrinfo(_addressInfo);
 	}
 
-	addrinfo& get() {
+	addrinfo& get()
+	{
 		return *_addressInfo;
 	}
 

@@ -2,24 +2,28 @@
 
 #include "Trace.h"
 #include "Server.h"
-#include "Config.h"
+#include "WinSock.h"
 
 void ServerMain() {
 	Server server = Server(DEFAULT_PORT);
 
-	Trace("server bound\n");
-
 	auto connection = server.WaitForConnection();
 
-	Trace("server got connection\n");
+	const char* sendBuffer = "Pong!";
 
 	char receiveBuffer[DEFAULT_BUFLEN];
-	connection->Receive(receiveBuffer, DEFAULT_BUFLEN);
+	int bytesReceived;
 
-	const char* sendBuffer = "Received";
-	int size = connection->Send(sendBuffer, strlen(sendBuffer));
+	do {
+		bytesReceived = connection->Receive(receiveBuffer, DEFAULT_BUFLEN);
 
-	Trace("server sent %d\n", size);
+		std::string message = std::string(receiveBuffer).substr(0, bytesReceived);
+
+		Trace("Received %s\n", message.c_str());
+
+		connection->Send(sendBuffer, strlen(sendBuffer));
+	}
+	while (bytesReceived > 0);
 
 	connection->Shutdown();
 }
