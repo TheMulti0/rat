@@ -15,4 +15,6 @@ public:
 
 private:
 	SOCKET _socket;
+
+	void CloseSocket();
 };

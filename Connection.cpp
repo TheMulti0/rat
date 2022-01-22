@@ -1,7 +1,8 @@
 #include "Connection.h"
-#include "Trace.h"
+#include "Format.h"
 
 #include <WS2tcpip.h>
+#include <stdexcept>
 
 Connection::Connection(SOCKET& s) :
 		_socket(s)
@@ -9,7 +10,7 @@ Connection::Connection(SOCKET& s) :
 }
 
 Connection::~Connection() {
-	closesocket(_socket);
+	CloseSocket();
 }
 
 int Connection::Send(const char* buffer, int length)
@@ -18,9 +19,8 @@ int Connection::Send(const char* buffer, int length)
 
 	if (result == SOCKET_ERROR)
 	{
-		Trace("send failed with error: %d\n", WSAGetLastError());
-		closesocket(_socket);
-		throw std::exception();
+		CloseSocket();
+		throw std::runtime_error(Format("send failed with error: %d", WSAGetLastError()));
 	}
 
 	return result;
@@ -32,7 +32,8 @@ int Connection::Receive(char* buffer, int length)
 
 	if (result < 0)
 	{
-		Trace("recv failed with error: %d\n", WSAGetLastError());
+		CloseSocket();
+		throw std::runtime_error(Format("recv failed with error: %d", WSAGetLastError()));
 	}
 
 	return result;
@@ -44,8 +45,12 @@ void Connection::Shutdown()
 
 	if (returnCode == SOCKET_ERROR)
 	{
-		Trace("shutdown failed with error: %d\n", WSAGetLastError());
-		closesocket(_socket);
-		throw std::exception();
+		CloseSocket();
+		throw std::runtime_error(Format("shutdown failed with error: %d\n", WSAGetLastError()));
 	}
+}
+
+void Connection::CloseSocket()
+{
+	closesocket(_socket);
 }

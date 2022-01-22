@@ -1,8 +1,9 @@
 #include "Server.h"
-#include "Trace.h"
+#include "Format.h"
 #include "Connection.h"
 
 #include <WS2tcpip.h>
+#include <stdexcept>
 
 Server::Server(int port) :
 		_addressInfo(nullptr, port),
@@ -23,9 +24,8 @@ void Server::Bind()
 
 	if (returnCode == SOCKET_ERROR)
 	{
-		Trace("bind failed with error: %d\n", WSAGetLastError());
 		Unbind();
-		throw std::exception();
+		throw std::runtime_error(Format("bind failed with error: %d", WSAGetLastError()));
 	}
 }
 
@@ -49,9 +49,8 @@ Connection* Server::AcceptClientConnection()
 
 	if (clientSocket == INVALID_SOCKET)
 	{
-		Trace("accept failed with error: %d\n", WSAGetLastError());
 		closesocket(_listenSocket);
-		throw std::exception();
+		throw std::runtime_error(Format("accept failed with error: %d", WSAGetLastError()));
 	}
 
 	return new Connection(clientSocket);
@@ -63,9 +62,8 @@ void Server::ListenForConnections()
 
 	if (returnCode == SOCKET_ERROR)
 	{
-		Trace("listen failed with error: %d\n", WSAGetLastError());
 		closesocket(_listenSocket);
-		throw std::exception();
+		throw std::runtime_error(Format("listen failed with error: %d", WSAGetLastError()));
 	}
 }
 
@@ -77,8 +75,7 @@ SOCKET Server::CreateListenSocket()
 
 	if (listenSocket == INVALID_SOCKET)
 	{
-		Trace("socket failed with error: %ld\n", WSAGetLastError());
-		throw std::exception();
+		throw std::runtime_error(Format("socket failed with error: %d", WSAGetLastError()));
 	}
 
 	return listenSocket;

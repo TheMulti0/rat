@@ -1,10 +1,11 @@
 #pragma once
 
-#include "Trace.h"
+#include "Format.h"
 
 #include <WinSock2.h>
 #include <WS2tcpip.h>
 #include <string>
+#include <stdexcept>
 
 class AddressInfo
 {
@@ -41,8 +42,7 @@ private:
 
 		if (returnCode != 0)
 		{
-			Trace("getaddrinfo failed with error: %d\n", returnCode);
-			throw std::runtime_error("getaddrinfo failed with error");
+			throw std::runtime_error(Format("getaddrinfo failed with error: %d", returnCode));
 		}
 
 		return result;

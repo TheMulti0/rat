@@ -1,10 +1,11 @@
 #pragma once
 
 #include "Client.h"
-#include "Trace.h"
+#include "Format.h"
 #include "Connection.h"
 
 #include <WS2tcpip.h>
+#include <stdexcept>
 
 Client::Client(const char* ip, int port) :
 		_addressInfo(ip, port),
@@ -18,8 +19,7 @@ Connection* Client::Connect()
 
 	if (connectSocket == INVALID_SOCKET)
 	{
-		Trace("Unable to connect to server!\n");
-		throw std::exception();
+		throw std::runtime_error(Format("Unable to connect to server!"));
 	}
 
 	return new Connection(connectSocket);
@@ -34,8 +34,7 @@ SOCKET Client::ConnectToServer()
 
 	if (connectSocket == INVALID_SOCKET)
 	{
-		Trace("connectSocket failed with error: %ld\n", WSAGetLastError());
-		throw std::exception();
+		throw std::runtime_error(Format("connectSocket failed with error: %d", WSAGetLastError()));
 	}
 
 	// Connect to server

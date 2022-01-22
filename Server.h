@@ -3,8 +3,6 @@
 #include "Connection.h"
 #include "AddressInfo.h"
 
-#include <iostream>
-
 class Server
 {
 public:
