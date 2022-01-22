@@ -7,19 +7,22 @@ void ClientMain() {
 	Client client = Client("localhost", DEFAULT_PORT);
 	auto connection = client.Connect();
 
-	const char* sendBuffer = "Ping!";
-
 	char receiveBuffer[DEFAULT_BUFLEN];
 	int bytesReceived;
 
 	do {
-		connection->Send(sendBuffer, strlen(sendBuffer));
+		Trace("\nCLIENT: Enter something to send: ");
+		std::string sendBuffer;
+		std::cin >> sendBuffer;
+		Trace("\n");
+
+		connection->Send(sendBuffer.c_str(), sendBuffer.length());
 
 		bytesReceived = connection->Receive(receiveBuffer, DEFAULT_BUFLEN);
 
 		std::string message = std::string(receiveBuffer).substr(0, bytesReceived);
 
-		Trace("Received %s\n", message.c_str());
+		Trace("CLIENT: Received %s\n", message.c_str());
 	}
 	while (bytesReceived > 0);
 

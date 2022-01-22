@@ -9,8 +9,6 @@ void ServerMain() {
 
 	auto connection = server.WaitForConnection();
 
-	const char* sendBuffer = "Pong!";
-
 	char receiveBuffer[DEFAULT_BUFLEN];
 	int bytesReceived;
 
@@ -19,9 +17,9 @@ void ServerMain() {
 
 		std::string message = std::string(receiveBuffer).substr(0, bytesReceived);
 
-		Trace("Received %s\n", message.c_str());
+		Trace("SERVER: Received %s\n", message.c_str());
 
-		connection->Send(sendBuffer, strlen(sendBuffer));
+		connection->Send(message.c_str(), message.length());
 	}
 	while (bytesReceived > 0);
 
