@@ -1,4 +1,0 @@
-C:\Users\TheMulti0\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\213.6461.46\bin\cmake\win\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=C:/Users/TheMulti0/AppData/Local/JetBrains/Toolbox/apps/CLion/ch-0/213.6461.46/bin/ninja/win/ninja.exe -G Ninja C:\Users\TheMulti0\Documents\Programming\NetSec\CClientServer
--- Configuring done
--- Generating done
--- Build files have been written to: C:/Users/TheMulti0/Documents/Programming/NetSec/CClientServer/cmake-build-debug

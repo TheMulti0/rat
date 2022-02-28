@@ -1,3 +1,0 @@
-C:/Users/TheMulti0/Documents/Programming/NetSec/CClientServer/cmake-build-debug/CMakeFiles/CClientServer.dir
-C:/Users/TheMulti0/Documents/Programming/NetSec/CClientServer/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/TheMulti0/Documents/Programming/NetSec/CClientServer/cmake-build-debug/CMakeFiles/rebuild_cache.dir

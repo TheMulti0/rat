@@ -6,7 +6,7 @@
 #include <iostream>
 
 #define DEFAULT_BUFLEN 512
-#define DEFAULT_PORT 159823
+#define DEFAULT_PORT 11111
 
 struct WinSock {
 	WinSock() {
