@@ -1,6 +1,6 @@
 #include "Server.h"
-#include "Format.h"
-#include "Connection.h"
+#include "../shared/Format.h"
+#include "../shared/Connection.h"
 
 #include <WS2tcpip.h>
 #include <stdexcept>

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Trace.h"
+#include "../shared/Trace.h"
 #include "Server.h"
-#include "WinSock.h"
+#include "../shared/WinSock.h"
 
 void ServerMain() {
 	Server server = Server(DEFAULT_PORT);
@@ -20,6 +20,8 @@ void ServerMain() {
 		Trace("SERVER: Received %s\n", message.c_str());
 
 		connection->Send(message.c_str(), message.length());
+
+        Trace("SERVER: Sent %s\n", message.c_str());
 	}
 	while (bytesReceived > 0);
 

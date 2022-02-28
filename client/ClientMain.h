@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Trace.h"
+#include "../shared/Trace.h"
+#include "../shared/WinSock.h"
 #include "Client.h"
 
 void ClientMain() {
@@ -17,6 +18,8 @@ void ClientMain() {
 		Trace("\n");
 
 		connection->Send(sendBuffer.c_str(), sendBuffer.length());
+
+        Trace("CLIENT: Sent %s\n", sendBuffer.c_str());
 
 		bytesReceived = connection->Receive(receiveBuffer, DEFAULT_BUFLEN);
 

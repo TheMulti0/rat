@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Connection.h"
-#include "AddressInfo.h"
+#include "../shared/Connection.h"
+#include "../shared/AddressInfo.h"
 
 class Server
 {
