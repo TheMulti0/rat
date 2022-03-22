@@ -1,18 +1,18 @@
 #pragma once
 
-#include "../shared/AddressInfo.h"
-#include "../shared/Connection.h"
+#include "IAddressInfo.h"
+#include "IConnection.h"
 
 class Client
 {
 public:
 	Client(const char* ip, int port);
 
-	Connection* Connect();
+	std::unique_ptr<IConnection> Connect();
 
 private:
 	SOCKET ConnectToServer();
 
-	AddressInfo _addressInfo;
+	std::unique_ptr<IAddressInfo> _addressInfo;
 	addrinfo& _addrInfo;
 };

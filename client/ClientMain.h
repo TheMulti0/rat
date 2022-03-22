@@ -1,7 +1,9 @@
 #pragma once
 
-#include "../shared/Trace.h"
-#include "../shared/WinSock.h"
+#include <iostream>
+
+#include "Trace.h"
+#include "IInitializer.h"
 #include "Client.h"
 
 void ClientMain() {

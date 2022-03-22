@@ -1,21 +1,22 @@
-#include "Connection.h"
-#include "Format.h"
-
 #include <WS2tcpip.h>
 #include <stdexcept>
 
-Connection::Connection(SOCKET& s) :
+#include "WinSockConnection.h"
+#include "Format.h"
+
+WinSockConnection::WinSockConnection(const SOCKET& s) :
 		_socket(s)
 {
 }
 
-Connection::~Connection() {
+WinSockConnection::~WinSockConnection()
+{
 	CloseSocket();
 }
 
-int Connection::Send(const char* buffer, int length)
+int WinSockConnection::Send(const char* buffer, int length)
 {
-	int result = send(_socket, buffer, length, 0);
+	const int result = send(_socket, buffer, length, 0);
 
 	if (result == SOCKET_ERROR)
 	{
@@ -26,9 +27,9 @@ int Connection::Send(const char* buffer, int length)
 	return result;
 }
 
-int Connection::Receive(char* buffer, int length)
+int WinSockConnection::Receive(char* buffer, int length)
 {
-	int result = recv(_socket, buffer, length, 0);
+	const int result = recv(_socket, buffer, length, 0);
 
 	if (result < 0)
 	{
@@ -39,9 +40,9 @@ int Connection::Receive(char* buffer, int length)
 	return result;
 }
 
-void Connection::Shutdown()
+void WinSockConnection::Shutdown()
 {
-	int returnCode = shutdown(_socket, SD_BOTH);
+	const int returnCode = shutdown(_socket, SD_BOTH);
 
 	if (returnCode == SOCKET_ERROR)
 	{
@@ -50,7 +51,7 @@ void Connection::Shutdown()
 	}
 }
 
-void Connection::CloseSocket()
+void WinSockConnection::CloseSocket() const
 {
 	closesocket(_socket);
 }

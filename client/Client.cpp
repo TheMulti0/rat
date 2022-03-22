@@ -1,28 +1,27 @@
-#pragma once
-
-#include "Client.h"
-#include "../shared/Format.h"
-#include "../shared/Connection.h"
 
 #include <WS2tcpip.h>
 #include <stdexcept>
 
+#include "Client.h"
+#include "Format.h"
+#include "IConnection.h"
+
 Client::Client(const char* ip, int port) :
-		_addressInfo(ip, port),
-		_addrInfo(_addressInfo.get())
+		_addressInfo(CreateAddressInfo(ip, port)),
+		_addrInfo(_addressInfo->Get())
 {
 }
 
-Connection* Client::Connect()
+std::unique_ptr<IConnection> Client::Connect()
 {
-	auto connectSocket = ConnectToServer();
+	const auto connectSocket = ConnectToServer();
 
 	if (connectSocket == INVALID_SOCKET)
 	{
 		throw std::runtime_error(Format("Unable to connect to server!"));
 	}
 
-	return new Connection(connectSocket);
+	return CreateWinSockConnection(connectSocket);
 }
 
 SOCKET Client::ConnectToServer()

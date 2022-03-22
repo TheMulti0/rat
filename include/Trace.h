@@ -4,10 +4,11 @@
 #include <cstdio>
 #include <mutex>
 
+__declspec(dllexport)
 inline void Trace(const char* format, ...)
 {
-	static std::mutex _mutex;
-	std::lock_guard<std::mutex> guard(_mutex);
+	static std::mutex mutex;
+	std::lock_guard<std::mutex> guard(mutex);
 
 	va_list arguments;
 	va_start(arguments, format);

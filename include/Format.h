@@ -1,11 +1,11 @@
 #pragma once
 
-#include <cstdarg>
 #include <cstdio>
 #include <string>
 #include <memory>
 
 template<typename... Args>
+__declspec(dllexport)
 inline std::string Format(const std::string& format, Args... args)
 {
 	auto size = std::snprintf(nullptr, 0, format.c_str(), args...) + 1;

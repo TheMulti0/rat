@@ -1,7 +1,7 @@
 #include "ClientMain.h"
 
 int main() {
-    WinSock winSock;
+	std::unique_ptr<IInitializer> initializer = InitializeWinSock();
 
     ClientMain();
 
