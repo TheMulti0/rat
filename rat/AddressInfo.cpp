@@ -1,5 +1,4 @@
-﻿
-#include <stdexcept>
+﻿#include <stdexcept>
 #include <string>
 #include <WS2tcpip.h>
 
@@ -25,9 +24,9 @@ addrinfo* AddressInfo::ResolveAddressInfo(const char* ip, int port)
 {
 	addrinfo* result{};
 
-	addrinfo addrinfo = CreateAddressInfoHints();
+	const addrinfo addrinfo = CreateAddressInfoHints();
 
-	int returnCode = getaddrinfo(
+	const int returnCode = getaddrinfo(
 		ip,
 		std::to_string(port).c_str(),
 		&addrinfo,

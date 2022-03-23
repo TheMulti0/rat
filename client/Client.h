@@ -8,10 +8,10 @@ class Client
 public:
 	Client(const char* ip, int port);
 
-	std::unique_ptr<IConnection> Connect();
+	std::unique_ptr<IConnection> Connect() const;
 
 private:
-	SOCKET ConnectToServer();
+	SOCKET ConnectToServer() const;
 
 	std::unique_ptr<IAddressInfo> _addressInfo;
 	addrinfo& _addrInfo;

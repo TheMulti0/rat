@@ -1,4 +1,3 @@
-
 #include <WS2tcpip.h>
 #include <stdexcept>
 
@@ -6,13 +5,13 @@
 #include "Format.h"
 #include "IConnection.h"
 
-Client::Client(const char* ip, int port) :
+Client::Client(const char* ip, const int port) :
 		_addressInfo(CreateAddressInfo(ip, port)),
 		_addrInfo(_addressInfo->Get())
 {
 }
 
-std::unique_ptr<IConnection> Client::Connect()
+std::unique_ptr<IConnection> Client::Connect() const
 {
 	const auto connectSocket = ConnectToServer();
 
@@ -24,7 +23,7 @@ std::unique_ptr<IConnection> Client::Connect()
 	return CreateWinSockConnection(connectSocket);
 }
 
-SOCKET Client::ConnectToServer()
+SOCKET Client::ConnectToServer() const
 {
 	auto connectSocket = INVALID_SOCKET;
 
@@ -37,7 +36,7 @@ SOCKET Client::ConnectToServer()
 	}
 
 	// Connect to server
-	int returnCode = connect(connectSocket, _addrInfo.ai_addr, (int)_addrInfo.ai_addrlen);
+	const int returnCode = connect(connectSocket, _addrInfo.ai_addr, (int)_addrInfo.ai_addrlen);
 
 	if (returnCode == SOCKET_ERROR)
 	{

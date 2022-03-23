@@ -147,7 +147,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h" />
-    <ClInclude Include="ClientMain.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\rat\rat.vcxproj">
