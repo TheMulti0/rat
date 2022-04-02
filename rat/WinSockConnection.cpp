@@ -14,24 +14,39 @@ WinSockConnection::~WinSockConnection()
 	CloseSocket();
 }
 
-int WinSockConnection::Send(const char* buffer, int length)
+int WinSockConnection::Send(const char* buffer, const int length)
 {
-	const int result = send(_socket, buffer, length, 0);
+	int bytesSent = 0;
 
-	if (result == SOCKET_ERROR)
+	while (bytesSent < length)
 	{
-		CloseSocket();
-		throw std::runtime_error(Format("send failed with error: %d", WSAGetLastError()));
+		const int result = send(
+			_socket, 
+			buffer + bytesSent, 
+			length - bytesSent,
+			0);
+
+		if (result == SOCKET_ERROR)
+		{
+			CloseSocket();
+			throw std::runtime_error(Format("send failed with error: %d", WSAGetLastError()));
+		}
+
+		bytesSent += result;
 	}
 
-	return result;
+	return bytesSent;
 }
 
-int WinSockConnection::Receive(char* buffer, int length)
+int WinSockConnection::Receive(char* buffer, const int length)
 {
-	const int result = recv(_socket, buffer, length, 0);
+	const int result = recv(
+		_socket, 
+		buffer, 
+		length, 
+		0);
 
-	if (result < 0)
+	if (result == SOCKET_ERROR)
 	{
 		CloseSocket();
 		throw std::runtime_error(Format("recv failed with error: %d", WSAGetLastError()));

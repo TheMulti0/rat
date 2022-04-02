@@ -2,7 +2,6 @@
 #include <stdexcept>
 
 #include "Server.h"
-
 #include "Format.h"
 
 Server::Server(const int port) :

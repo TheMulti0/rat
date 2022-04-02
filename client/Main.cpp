@@ -3,33 +3,27 @@
 #include "Trace.h"
 #include "IInitializer.h"
 #include "Client.h"
+#include "IMessageSender.h"
+#include "MessageType.h"
 
 int main() {
 	std::unique_ptr<IInitializer> initializer = InitializeWinSock();
 
-	auto client = Client("localhost", DEFAULT_PORT);
+	const auto client = Client("localhost", DEFAULT_PORT);
 	const auto connection = client.Connect();
-
-	int bytesReceived;
+	const auto sender = CreateMessageSender(connection.get());
 
 	do {
-		char receiveBuffer[DEFAULT_BUFLEN];
 		Trace("\nCLIENT: Enter something to send: ");
 		std::string sendBuffer;
 		std::cin >> sendBuffer;
 		Trace("\n");
 
-		connection->Send(sendBuffer.c_str(), sendBuffer.length());
+		sender->Send(MessageType::Chat, sendBuffer);
 
 		Trace("CLIENT: Sent %s\n", sendBuffer.c_str());
-
-		bytesReceived = connection->Receive(receiveBuffer, DEFAULT_BUFLEN);
-
-		std::string message = std::string(receiveBuffer).substr(0, bytesReceived);
-
-		Trace("CLIENT: Received %s\n", message.c_str());
 	}
-	while (bytesReceived > 0);
+	while (true);
 	connection->Shutdown();
 
 	return 0;

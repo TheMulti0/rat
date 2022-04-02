@@ -22,15 +22,25 @@
     <ClInclude Include="..\include\IAddressInfo.h" />
     <ClInclude Include="..\include\IConnection.h" />
     <ClInclude Include="..\include\Format.h" />
+    <ClInclude Include="..\include\IMessageListener.h" />
+    <ClInclude Include="..\include\IMessageSender.h" />
+    <ClInclude Include="..\include\Message.h" />
+    <ClInclude Include="..\include\MessageSender.h" />
+    <ClInclude Include="..\include\MessageType.h" />
     <ClInclude Include="..\include\Trace.h" />
     <ClInclude Include="..\include\IInitializer.h" />
     <ClInclude Include="AddressInfo.h" />
+    <ClInclude Include="MessageListener.h" />
+    <ClInclude Include="Serializer.h" />
     <ClInclude Include="WinSockConnection.h" />
     <ClInclude Include="WinSockInitializer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AddressInfo.cpp" />
     <ClCompile Include="Connection.cpp" />
+    <ClCompile Include="Message.cpp" />
+    <ClCompile Include="MessageListener.cpp" />
+    <ClCompile Include="MessageSender.cpp" />
     <ClCompile Include="WinSockConnection.cpp" />
     <ClCompile Include="IInitializer.cpp" />
     <ClCompile Include="WinSockInitializer.cpp" />
@@ -143,6 +153,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>../include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
