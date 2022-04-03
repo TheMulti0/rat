@@ -16,23 +16,16 @@ WinSockConnection::~WinSockConnection()
 
 int WinSockConnection::Send(const char* buffer, const int length)
 {
-	int bytesSent = 0;
+	const int bytesSent = send(
+		_socket,
+		buffer,
+		length,
+		0);
 
-	while (bytesSent < length)
+	if (bytesSent == SOCKET_ERROR)
 	{
-		const int result = send(
-			_socket, 
-			buffer + bytesSent, 
-			length - bytesSent,
-			0);
-
-		if (result == SOCKET_ERROR)
-		{
-			CloseSocket();
-			throw std::runtime_error(Format("send failed with error: %d", WSAGetLastError()));
-		}
-
-		bytesSent += result;
+		CloseSocket();
+		throw std::runtime_error(Format("send failed with error: %d", WSAGetLastError()));
 	}
 
 	return bytesSent;

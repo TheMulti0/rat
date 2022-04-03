@@ -24,12 +24,12 @@
     <ClInclude Include="..\include\Format.h" />
     <ClInclude Include="..\include\IMessageListener.h" />
     <ClInclude Include="..\include\IMessageSender.h" />
-    <ClInclude Include="..\include\Message.h" />
     <ClInclude Include="..\include\MessageSender.h" />
     <ClInclude Include="..\include\MessageType.h" />
     <ClInclude Include="..\include\Trace.h" />
     <ClInclude Include="..\include\IInitializer.h" />
     <ClInclude Include="AddressInfo.h" />
+    <ClInclude Include="Message.h" />
     <ClInclude Include="MessageListener.h" />
     <ClInclude Include="Serializer.h" />
     <ClInclude Include="WinSockConnection.h" />

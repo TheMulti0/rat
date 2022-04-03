@@ -32,16 +32,22 @@ void MessageListener::Listen() const
 	}
 }
 
-std::unique_ptr<Message> MessageListener::ReceiveMessage() const
+int MessageListener::ReceiveMessageLength() const
 {
-	size_t length;
-	char* buffer = new char[sizeof length];
-	int j = _connection->Receive(buffer, sizeof length);
-	length = *reinterpret_cast<int*>(buffer);
-	buffer = new char[length + 1];
-	buffer[length] = '\0';
+	int length = 0;
 
+	const auto buffer = new char[sizeof length];
+	ReceiveAll(buffer, sizeof length);
+
+	length = *reinterpret_cast<int*>(buffer);
+
+	return length;
+}
+
+int MessageListener::ReceiveAll(char* buffer, const int length) const
+{
 	int bytesReceived = 0;
+
 	while (bytesReceived < length)
 	{
 		bytesReceived += _connection->Receive(
@@ -49,12 +55,26 @@ std::unique_ptr<Message> MessageListener::ReceiveMessage() const
 			length - bytesReceived);
 	}
 
-	if (bytesReceived <= 0) return nullptr;
+	return bytesReceived;
+}
 
-	auto deserialize = Message::Deserialize(buffer);
+std::unique_ptr<Message> MessageListener::ReceiveMessage() const
+{
+	const int length = ReceiveMessageLength();
+	const auto buffer = new char[length + 1];
+	buffer[length] = '\0';
+
+	int bytesReceived = ReceiveAll(buffer, length);
+
+	if (bytesReceived <= 0 || bytesReceived < length) 
+	{
+		return nullptr;
+	}
+
+	auto deserialized = Message::Deserialize(buffer);
 	delete[] buffer;
 
-	return std::make_unique<Message>(deserialize);
+	return std::make_unique<Message>(deserialized);
 }
 
 std::unique_ptr<IMessageListener> CreateMessageListener(
