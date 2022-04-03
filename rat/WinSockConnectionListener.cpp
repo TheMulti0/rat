@@ -1,23 +1,23 @@
-#include <WS2tcpip.h>
+﻿#include <WS2tcpip.h>
 #include <stdexcept>
 
-#include "Server.h"
 #include "Format.h"
+#include "WinSockConnectionListener.h"
 
-Server::Server(const int port) :
-		_addressInfo(CreateAddressInfo(nullptr, port)),
-		_addrInfo(_addressInfo->Get()),
-		_listenSocket(CreateListenSocket())
+WinSockConnectionListener::WinSockConnectionListener(const int port) :
+	_addressInfo(std::make_unique<WinSockAddressInfo>(nullptr, port)),
+	_addrInfo(_addressInfo->Get()),
+	_listenSocket(CreateListenSocket())
 {
 	Bind();
 }
 
-Server::~Server()
+WinSockConnectionListener::~WinSockConnectionListener()
 {
 	Unbind();
 }
 
-void Server::Bind() const
+void WinSockConnectionListener::Bind() const
 {
 	const int returnCode = bind(_listenSocket, _addrInfo.ai_addr, static_cast<int>(_addrInfo.ai_addrlen));
 
@@ -28,19 +28,19 @@ void Server::Bind() const
 	}
 }
 
-std::unique_ptr<IConnection> Server::WaitForConnection() const
+std::unique_ptr<IConnection> WinSockConnectionListener::WaitForConnection()
 {
 	ListenForConnections();
 
 	return AcceptClientConnection();
 }
 
-void Server::Unbind() const
+void WinSockConnectionListener::Unbind() const
 {
 	closesocket(_listenSocket);
 }
 
-std::unique_ptr<IConnection> Server::AcceptClientConnection() const
+std::unique_ptr<IConnection> WinSockConnectionListener::AcceptClientConnection() const
 {
 	auto clientSocket = INVALID_SOCKET;
 
@@ -55,7 +55,7 @@ std::unique_ptr<IConnection> Server::AcceptClientConnection() const
 	return CreateWinSockConnection(clientSocket);
 }
 
-void Server::ListenForConnections() const
+void WinSockConnectionListener::ListenForConnections() const
 {
 	const int returnCode = listen(_listenSocket, SOMAXCONN);
 
@@ -66,7 +66,7 @@ void Server::ListenForConnections() const
 	}
 }
 
-SOCKET Server::CreateListenSocket() const
+SOCKET WinSockConnectionListener::CreateListenSocket() const
 {
 	auto listenSocket = INVALID_SOCKET;
 

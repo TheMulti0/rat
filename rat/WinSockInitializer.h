@@ -1,11 +1,8 @@
 #pragma once
 
-#include "IInitializer.h"
-
-class WinSockInitializer : public IInitializer
+class WinSockInitializer
 {
 public:
 	WinSockInitializer();
 	~WinSockInitializer();
 };
-

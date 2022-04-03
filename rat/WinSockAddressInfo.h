@@ -1,19 +1,15 @@
 #pragma once
 
-#include "IAddressInfo.h"
-
-class AddressInfo : public IAddressInfo
+class WinSockAddressInfo
 {
 public:
+	WinSockAddressInfo(const char* ip, int port);
 
-	AddressInfo(const char* ip, int port);
+	~WinSockAddressInfo();
 
-	~AddressInfo() override;
-
-	addrinfo& Get() override;
+	addrinfo& Get();
 
 private:
-
 	static addrinfo* ResolveAddressInfo(const char* ip, int port);
 
 	static addrinfo CreateAddressInfoHints();

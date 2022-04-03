@@ -13,78 +13,105 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Connection">
+      <UniqueIdentifier>{9b86d909-bf0e-414f-a048-fd2217623c8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Message">
+      <UniqueIdentifier>{bb127a47-2647-4b8b-ac08-b85639d09f6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Connection\WinSock">
+      <UniqueIdentifier>{e29e22af-6f55-472f-b5eb-60406dae5662}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\IAddressInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\Format.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\Trace.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\IInitializer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\IConnection.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="WinSockInitializer.h">
+      <Filter>Connection\WinSock</Filter>
     </ClInclude>
     <ClInclude Include="WinSockConnection.h">
+      <Filter>Connection\WinSock</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IRat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WinSockInitializer.h">
+    <ClInclude Include="Rat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AddressInfo.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="WinSockConnectionFactory.h">
+      <Filter>Connection\WinSock</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\MessageType.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="WinSockConnectionListener.h">
+      <Filter>Connection\WinSock</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\IMessageListener.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MessageListener.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\MessageSender.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\IMessageSender.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="WinSockAddressInfo.h">
+      <Filter>Connection\WinSock</Filter>
     </ClInclude>
     <ClInclude Include="Serializer.h">
-      <Filter>Header Files</Filter>
+      <Filter>Message</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IMessageListener.h">
+      <Filter>Message</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IMessageSender.h">
+      <Filter>Message</Filter>
     </ClInclude>
     <ClInclude Include="Message.h">
-      <Filter>Header Files</Filter>
+      <Filter>Message</Filter>
+    </ClInclude>
+    <ClInclude Include="MessageListener.h">
+      <Filter>Message</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\MessageSender.h">
+      <Filter>Message</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\MessageType.h">
+      <Filter>Message</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IConnectionListener.h">
+      <Filter>Connection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IConnection.h">
+      <Filter>Connection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IConnectionFactory.h">
+      <Filter>Connection</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="WinSockConnection.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="IInitializer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Connection.cpp">
+    <ClCompile Include="Rat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="WinSockInitializer.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Connection\WinSock</Filter>
     </ClCompile>
-    <ClCompile Include="AddressInfo.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="WinSockConnection.cpp">
+      <Filter>Connection\WinSock</Filter>
     </ClCompile>
-    <ClCompile Include="MessageListener.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="WinSockConnectionFactory.cpp">
+      <Filter>Connection\WinSock</Filter>
     </ClCompile>
-    <ClCompile Include="MessageSender.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="WinSockConnectionListener.cpp">
+      <Filter>Connection\WinSock</Filter>
+    </ClCompile>
+    <ClCompile Include="WinSockAddressInfo.cpp">
+      <Filter>Connection\WinSock</Filter>
+    </ClCompile>
+    <ClCompile Include="Connection.cpp">
+      <Filter>Connection</Filter>
     </ClCompile>
     <ClCompile Include="Message.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Message</Filter>
+    </ClCompile>
+    <ClCompile Include="MessageListener.cpp">
+      <Filter>Message</Filter>
+    </ClCompile>
+    <ClCompile Include="MessageSender.cpp">
+      <Filter>Message</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

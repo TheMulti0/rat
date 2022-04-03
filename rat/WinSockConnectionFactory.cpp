@@ -1,17 +1,17 @@
 #include <WS2tcpip.h>
 #include <stdexcept>
 
-#include "Client.h"
 #include "Format.h"
 #include "IConnection.h"
+#include "WinSockConnectionFactory.h"
 
-Client::Client(const char* ip, const int port) :
-		_addressInfo(CreateAddressInfo(ip, port)),
-		_addrInfo(_addressInfo->Get())
+WinSockConnectionFactory::WinSockConnectionFactory(const char* ip, const int port) :
+	_addressInfo(std::make_unique<WinSockAddressInfo>(ip, port)),
+	_addrInfo(_addressInfo->Get())
 {
 }
 
-std::unique_ptr<IConnection> Client::Connect() const
+std::unique_ptr<IConnection> WinSockConnectionFactory::Connect()
 {
 	const auto connectSocket = ConnectToServer();
 
@@ -23,7 +23,7 @@ std::unique_ptr<IConnection> Client::Connect() const
 	return CreateWinSockConnection(connectSocket);
 }
 
-SOCKET Client::ConnectToServer() const
+SOCKET WinSockConnectionFactory::ConnectToServer() const
 {
 	auto connectSocket = INVALID_SOCKET;
 

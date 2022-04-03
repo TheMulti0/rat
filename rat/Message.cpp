@@ -1,22 +1,24 @@
-﻿#include "Message.h"
+﻿#include <memory>
 
-#include <memory>
-
+#include "Message.h"
 #include "Serializer.h"
 
-Message Message::Deserialize(const char* buffer)
+Message Message::Deserialize(std::span<char> buffer)
 {
-	auto type = *reinterpret_cast<const MessageType*>(buffer);
+	auto type = *reinterpret_cast<const MessageType*>(buffer.data());
 	if (type != MessageType::Chat)
 	{
 		return {MessageType::Chat, std::string("")};
 	}
 
-	const char* ptr = buffer + sizeof type;
+	auto message = std::string(
+		buffer.data() + sizeof type,
+		buffer.size() - sizeof type);
+
 	return
 	{
 		type,
-		std::string(ptr)
+		message
 	};
 }
 
@@ -25,8 +27,8 @@ std::span<char> Message::Serialize() const
 	const int length = _message.length();
 	const char* cStr = _message.c_str();
 
-	constexpr size_t typeSize = sizeof _type;
-	const size_t actualMessageSize = typeSize + length;
+	constexpr auto typeSize = sizeof _type;
+	const int actualMessageSize = typeSize + length;
 
 	Serializer s(sizeof actualMessageSize + actualMessageSize);
 

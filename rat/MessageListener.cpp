@@ -1,6 +1,6 @@
-#include "MessageListener.h"
+#include <memory>
 
-#include "IInitializer.h"
+#include "MessageListener.h"
 
 MessageListener::MessageListener(
 	IConnection* connection,
@@ -61,8 +61,7 @@ int MessageListener::ReceiveAll(char* buffer, const int length) const
 std::unique_ptr<Message> MessageListener::ReceiveMessage() const
 {
 	const int length = ReceiveMessageLength();
-	const auto buffer = new char[length + 1];
-	buffer[length] = '\0';
+	const auto buffer = new char[length];
 
 	int bytesReceived = ReceiveAll(buffer, length);
 
@@ -71,15 +70,8 @@ std::unique_ptr<Message> MessageListener::ReceiveMessage() const
 		return nullptr;
 	}
 
-	auto deserialized = Message::Deserialize(buffer);
+	auto deserialized = Message::Deserialize(std::span<char>(buffer, length));
 	delete[] buffer;
 
 	return std::make_unique<Message>(deserialized);
-}
-
-std::unique_ptr<IMessageListener> CreateMessageListener(
-	IConnection* connection,
-	void (*onMessage)(MessageType, std::string))
-{
-	return std::make_unique<MessageListener>(connection, onMessage);
 }

