@@ -17,7 +17,7 @@ public:
 private:
 	void Listen() const;
 	int ReceiveMessageLength() const;
-	int ReceiveAll(char* buffer, const int length) const;
+	int ReceiveAll(char* buffer, int length) const;
 	std::unique_ptr<Message> ReceiveMessage() const;
 
 	std::unique_ptr<IConnection> _connection;

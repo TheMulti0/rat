@@ -36,7 +36,7 @@ int MessageListener::ReceiveMessageLength() const
 {
 	int length = 0;
 
-	const auto buffer = new char[sizeof length];
+	char* buffer = new char[sizeof length];
 	ReceiveAll(buffer, sizeof length);
 
 	length = *reinterpret_cast<int*>(buffer);
@@ -63,15 +63,18 @@ std::unique_ptr<Message> MessageListener::ReceiveMessage() const
 	const int length = ReceiveMessageLength();
 	const auto buffer = new char[length];
 
-	int bytesReceived = ReceiveAll(buffer, length);
+	const int bytesReceived = ReceiveAll(buffer, length);
 
-	if (bytesReceived <= 0 || bytesReceived < length) 
+	if (bytesReceived == 0)
+	{
+		
+	}
+	if (bytesReceived < 0 || bytesReceived < length)
 	{
 		return nullptr;
 	}
 
 	auto deserialized = Message::Deserialize(std::span<char>(buffer, length));
-	delete[] buffer;
 
 	return std::make_unique<Message>(deserialized);
 }

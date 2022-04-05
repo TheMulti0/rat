@@ -25,14 +25,14 @@ bool MessageSender::Send(const MessageType type, const std::string message)
 {
 	const auto messageC = Message(type, message);
 	const std::span<char> serialized = messageC.Serialize();
+	const auto data = serialized.data();
 
 	const auto length = serialized.size();
-	const int bytesSent = SendAll(serialized.data(), length);
+	const int bytesSent = SendAll(
+		data,
+		length);
 
-	if (bytesSent <= 0 || bytesSent < length)
-	{
-		return false;
-	}
-
-	return true;
+	return bytesSent <= 0 || bytesSent < length
+		? false
+		: true;
 }

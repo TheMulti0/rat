@@ -8,7 +8,7 @@ __declspec(dllexport)
 inline void Trace(const char* format, ...)
 {
 	static std::mutex mutex;
-	std::lock_guard<std::mutex> guard(mutex);
+	std::lock_guard guard(mutex);
 
 	va_list arguments;
 	va_start(arguments, format);

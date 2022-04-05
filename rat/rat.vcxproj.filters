@@ -22,6 +22,9 @@
     <Filter Include="Connection\WinSock">
       <UniqueIdentifier>{e29e22af-6f55-472f-b5eb-60406dae5662}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Message\Implementation">
+      <UniqueIdentifier>{17ca7f7b-dee0-4cf1-9bcb-21446510c9e8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Format.h">
@@ -51,22 +54,10 @@
     <ClInclude Include="WinSockAddressInfo.h">
       <Filter>Connection\WinSock</Filter>
     </ClInclude>
-    <ClInclude Include="Serializer.h">
-      <Filter>Message</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\IMessageListener.h">
       <Filter>Message</Filter>
     </ClInclude>
     <ClInclude Include="..\include\IMessageSender.h">
-      <Filter>Message</Filter>
-    </ClInclude>
-    <ClInclude Include="Message.h">
-      <Filter>Message</Filter>
-    </ClInclude>
-    <ClInclude Include="MessageListener.h">
-      <Filter>Message</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\MessageSender.h">
       <Filter>Message</Filter>
     </ClInclude>
     <ClInclude Include="..\include\MessageType.h">
@@ -80,6 +71,18 @@
     </ClInclude>
     <ClInclude Include="..\include\IConnectionFactory.h">
       <Filter>Connection</Filter>
+    </ClInclude>
+    <ClInclude Include="Message.h">
+      <Filter>Message\Implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="MessageListener.h">
+      <Filter>Message\Implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\MessageSender.h">
+      <Filter>Message\Implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="Serializer.h">
+      <Filter>Message\Implementation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -105,13 +108,13 @@
       <Filter>Connection</Filter>
     </ClCompile>
     <ClCompile Include="Message.cpp">
-      <Filter>Message</Filter>
+      <Filter>Message\Implementation</Filter>
     </ClCompile>
     <ClCompile Include="MessageListener.cpp">
-      <Filter>Message</Filter>
+      <Filter>Message\Implementation</Filter>
     </ClCompile>
     <ClCompile Include="MessageSender.cpp">
-      <Filter>Message</Filter>
+      <Filter>Message\Implementation</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
