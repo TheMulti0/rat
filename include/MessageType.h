@@ -2,5 +2,6 @@
 
 enum class MessageType : char
 {
-	Chat = 1
+	Chat = 0,
+	Ping = 1
 };

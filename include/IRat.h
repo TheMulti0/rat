@@ -1,9 +1,12 @@
 ﻿#pragma once
 
+#include <functional>
+
 #include "IConnectionFactory.h"
 #include "IConnectionListener.h"
 #include "IMessageListener.h"
 #include "IMessageSender.h"
+#include "IMessagesHandler.h"
 
 class IRat
 {
@@ -21,7 +24,10 @@ public:
 
 	virtual std::unique_ptr<IMessageListener> CreateMessageListener(
 		IConnection* connection,
-		void (*onMessage)(MessageType, std::string)) = 0;
+		std::function<void(MessageType, std::string)> onMessage) = 0;
+
+	virtual std::unique_ptr<IMessagesHandler> CreateMessagesHandler(
+		IConnection* connection) = 0;
 };
 
 __declspec(dllexport)

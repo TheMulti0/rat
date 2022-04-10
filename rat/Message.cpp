@@ -6,10 +6,6 @@
 Message Message::Deserialize(std::span<char> buffer)
 {
 	auto type = *reinterpret_cast<const MessageType*>(buffer.data());
-	if (type != MessageType::Chat)
-	{
-		return {MessageType::Chat, std::string("")};
-	}
 
 	auto message = std::string(
 		buffer.data() + sizeof type,

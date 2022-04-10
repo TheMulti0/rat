@@ -17,7 +17,10 @@ public:
 
 	std::unique_ptr<IMessageListener> CreateMessageListener(
 		IConnection* connection,
-		void (*onMessage)(MessageType, std::string)) override;
+		std::function<void(MessageType, std::string)> onMessage) override;
+
+	std::unique_ptr<IMessagesHandler> CreateMessagesHandler(
+		IConnection* connection) override;
 
 private:
 	WinSockInitializer _initializer;

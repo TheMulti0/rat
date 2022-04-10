@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+#include <functional>
 #include <thread>
 
 #include "IConnection.h"
@@ -11,7 +12,7 @@ class MessageListener : public IMessageListener
 public:
 	explicit MessageListener(
 		IConnection* connection,
-		void (*onMessage)(MessageType, std::string));
+		std::function<void(MessageType, std::string)> onMessage);
 	~MessageListener() override;
 
 private:
@@ -21,6 +22,6 @@ private:
 	std::unique_ptr<Message> ReceiveMessage() const;
 
 	std::unique_ptr<IConnection> _connection;
-	void (*_onMessage)(MessageType, std::string);
+	std::function<void(MessageType, std::string)> _onMessage;
 	std::thread _thread;
 };

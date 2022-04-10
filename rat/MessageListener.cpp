@@ -4,7 +4,7 @@
 
 MessageListener::MessageListener(
 	IConnection* connection,
-	void (*onMessage)(MessageType, std::string)
+	std::function<void(MessageType, std::string)> onMessage
 ) :
 	_connection(connection),
 	_onMessage(onMessage),
