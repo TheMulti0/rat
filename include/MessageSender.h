@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+#include <span>
+
 #include "IConnection.h"
 #include "IMessageSender.h"
 
@@ -9,7 +11,7 @@ public:
 	explicit MessageSender(IConnection* connection);
 	~MessageSender() override = default;
 
-	bool Send(MessageType type, std::string message) override;
+	bool Send(const MessageType type, const std::span<char> content) override;
 
 private:
 	int SendAll(const char* buffer, int length) const;

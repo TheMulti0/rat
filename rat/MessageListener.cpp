@@ -4,7 +4,7 @@
 
 MessageListener::MessageListener(
 	IConnection* connection,
-	std::function<void(MessageType, std::string)> onMessage
+	std::function<void(MessageType, std::span<char>)> onMessage
 ) :
 	_connection(connection),
 	_onMessage(onMessage),
@@ -27,7 +27,7 @@ void MessageListener::Listen() const
 		{
 			_onMessage(
 				messagePtr->GetType(),
-				messagePtr->GetMessageString());
+				messagePtr->GetContent());
 		}
 	}
 }

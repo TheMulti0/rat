@@ -25,9 +25,6 @@
     <Filter Include="Message\Implementation">
       <UniqueIdentifier>{17ca7f7b-dee0-4cf1-9bcb-21446510c9e8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Message\Implementation\Handlers">
-      <UniqueIdentifier>{d36fa7d9-86e9-4fc6-9c75-89f48db6a1f6}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Format.h">
@@ -60,9 +57,6 @@
     <ClInclude Include="..\include\IMessageListener.h">
       <Filter>Message</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\IMessageSender.h">
-      <Filter>Message</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\MessageType.h">
       <Filter>Message</Filter>
     </ClInclude>
@@ -87,20 +81,8 @@
     <ClInclude Include="Serializer.h">
       <Filter>Message\Implementation</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\IMessageHandler.h">
+    <ClInclude Include="..\include\IMessageSender.h">
       <Filter>Message</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\IMessagesHandler.h">
-      <Filter>Message</Filter>
-    </ClInclude>
-    <ClInclude Include="MessagesHandler.h">
-      <Filter>Message\Implementation</Filter>
-    </ClInclude>
-    <ClInclude Include="ChatHandler.h">
-      <Filter>Message\Implementation\Handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="PingHandler.h">
-      <Filter>Message\Implementation\Handlers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -133,15 +115,6 @@
     </ClCompile>
     <ClCompile Include="MessageSender.cpp">
       <Filter>Message\Implementation</Filter>
-    </ClCompile>
-    <ClCompile Include="MessagesHandler.cpp">
-      <Filter>Message\Implementation</Filter>
-    </ClCompile>
-    <ClCompile Include="ChatHandler.cpp">
-      <Filter>Message\Implementation\Handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="PingHandler.cpp">
-      <Filter>Message\Implementation\Handlers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

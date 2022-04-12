@@ -1,27 +1,25 @@
-﻿#include <memory>
-
-#include "Message.h"
+﻿#include "Message.h"
 #include "Serializer.h"
 
 Message Message::Deserialize(std::span<char> buffer)
 {
 	auto type = *reinterpret_cast<const MessageType*>(buffer.data());
 
-	auto message = std::string(
+	auto content = std::span(
 		buffer.data() + sizeof type,
 		buffer.size() - sizeof type);
 
 	return
 	{
 		type,
-		message
+		content
 	};
 }
 
 std::span<char> Message::Serialize() const
 {
-	const int length = _message.length();
-	const char* cStr = _message.c_str();
+	const auto length = _content.size();
+	const char* cStr = _content.data();
 
 	constexpr auto typeSize = sizeof _type;
 	const int actualMessageSize = typeSize + length;
@@ -35,7 +33,9 @@ std::span<char> Message::Serialize() const
 	return s.Data();
 }
 
-Message::Message(const MessageType type, std::string message) : _type(type), _message(std::move(message))
+Message::Message(const MessageType type, std::span<char> content) :
+	_type(type),
+	_content(content)
 {
 }
 
@@ -44,7 +44,7 @@ MessageType Message::GetType() const
 	return _type;
 }
 
-std::string Message::GetMessageString() const
+std::span<char> Message::GetContent() const
 {
-	return _message;
+	return _content;
 }

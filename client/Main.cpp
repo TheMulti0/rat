@@ -15,8 +15,9 @@ int main() {
 
 	const auto listener = rat->CreateMessageListener(
 		connection.get(),
-		[](MessageType type, const std::string message)
+		[](MessageType type, const std::span<char> content)
 		{
+			const auto message = std::string(content.begin(), content.end());
 			Trace("CLIENT: Received %s\n", message.c_str());
 		});
 

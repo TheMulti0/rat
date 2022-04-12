@@ -7,6 +7,22 @@ MessageSender::MessageSender(IConnection* connection)
 {
 }
 
+bool MessageSender::Send(const MessageType type, const std::span<char> content)
+{
+	const auto messageC = Message(type, content);
+	const std::span<char> serialized = messageC.Serialize();
+	const auto data = serialized.data();
+
+	const auto length = serialized.size();
+	const int bytesSent = SendAll(
+		data,
+		length);
+
+	return bytesSent <= 0 || bytesSent < length
+		? false
+		: true;
+}
+
 int MessageSender::SendAll(const char* buffer, const int length) const
 {
 	int bytesSent = 0;
@@ -19,20 +35,4 @@ int MessageSender::SendAll(const char* buffer, const int length) const
 	}
 
 	return bytesSent;
-}
-
-bool MessageSender::Send(const MessageType type, const std::string message)
-{
-	const auto messageC = Message(type, message);
-	const std::span<char> serialized = messageC.Serialize();
-	const auto data = serialized.data();
-
-	const auto length = serialized.size();
-	const int bytesSent = SendAll(
-		data,
-		length);
-
-	return bytesSent <= 0 || bytesSent < length
-		? false
-		: true;
 }

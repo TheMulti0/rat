@@ -13,8 +13,10 @@ int main() {
 
 	auto listener = rat->CreateMessageListener(
 		connection.get(),
-		[](MessageType type, const std::string message)
+		[](MessageType type, const std::span<char> content)
 		{
+			std::string message = std::string(content.begin(), content.end());
+
 			Trace("SERVER: Received %s\n", message.c_str());
 			if (type == MessageType::Ping)
 			{
@@ -29,8 +31,11 @@ int main() {
 				const auto ping = a.count() - stoi;
 
 				const std::string buffer = "Ping is " + std::to_string(ping);
-				sender->Send(MessageType::Ping, buffer);
-				Trace("Sending ping %s", buffer.c_str());
+				auto cStr = buffer.c_str();
+				auto content = *reinterpret_cast<std::span<char>*>(&cStr);
+
+				sender->Send(MessageType::Ping, content);
+				Trace("Sending ping %s", cStr);
 			}
 		});
 	//connection->Shutdown();

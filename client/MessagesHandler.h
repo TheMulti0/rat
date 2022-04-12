@@ -16,9 +16,10 @@ public:
 		std::map<MessageType, std::unique_ptr<IMessageHandler>>* map);
 
 private:
-	void OnMessage(MessageType type, std::string message) const;
+	void OnMessage(MessageType type, std::span<char> content) const;
 
 	std::unique_ptr<IMessageListener> _listener;
 	std::map<MessageType, std::unique_ptr<IMessageHandler>>* _map;
 };
 
+std::unique_ptr<IMessagesHandler> CreateMessagesHandler(IConnection* connection);

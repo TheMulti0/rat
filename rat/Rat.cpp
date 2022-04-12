@@ -1,10 +1,7 @@
 #include "Rat.h"
 
-#include "ChatHandler.h"
 #include "MessageListener.h"
 #include "MessageSender.h"
-#include "MessagesHandler.h"
-#include "PingHandler.h"
 #include "WinSockConnectionFactory.h"
 #include "WinSockConnectionListener.h"
 
@@ -26,17 +23,9 @@ std::unique_ptr<IConnectionListener> Rat::CreateWinSockConnectionListener(int po
 
 std::unique_ptr<IMessageListener> Rat::CreateMessageListener(
 	IConnection* connection,
-	std::function<void(MessageType, std::string)> onMessage)
+	std::function<void(MessageType, std::span<char>)> onMessage)
 {
 	return std::make_unique<MessageListener>(connection, onMessage);
-}
-
-std::unique_ptr<IMessagesHandler> Rat::CreateMessagesHandler(IConnection* connection)
-{
-	std::map<MessageType, std::unique_ptr<IMessageHandler>> map;
-	map[MessageType::Chat] = std::make_unique<ChatHandler>();
-
-	return std::make_unique<MessagesHandler>(this, connection, &map);
 }
 
 std::unique_ptr<IRat> CreateRat()

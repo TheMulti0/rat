@@ -23,17 +23,12 @@
     <ClInclude Include="..\include\Format.h" />
     <ClInclude Include="..\include\IConnectionFactory.h" />
     <ClInclude Include="..\include\IConnectionListener.h" />
-    <ClInclude Include="..\include\IMessageHandler.h" />
     <ClInclude Include="..\include\IMessageListener.h" />
     <ClInclude Include="..\include\IMessageSender.h" />
-    <ClInclude Include="..\include\IMessagesHandler.h" />
     <ClInclude Include="..\include\IRat.h" />
     <ClInclude Include="..\include\MessageSender.h" />
     <ClInclude Include="..\include\MessageType.h" />
     <ClInclude Include="..\include\Trace.h" />
-    <ClInclude Include="ChatHandler.h" />
-    <ClInclude Include="MessagesHandler.h" />
-    <ClInclude Include="PingHandler.h" />
     <ClInclude Include="Rat.h" />
     <ClInclude Include="WinSockAddressInfo.h" />
     <ClInclude Include="Message.h" />
@@ -45,9 +40,6 @@
     <ClInclude Include="WinSockInitializer.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ChatHandler.cpp" />
-    <ClCompile Include="MessagesHandler.cpp" />
-    <ClCompile Include="PingHandler.cpp" />
     <ClCompile Include="Rat.cpp" />
     <ClCompile Include="WinSockAddressInfo.cpp" />
     <ClCompile Include="Connection.cpp" />

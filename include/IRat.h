@@ -6,7 +6,6 @@
 #include "IConnectionListener.h"
 #include "IMessageListener.h"
 #include "IMessageSender.h"
-#include "IMessagesHandler.h"
 
 class IRat
 {
@@ -24,10 +23,7 @@ public:
 
 	virtual std::unique_ptr<IMessageListener> CreateMessageListener(
 		IConnection* connection,
-		std::function<void(MessageType, std::string)> onMessage) = 0;
-
-	virtual std::unique_ptr<IMessagesHandler> CreateMessagesHandler(
-		IConnection* connection) = 0;
+		std::function<void(MessageType, std::span<char>)> onMessage) = 0;
 };
 
 __declspec(dllexport)
