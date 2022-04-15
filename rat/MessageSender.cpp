@@ -1,6 +1,7 @@
 ﻿#include "MessageSender.h"
 
 #include "Message.h"
+#include "Serializer.h"
 
 MessageSender::MessageSender(IConnection* connection)
 	: _connection(connection)
@@ -9,18 +10,29 @@ MessageSender::MessageSender(IConnection* connection)
 
 bool MessageSender::Send(const MessageType type, const std::span<char> content)
 {
-	const auto messageC = Message(type, content);
-	const std::span<char> serialized = messageC.Serialize();
-	const auto data = serialized.data();
+	const auto message = CreateMessage(type, content);
 
-	const auto length = serialized.size();
 	const int bytesSent = SendAll(
-		data,
-		length);
+		message.data(),
+		message.size());
 
-	return bytesSent <= 0 || bytesSent < length
+	return bytesSent <= 0 || bytesSent < message.size()
 		? false
 		: true;
+}
+
+std::span<char> MessageSender::CreateMessage(const MessageType type, const std::span<char> content)
+{
+	const auto messageC = Message(type, content);
+	const std::span<char> body = messageC.Serialize();
+	const auto data = body.data();
+	const auto length = body.size();
+
+	Serializer s(length + sizeof length);
+	s.Add(reinterpret_cast<const char*>(&length), sizeof length);
+	s.Add(body);
+
+	return s.Data();
 }
 
 int MessageSender::SendAll(const char* buffer, const int length) const

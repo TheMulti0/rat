@@ -24,9 +24,8 @@ std::span<char> Message::Serialize() const
 	constexpr auto typeSize = sizeof _type;
 	const int actualMessageSize = typeSize + length;
 
-	Serializer s(sizeof actualMessageSize + actualMessageSize);
+	Serializer s(actualMessageSize);
 
-	s.Add(reinterpret_cast<const char*>(&actualMessageSize), sizeof actualMessageSize);
 	s.Add(reinterpret_cast<const char*>(&_type), typeSize);
 	s.Add(cStr, length);
 

@@ -5,9 +5,11 @@ VisualStudioVersion = 17.1.32228.430
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "rat", "rat\rat.vcxproj", "{077B3B5B-C28E-427D-9789-29A8758926E8}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Client", "Client\Client.vcxproj", "{37FAB683-4CC9-43CE-93D9-C7E2FF1CCBC8}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Client", "client\Client.vcxproj", "{37FAB683-4CC9-43CE-93D9-C7E2FF1CCBC8}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Server", "Server\Server.vcxproj", "{F987C427-B29B-44A4-A221-D85930BDF59C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Rat.Tests", "Rat.Tests\Rat.Tests.vcxproj", "{B0AF0776-E8F8-4880-A135-1359C8639064}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,14 @@ Global
 		{F987C427-B29B-44A4-A221-D85930BDF59C}.Release|x64.Build.0 = Release|x64
 		{F987C427-B29B-44A4-A221-D85930BDF59C}.Release|x86.ActiveCfg = Release|Win32
 		{F987C427-B29B-44A4-A221-D85930BDF59C}.Release|x86.Build.0 = Release|Win32
+		{B0AF0776-E8F8-4880-A135-1359C8639064}.Debug|x64.ActiveCfg = Debug|x64
+		{B0AF0776-E8F8-4880-A135-1359C8639064}.Debug|x64.Build.0 = Debug|x64
+		{B0AF0776-E8F8-4880-A135-1359C8639064}.Debug|x86.ActiveCfg = Debug|Win32
+		{B0AF0776-E8F8-4880-A135-1359C8639064}.Debug|x86.Build.0 = Debug|Win32
+		{B0AF0776-E8F8-4880-A135-1359C8639064}.Release|x64.ActiveCfg = Release|x64
+		{B0AF0776-E8F8-4880-A135-1359C8639064}.Release|x64.Build.0 = Release|x64
+		{B0AF0776-E8F8-4880-A135-1359C8639064}.Release|x86.ActiveCfg = Release|Win32
+		{B0AF0776-E8F8-4880-A135-1359C8639064}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

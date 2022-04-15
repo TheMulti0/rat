@@ -12,6 +12,11 @@ public:
 	{
 	}
 
+	void Add(const std::span<char> item)
+	{
+		Add(item.data(), item.size());
+	}
+
 	void Add(const char* item, const size_t size)
 	{
 		std::copy_n(item, size, _data + _index);
