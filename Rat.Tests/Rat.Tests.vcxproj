@@ -91,7 +91,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <AdditionalLibraryDirectories>..\rat;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>WS2_32.lib;..\rat\$(Platform)\$(Configuration)\Message.obj;..\rat\$(Platform)\$(Configuration)\ConnectionFactory.obj;..\rat\$(Platform)\$(Configuration)\ConnectionListener.obj;..\rat\$(Platform)\$(Configuration)\Connection.obj;..\rat\$(Platform)\$(Configuration)\AddressInfo.obj;..\rat\$(Platform)\$(Configuration)\*.obj;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>WS2_32.lib;..\rat\$(Platform)\$(Configuration)\*.obj;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
