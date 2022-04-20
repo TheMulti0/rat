@@ -1,20 +1,20 @@
 #include <WS2tcpip.h>
 #include <stdexcept>
 
-#include "WinSockConnection.h"
+#include "Connection.h"
 #include "Format.h"
 
-WinSockConnection::WinSockConnection(const SOCKET& s) :
+Connection::Connection(const SOCKET& s) :
 		_socket(s)
 {
 }
 
-WinSockConnection::~WinSockConnection()
+Connection::~Connection()
 {
 	CloseSocket();
 }
 
-int WinSockConnection::Send(const char* buffer, const int length)
+int Connection::Send(const char* buffer, const int length)
 {
 	const int bytesSent = send(
 		_socket,
@@ -31,7 +31,7 @@ int WinSockConnection::Send(const char* buffer, const int length)
 	return bytesSent;
 }
 
-int WinSockConnection::Receive(char* buffer, const int length)
+int Connection::Receive(char* buffer, const int length)
 {
 	const int result = recv(
 		_socket, 
@@ -48,7 +48,7 @@ int WinSockConnection::Receive(char* buffer, const int length)
 	return result;
 }
 
-void WinSockConnection::Shutdown()
+void Connection::Shutdown()
 {
 	const int returnCode = shutdown(_socket, SD_BOTH);
 
@@ -59,7 +59,7 @@ void WinSockConnection::Shutdown()
 	}
 }
 
-void WinSockConnection::CloseSocket() const
+void Connection::CloseSocket() const
 {
 	closesocket(_socket);
 }

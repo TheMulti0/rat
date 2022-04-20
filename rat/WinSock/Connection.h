@@ -4,10 +4,10 @@
 
 #include "IConnection.h"
 
-class WinSockConnection : public IConnection {
+class Connection : public IConnection {
 public:
-	explicit WinSockConnection(const SOCKET& s);
-	~WinSockConnection() override;
+	explicit Connection(const SOCKET& s);
+	~Connection() override;
 
 	int Send(const char* buffer, int length) override;
 

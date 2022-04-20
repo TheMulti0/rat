@@ -3,15 +3,16 @@
 
 #include "Format.h"
 #include "IConnection.h"
-#include "WinSockConnectionFactory.h"
+#include "ConnectionFactory.h"
+#include "Connection.h"
 
-WinSockConnectionFactory::WinSockConnectionFactory(const char* ip, const int port) :
-	_addressInfo(std::make_unique<WinSockAddressInfo>(ip, port)),
+ConnectionFactory::ConnectionFactory(const char* ip, const int port) :
+	_addressInfo(std::make_unique<AddressInfo>(ip, port)),
 	_addrInfo(_addressInfo->Get())
 {
 }
 
-std::unique_ptr<IConnection> WinSockConnectionFactory::Connect()
+std::unique_ptr<IConnection> ConnectionFactory::Connect()
 {
 	const auto connectSocket = ConnectToServer();
 
@@ -20,10 +21,10 @@ std::unique_ptr<IConnection> WinSockConnectionFactory::Connect()
 		throw std::runtime_error(Format("Unable to connect to server!"));
 	}
 
-	return CreateWinSockConnection(connectSocket);
+	return std::make_unique<Connection>(connectSocket);
 }
 
-SOCKET WinSockConnectionFactory::ConnectToServer() const
+SOCKET ConnectionFactory::ConnectToServer() const
 {
 	auto connectSocket = INVALID_SOCKET;
 

@@ -2,9 +2,9 @@
 #include <WinSock2.h>
 
 #include "Trace.h"
-#include "WinSockInitializer.h"
+#include "Initializer.h"
 
-WinSockInitializer::WinSockInitializer()
+Initializer::Initializer()
 {
 	WSADATA wsaData;
 	const int returnCode = WSAStartup(MAKEWORD(2, 2), &wsaData);
@@ -15,7 +15,7 @@ WinSockInitializer::WinSockInitializer()
 	}
 }
 
-WinSockInitializer::~WinSockInitializer()
+Initializer::~Initializer()
 {
 	WSACleanup();
 }

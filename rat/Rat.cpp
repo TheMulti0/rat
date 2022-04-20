@@ -2,13 +2,13 @@
 
 #include "MessageListener.h"
 #include "MessageSender.h"
-#include "WinSockConnectionFactory.h"
-#include "WinSockConnectionListener.h"
+#include "WinSock/ConnectionFactory.h"
+#include "WinSock/ConnectionListener.h"
 
 std::unique_ptr<IConnectionFactory> Rat::CreateWinSockConnectionFactory(
 	const char* ip, int port)
 {
-	return std::make_unique<WinSockConnectionFactory>(ip, port);
+	return std::make_unique<ConnectionFactory>(ip, port);
 }
 
 std::unique_ptr<IMessageSender> Rat::CreateMessageSender(IConnection* connection)
@@ -18,7 +18,7 @@ std::unique_ptr<IMessageSender> Rat::CreateMessageSender(IConnection* connection
 
 std::unique_ptr<IConnectionListener> Rat::CreateWinSockConnectionListener(int port)
 {
-	return std::make_unique<WinSockConnectionListener>(port);
+	return std::make_unique<ConnectionListener>(port);
 }
 
 std::unique_ptr<IMessageListener> Rat::CreateMessageListener(

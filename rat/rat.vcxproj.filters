@@ -33,26 +33,11 @@
     <ClInclude Include="..\include\Trace.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WinSockInitializer.h">
-      <Filter>Connection\WinSock</Filter>
-    </ClInclude>
-    <ClInclude Include="WinSockConnection.h">
-      <Filter>Connection\WinSock</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\IRat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Rat.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="WinSockConnectionFactory.h">
-      <Filter>Connection\WinSock</Filter>
-    </ClInclude>
-    <ClInclude Include="WinSockConnectionListener.h">
-      <Filter>Connection\WinSock</Filter>
-    </ClInclude>
-    <ClInclude Include="WinSockAddressInfo.h">
-      <Filter>Connection\WinSock</Filter>
     </ClInclude>
     <ClInclude Include="..\include\IMessageListener.h">
       <Filter>Message</Filter>
@@ -84,28 +69,25 @@
     <ClInclude Include="..\include\IMessageSender.h">
       <Filter>Message</Filter>
     </ClInclude>
+    <ClInclude Include="WinSock\Initializer.h">
+      <Filter>Connection\WinSock</Filter>
+    </ClInclude>
+    <ClInclude Include="WinSock\AddressInfo.h">
+      <Filter>Connection\WinSock</Filter>
+    </ClInclude>
+    <ClInclude Include="WinSock\Connection.h">
+      <Filter>Connection\WinSock</Filter>
+    </ClInclude>
+    <ClInclude Include="WinSock\ConnectionFactory.h">
+      <Filter>Connection\WinSock</Filter>
+    </ClInclude>
+    <ClInclude Include="WinSock\ConnectionListener.h">
+      <Filter>Connection\WinSock</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Rat.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="WinSockInitializer.cpp">
-      <Filter>Connection\WinSock</Filter>
-    </ClCompile>
-    <ClCompile Include="WinSockConnection.cpp">
-      <Filter>Connection\WinSock</Filter>
-    </ClCompile>
-    <ClCompile Include="WinSockConnectionFactory.cpp">
-      <Filter>Connection\WinSock</Filter>
-    </ClCompile>
-    <ClCompile Include="WinSockConnectionListener.cpp">
-      <Filter>Connection\WinSock</Filter>
-    </ClCompile>
-    <ClCompile Include="WinSockAddressInfo.cpp">
-      <Filter>Connection\WinSock</Filter>
-    </ClCompile>
-    <ClCompile Include="Connection.cpp">
-      <Filter>Connection</Filter>
     </ClCompile>
     <ClCompile Include="Message.cpp">
       <Filter>Message\Implementation</Filter>
@@ -115,6 +97,21 @@
     </ClCompile>
     <ClCompile Include="MessageSender.cpp">
       <Filter>Message\Implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="WinSock\AddressInfo.cpp">
+      <Filter>Connection\WinSock</Filter>
+    </ClCompile>
+    <ClCompile Include="WinSock\Connection.cpp">
+      <Filter>Connection\WinSock</Filter>
+    </ClCompile>
+    <ClCompile Include="WinSock\ConnectionFactory.cpp">
+      <Filter>Connection\WinSock</Filter>
+    </ClCompile>
+    <ClCompile Include="WinSock\ConnectionListener.cpp">
+      <Filter>Connection\WinSock</Filter>
+    </ClCompile>
+    <ClCompile Include="WinSock\Initializer.cpp">
+      <Filter>Connection\WinSock</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

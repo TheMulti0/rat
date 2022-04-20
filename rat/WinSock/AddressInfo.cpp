@@ -2,25 +2,25 @@
 #include <string>
 #include <WS2tcpip.h>
 
-#include "WinSockAddressInfo.h"
+#include "AddressInfo.h"
 #include "Format.h"
 
-WinSockAddressInfo::WinSockAddressInfo(const char* ip, const int port) :
+AddressInfo::AddressInfo(const char* ip, const int port) :
 	_addressInfo(ResolveAddressInfo(ip, port))
 {
 }
 
-WinSockAddressInfo::~WinSockAddressInfo()
+AddressInfo::~AddressInfo()
 {
 	freeaddrinfo(_addressInfo);
 }
 
-addrinfo& WinSockAddressInfo::Get()
+addrinfo& AddressInfo::Get()
 {
 	return *_addressInfo;
 }
 
-addrinfo* WinSockAddressInfo::ResolveAddressInfo(const char* ip, int port)
+addrinfo* AddressInfo::ResolveAddressInfo(const char* ip, int port)
 {
 	addrinfo* result{};
 
@@ -40,7 +40,7 @@ addrinfo* WinSockAddressInfo::ResolveAddressInfo(const char* ip, int port)
 	return result;
 }
 
-addrinfo WinSockAddressInfo::CreateAddressInfoHints()
+addrinfo AddressInfo::CreateAddressInfoHints()
 {
 	addrinfo hints;
 	memset(&hints, 0, sizeof(hints));

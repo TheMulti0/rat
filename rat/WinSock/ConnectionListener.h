@@ -4,13 +4,13 @@
 
 #include "IConnection.h"
 #include "IConnectionListener.h"
-#include "WinSockAddressInfo.h"
+#include "AddressInfo.h"
 
-class WinSockConnectionListener : public IConnectionListener
+class ConnectionListener : public IConnectionListener
 {
 public:
-	explicit WinSockConnectionListener(int port);
-	~WinSockConnectionListener() override;
+	explicit ConnectionListener(int port);
+	~ConnectionListener() override;
 
 	std::unique_ptr<IConnection> WaitForConnection() override;
 
@@ -24,7 +24,7 @@ private:
 
 	std::unique_ptr<IConnection> AcceptClientConnection() const;
 
-	std::unique_ptr<WinSockAddressInfo> _addressInfo;
+	std::unique_ptr<AddressInfo> _addressInfo;
 	addrinfo& _addrInfo;
 	SOCKET _listenSocket;
 };

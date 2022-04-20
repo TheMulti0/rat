@@ -1,11 +1,11 @@
 #pragma once
 
-class WinSockAddressInfo
+class AddressInfo
 {
 public:
-	WinSockAddressInfo(const char* ip, int port);
+	AddressInfo(const char* ip, int port);
 
-	~WinSockAddressInfo();
+	~AddressInfo();
 
 	addrinfo& Get();
 

@@ -30,26 +30,25 @@
     <ClInclude Include="..\include\MessageType.h" />
     <ClInclude Include="..\include\Trace.h" />
     <ClInclude Include="Rat.h" />
-    <ClInclude Include="WinSockAddressInfo.h" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="MessageListener.h" />
     <ClInclude Include="Serializer.h" />
-    <ClInclude Include="WinSockConnection.h" />
-    <ClInclude Include="WinSockConnectionFactory.h" />
-    <ClInclude Include="WinSockConnectionListener.h" />
-    <ClInclude Include="WinSockInitializer.h" />
+    <ClInclude Include="WinSock\AddressInfo.h" />
+    <ClInclude Include="WinSock\Connection.h" />
+    <ClInclude Include="WinSock\ConnectionFactory.h" />
+    <ClInclude Include="WinSock\ConnectionListener.h" />
+    <ClInclude Include="WinSock\Initializer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Rat.cpp" />
-    <ClCompile Include="WinSockAddressInfo.cpp" />
-    <ClCompile Include="Connection.cpp" />
     <ClCompile Include="Message.cpp" />
     <ClCompile Include="MessageListener.cpp" />
     <ClCompile Include="MessageSender.cpp" />
-    <ClCompile Include="WinSockConnection.cpp" />
-    <ClCompile Include="WinSockConnectionFactory.cpp" />
-    <ClCompile Include="WinSockConnectionListener.cpp" />
-    <ClCompile Include="WinSockInitializer.cpp" />
+    <ClCompile Include="WinSock\AddressInfo.cpp" />
+    <ClCompile Include="WinSock\Connection.cpp" />
+    <ClCompile Include="WinSock\ConnectionFactory.cpp" />
+    <ClCompile Include="WinSock\ConnectionListener.cpp" />
+    <ClCompile Include="WinSock\Initializer.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

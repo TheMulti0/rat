@@ -1,7 +1,7 @@
 #pragma once
 
 #include "IRat.h"
-#include "WinSockInitializer.h"
+#include "WinSock/Initializer.h"
 
 class Rat : public IRat
 {
@@ -20,5 +20,5 @@ public:
 		std::function<void(MessageType, std::span<char>)> onMessage) override;
 
 private:
-	WinSockInitializer _initializer;
+	Initializer _initializer;
 };
