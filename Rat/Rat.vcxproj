@@ -21,10 +21,9 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{f987c427-b29b-44a4-a221-d85930bdf59c}</ProjectGuid>
-    <RootNamespace>RatManager</RootNamespace>
+    <ProjectGuid>{37fab683-4cc9-43ce-93d9-c7e2ff1ccbc8}</ProjectGuid>
+    <RootNamespace>Rat</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>RatManager</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -118,7 +117,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -144,7 +143,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ChatHandler.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="MessagesHandler.cpp" />
+    <ClCompile Include="PingHandler.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ChatHandler.h" />
+    <ClInclude Include="IMessageHandler.h" />
+    <ClInclude Include="IMessagesHandler.h" />
+    <ClInclude Include="MessagesHandler.h" />
+    <ClInclude Include="PingHandler.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Communication\Communication.vcxproj">

@@ -38,7 +38,10 @@ int main() {
 				Trace("Sending ping %s", cStr);
 			}
 		});
-	//connection->Shutdown();
+
+	listener->Join();
+
+	connection->Shutdown();
 
 	return 0;
 }

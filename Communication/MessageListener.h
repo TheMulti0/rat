@@ -16,6 +16,8 @@ public:
 
 	~MessageListener() override;
 
+	void Join() override;
+
 private:
 	void Listen() const;
 	int ReceiveMessageLength() const;

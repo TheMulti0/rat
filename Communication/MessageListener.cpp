@@ -16,6 +16,12 @@ MessageListener::MessageListener(
 MessageListener::~MessageListener()
 {
 	_isTerminationRequested = true;
+
+	Join();
+}
+
+void MessageListener::Join()
+{
 	if (_thread.joinable()) {
 		_thread.join();
 	}
@@ -60,8 +66,6 @@ int MessageListener::ReceiveAll(char* buffer, const int length) const
 		const int result = _connection->Receive(
 			buffer + bytesReceived,
 			length - bytesReceived);
-
-		if (result == -1) throw std::runtime_error("Socket error");
 
 		bytesReceived += result;
 	}
