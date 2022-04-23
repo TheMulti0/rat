@@ -1,7 +1,7 @@
 #include "WinSockTestSuite.h"
 
 WinSockTestSuite::WinSockTestSuite():
-	_rat(CreateRat()),
+	_rat(CreateFactory()),
 	_factory(_rat->CreateWinSockConnectionFactory("localhost", 1234)),
 	_listener(_rat->CreateWinSockConnectionListener(1234)),
 	_serverThread(

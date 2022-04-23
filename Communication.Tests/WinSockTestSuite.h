@@ -2,7 +2,7 @@
 #include <mutex>
 
 #include "IConnection.h"
-#include "IRat.h"
+#include "ICommunicationFactory.h"
 #include "ThreadGuard.h"
 
 class WinSockTestSuite
@@ -19,7 +19,7 @@ private:
 
 	void RunServer();
 
-	std::unique_ptr<IRat> _rat;
+	std::unique_ptr<ICommunicationFactory> _rat;
 	std::unique_ptr<IConnectionFactory> _factory;
 	std::unique_ptr<IConnectionListener> _listener;
 

@@ -4,14 +4,14 @@
 
 #include "IMessageHandler.h"
 #include "IMessagesHandler.h"
-#include "IRat.h"
+#include "ICommunicationFactory.h"
 #include "MessageType.h"
 
 class MessagesHandler : public IMessagesHandler
 {
 public:
 	MessagesHandler(
-		IRat* rat,
+		ICommunicationFactory* rat,
 		IConnection* connection,
 		std::map<MessageType, std::unique_ptr<IMessageHandler>>* map);
 

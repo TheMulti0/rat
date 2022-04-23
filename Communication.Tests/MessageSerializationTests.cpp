@@ -3,7 +3,7 @@
 
 MessageSerializationTest::MessageSerializationTest():
 	_connection(std::make_unique<SharedConnection>()),
-	_rat(CreateRat()),
+	_rat(CreateFactory()),
 	_sender(_rat->CreateMessageSender(_connection.get())),
 	_listener(_rat->CreateMessageListener(
 		_connection.get(),

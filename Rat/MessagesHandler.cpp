@@ -1,7 +1,7 @@
 #include "MessagesHandler.h"
 
 MessagesHandler::MessagesHandler(
-	IRat* rat,
+	ICommunicationFactory* rat,
 	IConnection* connection,
 	std::map<MessageType, std::unique_ptr<IMessageHandler>>* map
 ) :

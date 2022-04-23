@@ -1,9 +1,9 @@
 #pragma once
 
-#include "IRat.h"
+#include "ICommunicationFactory.h"
 #include "WinSock/Initializer.h"
 
-class Rat : public IRat
+class CommunicationFactory : public ICommunicationFactory
 {
 public:
 	std::unique_ptr<IConnectionFactory> CreateWinSockConnectionFactory(

@@ -3,11 +3,11 @@
 #include "Trace.h"
 #include "IConnectionFactory.h"
 #include "IMessageSender.h"
-#include "IRat.h"
+#include "ICommunicationFactory.h"
 #include "MessageType.h"
 
 int main() {
-	const auto rat = CreateRat();
+	const auto rat = CreateFactory();
 
 	const auto client = rat->CreateWinSockConnectionFactory("localhost", 4444);
 	const auto connection = client->Connect();

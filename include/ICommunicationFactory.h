@@ -7,10 +7,10 @@
 #include "IMessageListener.h"
 #include "IMessageSender.h"
 
-class IRat
+class ICommunicationFactory
 {
 public:
-	virtual ~IRat() = default;
+	virtual ~ICommunicationFactory() = default;
 
 	virtual std::unique_ptr<IConnectionFactory> CreateWinSockConnectionFactory(
 		const char* ip, int port) = 0;
@@ -27,4 +27,4 @@ public:
 };
 
 __declspec(dllexport)
-std::unique_ptr<IRat> CreateRat();
+std::unique_ptr<ICommunicationFactory> CreateFactory();
