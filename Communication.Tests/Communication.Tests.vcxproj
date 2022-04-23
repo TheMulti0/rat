@@ -36,7 +36,6 @@
     <OutDir>$(SolutionDir)bin\</OutDir>
   </PropertyGroup>
   <ItemGroup>
-    <ClInclude Include="GoogleTest.h" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="MessageSerializationTests.h" />
     <ClInclude Include="SharedConnection.h" />

@@ -31,26 +31,48 @@ void MessageListener::Listen() const
 {
 	while (!_isTerminationRequested)
 	{
-		try
-		{
-			const std::unique_ptr<Message> messagePtr = ReceiveMessage();
+		const std::unique_ptr<Message> messagePtr = ReceiveMessage();
 
+		if (messagePtr != nullptr)
+		{
 			_onMessage(
 				messagePtr->GetType(),
 				messagePtr->GetContent());
 		}
-		catch([[maybe_unused]] std::runtime_error& e) 
-		{
-		}
 	}
+}
+
+std::unique_ptr<Message> MessageListener::ReceiveMessage() const
+{
+	const int length = ReceiveMessageLength();
+	if (length < 0)
+	{
+		return nullptr;
+	}
+
+	const auto buffer = new char[length];
+
+	const int bytesReceived = ReceiveAll(buffer, length);
+	if (bytesReceived < 0 || bytesReceived < length)
+	{
+		return nullptr;
+	}
+
+	auto deserialized = Message::Deserialize(std::span(buffer, length));
+
+	return std::make_unique<Message>(deserialized);
 }
 
 int MessageListener::ReceiveMessageLength() const
 {
 	int length = 0;
 
-	char* buffer = new char[sizeof length];
-	ReceiveAll(buffer, sizeof length);
+	const auto buffer = new char[sizeof length];
+
+	if (const int result = ReceiveAll(buffer, sizeof length) < 0)
+	{
+		return result;
+	}
 
 	length = *reinterpret_cast<int*>(buffer);
 
@@ -67,25 +89,13 @@ int MessageListener::ReceiveAll(char* buffer, const int length) const
 			buffer + bytesReceived,
 			length - bytesReceived);
 
+		if (result < 0)
+		{
+			return result;
+		}
+
 		bytesReceived += result;
 	}
 
 	return bytesReceived;
-}
-
-std::unique_ptr<Message> MessageListener::ReceiveMessage() const
-{
-	const int length = ReceiveMessageLength();
-	const auto buffer = new char[length];
-
-	const int bytesReceived = ReceiveAll(buffer, length);
-
-	if (bytesReceived < 0 || bytesReceived < length)
-	{
-		return nullptr;
-	}
-
-	auto deserialized = Message::Deserialize(std::span(buffer, length));
-
-	return std::make_unique<Message>(deserialized);
 }

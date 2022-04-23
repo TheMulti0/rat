@@ -55,3 +55,9 @@ TEST_F(WinSockTest, TestShortMessage)
 	TestMessage(true, 1);
 	TestMessage(false, 1);
 }
+
+TEST_F(WinSockTest, TestLongMessage)
+{
+	TestMessage(true, 2048);
+	TestMessage(false, 2048);
+}

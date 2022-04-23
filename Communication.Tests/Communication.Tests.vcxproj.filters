@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Message.cpp" />
+    <ClCompile Include="SharedConnection.cpp" />
+    <ClCompile Include="ThreadGuard.cpp" />
+    <ClCompile Include="WinSockTests.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="MessageSerializationTests.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="WinSockTestSuite.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Message.h" />
+    <ClInclude Include="SharedConnection.h" />
+    <ClInclude Include="ThreadGuard.h" />
+    <ClInclude Include="WinSockTests.h">
+      <Filter>Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="MessageSerializationTests.h">
+      <Filter>Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="WinSockTestSuite.h">
+      <Filter>Tests</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Tests">
+      <UniqueIdentifier>{241536ea-195d-47cd-b689-5cc8f33367ef}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

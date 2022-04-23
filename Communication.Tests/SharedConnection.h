@@ -4,7 +4,7 @@
 
 #include "IConnection.h"
 
-class SharedConnection : public IConnection
+class SharedConnection final : public IConnection
 {
 public:
 	int Send(const char* buffer, int length) override;
