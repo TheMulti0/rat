@@ -7,27 +7,34 @@ MessageListener::MessageListener(
 	std::function<void(MessageType, std::span<char>)> onMessage
 ) :
 	_connection(connection),
-	_onMessage(onMessage),
+	_onMessage(std::move(onMessage)),
+	_isTerminationRequested(false),
 	_thread(&MessageListener::Listen, this)
 {
 }
 
 MessageListener::~MessageListener()
 {
-	_thread.join();
+	_isTerminationRequested = true;
+	if (_thread.joinable()) {
+		_thread.join();
+	}
 }
 
 void MessageListener::Listen() const
 {
-	while (true)
+	while (!_isTerminationRequested)
 	{
-		const auto messagePtr = ReceiveMessage();
-
-		if (messagePtr != nullptr)
+		try
 		{
+			const std::unique_ptr<Message> messagePtr = ReceiveMessage();
+
 			_onMessage(
 				messagePtr->GetType(),
 				messagePtr->GetContent());
+		}
+		catch([[maybe_unused]] std::runtime_error& e) 
+		{
 		}
 	}
 }
@@ -50,9 +57,13 @@ int MessageListener::ReceiveAll(char* buffer, const int length) const
 
 	while (bytesReceived < length)
 	{
-		bytesReceived += _connection->Receive(
+		const int result = _connection->Receive(
 			buffer + bytesReceived,
 			length - bytesReceived);
+
+		if (result == -1) throw std::runtime_error("Socket error");
+
+		bytesReceived += result;
 	}
 
 	return bytesReceived;
@@ -65,16 +76,12 @@ std::unique_ptr<Message> MessageListener::ReceiveMessage() const
 
 	const int bytesReceived = ReceiveAll(buffer, length);
 
-	if (bytesReceived == 0)
-	{
-		
-	}
 	if (bytesReceived < 0 || bytesReceived < length)
 	{
 		return nullptr;
 	}
 
-	auto deserialized = Message::Deserialize(std::span<char>(buffer, length));
+	auto deserialized = Message::Deserialize(std::span(buffer, length));
 
 	return std::make_unique<Message>(deserialized);
 }

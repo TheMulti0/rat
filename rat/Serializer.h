@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+#include <memory>
 #include <span>
 
 class Serializer
@@ -19,17 +20,17 @@ public:
 
 	void Add(const char* item, const size_t size)
 	{
-		std::copy_n(item, size, _data + _index);
+		std::copy_n(item, size, _data.get() + _index);
 		_index += size;
 	}
 
 	std::span<char> Data()
 	{
-		return { _data, _size };
+		return { _data.release(), _size};
 	}
 
 private:
 	size_t _index;
 	size_t _size;
-	char* _data;
+	std::unique_ptr<char> _data;
 };

@@ -7,12 +7,13 @@
 #include "IMessageListener.h"
 #include "Message.h"
 
-class MessageListener : public IMessageListener
+class MessageListener final : public IMessageListener
 {
 public:
 	explicit MessageListener(
 		IConnection* connection,
 		std::function<void(MessageType, std::span<char>)> onMessage);
+
 	~MessageListener() override;
 
 private:
@@ -21,7 +22,8 @@ private:
 	int ReceiveAll(char* buffer, int length) const;
 	std::unique_ptr<Message> ReceiveMessage() const;
 
-	std::unique_ptr<IConnection> _connection;
+	IConnection* _connection;
 	std::function<void(MessageType, std::span<char>)> _onMessage;
+	std::atomic_bool _isTerminationRequested;
 	std::thread _thread;
 };

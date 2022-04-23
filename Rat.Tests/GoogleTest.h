@@ -2,8 +2,6 @@
 
 #include "gtest/gtest.h"
 
-#include "Message.h"
-
 #define EXPECT_ARRAY_EQ(TARTYPE, reference, actual, element_count) \
 {\
 	TARTYPE* reference_ = static_cast<TARTYPE *> (reference); \
@@ -12,5 +10,3 @@
 	  EXPECT_EQ(reference_[cmp_i], actual_[cmp_i]);\
 	}\
 }
-
-void MessageEquals(Message lhs, Message rhs);

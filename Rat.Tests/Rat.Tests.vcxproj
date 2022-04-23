@@ -33,19 +33,24 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)include\</OutDir>
+    <OutDir>$(SolutionDir)bin\</OutDir>
   </PropertyGroup>
   <ItemGroup>
     <ClInclude Include="GoogleTest.h" />
+    <ClInclude Include="Message.h" />
+    <ClInclude Include="MessageSerializationTests.h" />
+    <ClInclude Include="SharedConnection.h" />
     <ClInclude Include="ThreadGuard.h" />
-    <ClInclude Include="WinSockHarness.h" />
+    <ClInclude Include="WinSockTests.h" />
+    <ClInclude Include="WinSockTestSuite.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GoogleTest.cpp" />
-    <ClCompile Include="SerializationTests.cpp" />
+    <ClCompile Include="Message.cpp" />
+    <ClCompile Include="MessageSerializationTests.cpp" />
+    <ClCompile Include="SharedConnection.cpp" />
     <ClCompile Include="ThreadGuard.cpp" />
-    <ClCompile Include="WinSockHarness.cpp" />
     <ClCompile Include="WinSockTests.cpp" />
+    <ClCompile Include="WinSockTestSuite.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\rat\rat.vcxproj">
@@ -84,14 +89,14 @@
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>../rat/;../include/;$(MSBuildThisFileDirectory)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../include/;$(MSBuildThisFileDirectory)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>..\rat;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>WS2_32.lib;..\rat\$(Platform)\$(Configuration)\*.obj;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>WS2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

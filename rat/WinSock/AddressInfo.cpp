@@ -1,6 +1,5 @@
 ﻿#include <stdexcept>
 #include <string>
-#include <WS2tcpip.h>
 
 #include "AddressInfo.h"
 #include "Format.h"
@@ -15,7 +14,7 @@ AddressInfo::~AddressInfo()
 	freeaddrinfo(_addressInfo);
 }
 
-addrinfo& AddressInfo::Get()
+addrinfo& AddressInfo::Get() const
 {
 	return *_addressInfo;
 }

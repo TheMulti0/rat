@@ -1,12 +1,12 @@
 #include "ThreadGuard.h"
 
-ThreadGuard::ThreadGuard(std::thread& thread) : _thread(thread)
-{}
+ThreadGuard::ThreadGuard(std::thread&& input) : _thread(std::move(input))
+{
+}
 
 ThreadGuard::~ThreadGuard()
 {
-	if (_thread.joinable())
-	{
+	if (_thread.joinable()) {
 		_thread.join();
 	}
 }

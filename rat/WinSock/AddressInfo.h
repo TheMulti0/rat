@@ -1,5 +1,7 @@
 #pragma once
 
+#include <WS2tcpip.h>
+
 class AddressInfo
 {
 public:
@@ -7,7 +9,7 @@ public:
 
 	~AddressInfo();
 
-	addrinfo& Get();
+	addrinfo& Get() const;
 
 private:
 	static addrinfo* ResolveAddressInfo(const char* ip, int port);

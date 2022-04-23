@@ -1,42 +1,45 @@
-#include <mutex>
-#include <thread>
+#include "WinSockTests.h"
 
-#include "GoogleTest.h"
-#include "WinSockHarness.h"
-#include "WinSock/ConnectionFactory.h"
-#include "WinSock/ConnectionListener.h"
-#include "WinSock/Initializer.h"
+std::unique_ptr<WinSockTestSuite> WinSockTest::_suite;
 
-WinSockHarness CreateHarness()
+void WinSockTest::SetUpTestCase()
 {
-	const auto listener = std::make_unique<ConnectionListener>(1234);
-
-	std::mutex mutex;
-	std::condition_variable cv;
-
-	std::unique_ptr<IConnection> serverConnection = nullptr;
-	const auto serverThread = new std::thread([&]()
-		{
-			std::unique_lock guard(mutex);
-			serverConnection = listener->WaitForConnection();
-			cv.notify_all();
-		});
-
-	const auto factory = std::make_unique<ConnectionFactory>("localhost", 1234);
-	auto connection = factory->Connect();
-
-	std::unique_lock guard(mutex);
-	cv.wait(guard, [&]() { return serverConnection != nullptr; });
-
-	auto winSockHarness = WinSockHarness(
-		std::move(connection),
-		std::move(serverConnection),
-		std::make_unique<ThreadGuard>(*serverThread)
-	);
-	return winSockHarness;
+	_suite = std::make_unique<WinSockTestSuite>();
 }
 
-void TestMessage(IConnection* sender, IConnection* receiver, const int messageLength)
+void WinSockTest::TearDownTestCase()
+{
+	_suite->~WinSockTestSuite();
+}
+
+void WinSockTest::TestMessage(const bool isClientSender, const int messageLength) const
+{
+	const auto sender = isClientSender
+		? _suite->GetClient()
+		: _suite->GetServer();
+
+	const auto receiver = !isClientSender
+		? _suite->GetClient()
+		: _suite->GetServer();
+
+	const auto content = CreateContent(messageLength);
+	EXPECT_EQ(
+		sender->Send(content.get(), messageLength),
+		messageLength);
+
+	const auto received = std::unique_ptr<char>(new char[messageLength]);
+	EXPECT_EQ(
+		receiver->Receive(received.get(), messageLength),
+		messageLength);
+
+	EXPECT_ARRAY_EQ(
+		char,
+		received.get(),
+		content.get(),
+		messageLength);
+}
+
+std::unique_ptr<char> WinSockTest::CreateContent(const int messageLength)
 {
 	const auto content = new char[messageLength];
 	for (int i = 0; i < messageLength; i++)
@@ -44,18 +47,11 @@ void TestMessage(IConnection* sender, IConnection* receiver, const int messageLe
 		content[i] = static_cast<char>(i);
 	}
 
-	EXPECT_EQ(sender->Send(content, messageLength), messageLength);
-
-	char* received = new char[messageLength];
-	EXPECT_EQ(receiver->Receive(received, messageLength), messageLength);
-
-	EXPECT_ARRAY_EQ(char, received, content, messageLength);
+	return std::unique_ptr<char>(content);
 }
 
-TEST(WinSockTests, TestShortMessage)
+TEST_F(WinSockTest, TestShortMessage)
 {
- 	Initializer initializer;
-    auto harness = CreateHarness();
-	TestMessage(harness.GetClient(), harness.GetServer(), 1);
-	TestMessage(harness.GetServer(), harness.GetClient(), 1);
+	TestMessage(true, 1);
+	TestMessage(false, 1);
 }

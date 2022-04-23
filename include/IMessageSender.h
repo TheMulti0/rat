@@ -9,5 +9,5 @@ class IMessageSender
 public:
 	virtual ~IMessageSender() = default;
 
-	virtual bool Send(MessageType type, std::span<char> content) = 0;
+	virtual int Send(MessageType type, std::span<char> content) = 0;
 };
