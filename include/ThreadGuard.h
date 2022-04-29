@@ -1,8 +1,8 @@
-#pragma once
+﻿#pragma once
 
 #include <thread>
 
-class ThreadGuard
+class __declspec(dllexport) ThreadGuard
 {
 public:
     explicit ThreadGuard(std::thread&& input);
@@ -14,6 +14,8 @@ public:
     ThreadGuard& operator=(ThreadGuard const&) = delete;
 
     ThreadGuard& operator=(ThreadGuard&&) noexcept = default;
+
+    void Join();
 
     ~ThreadGuard();
 

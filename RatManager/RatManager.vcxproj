@@ -145,11 +145,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="RatManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Communication\Communication.vcxproj">
       <Project>{077b3b5b-c28e-427d-9789-29a8758926e8}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="RatManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

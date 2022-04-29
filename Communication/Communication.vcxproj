@@ -28,6 +28,7 @@
     <ClInclude Include="..\include\ICommunicationFactory.h" />
     <ClInclude Include="..\include\MessageSender.h" />
     <ClInclude Include="..\include\MessageType.h" />
+    <ClInclude Include="..\include\ThreadGuard.h" />
     <ClInclude Include="..\include\Trace.h" />
     <ClInclude Include="CommunicationFactory.h" />
     <ClInclude Include="Message.h" />
@@ -44,6 +45,7 @@
     <ClCompile Include="Message.cpp" />
     <ClCompile Include="MessageListener.cpp" />
     <ClCompile Include="MessageSender.cpp" />
+    <ClCompile Include="ThreadGuard.cpp" />
     <ClCompile Include="WinSock\AddressInfo.cpp" />
     <ClCompile Include="WinSock\Connection.cpp" />
     <ClCompile Include="WinSock\ConnectionFactory.cpp" />

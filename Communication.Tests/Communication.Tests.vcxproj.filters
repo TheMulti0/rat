@@ -3,7 +3,6 @@
   <ItemGroup>
     <ClCompile Include="Message.cpp" />
     <ClCompile Include="SharedConnection.cpp" />
-    <ClCompile Include="ThreadGuard.cpp" />
     <ClCompile Include="WinSockTests.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
@@ -17,7 +16,6 @@
   <ItemGroup>
     <ClInclude Include="Message.h" />
     <ClInclude Include="SharedConnection.h" />
-    <ClInclude Include="ThreadGuard.h" />
     <ClInclude Include="WinSockTests.h">
       <Filter>Tests</Filter>
     </ClInclude>

@@ -9,7 +9,8 @@ MessageListener::MessageListener(
 	_connection(connection),
 	_onMessage(std::move(onMessage)),
 	_isTerminationRequested(false),
-	_thread(&MessageListener::Listen, this)
+	_thread(std::make_unique<ThreadGuard>(
+		std::thread(& MessageListener::Listen, this)))
 {
 }
 
@@ -22,9 +23,7 @@ MessageListener::~MessageListener()
 
 void MessageListener::Join()
 {
-	if (_thread.joinable()) {
-		_thread.join();
-	}
+	_thread->Join();
 }
 
 void MessageListener::Listen() const

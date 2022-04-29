@@ -6,6 +6,7 @@
 #include "IConnection.h"
 #include "IMessageListener.h"
 #include "Message.h"
+#include "ThreadGuard.h"
 
 class MessageListener final : public IMessageListener
 {
@@ -27,5 +28,5 @@ private:
 	IConnection* _connection;
 	std::function<void(MessageType, std::span<char>)> _onMessage;
 	std::atomic_bool _isTerminationRequested;
-	std::thread _thread;
+	std::unique_ptr<ThreadGuard> _thread;
 };

@@ -39,7 +39,6 @@
     <ClInclude Include="Message.h" />
     <ClInclude Include="MessageSerializationTests.h" />
     <ClInclude Include="SharedConnection.h" />
-    <ClInclude Include="ThreadGuard.h" />
     <ClInclude Include="WinSockTests.h" />
     <ClInclude Include="WinSockTestSuite.h" />
   </ItemGroup>
@@ -47,7 +46,6 @@
     <ClCompile Include="Message.cpp" />
     <ClCompile Include="MessageSerializationTests.cpp" />
     <ClCompile Include="SharedConnection.cpp" />
-    <ClCompile Include="ThreadGuard.cpp" />
     <ClCompile Include="WinSockTests.cpp" />
     <ClCompile Include="WinSockTestSuite.cpp" />
   </ItemGroup>
