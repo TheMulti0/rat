@@ -57,11 +57,17 @@ public:
 		_server(std::move(server)),
 		_listenThread(std::make_unique<ThreadGuard>(
 			std::thread(&RatManager::Listen, this))),
-		_clientCount(0)
+		_clientCount(0),
+		_isTerminationRequested(false)
 	{
 	}
 
-	int GetClientCount() const
+	~RatManager()
+	{
+		_isTerminationRequested = true;
+	}
+
+	[[nodiscard]] int GetClientCount() const
 	{
 		return _clientCount;
 	}
@@ -76,21 +82,25 @@ public:
 private:
 	void Listen()
 	{
-		auto client = _server->WaitForConnection();
-		auto messageSender = _factory->CreateMessageSender(client.get());
+		while (!_isTerminationRequested)
+		{
+			auto client = _server->WaitForConnection();
 
-		const auto index = std::make_shared<int>(_clientCount);
+			auto messageSender = _factory->CreateMessageSender(client.get());
 
-		auto messageListener = _factory->CreateMessageListener(
-			client.get(),
-			[=](auto type, auto content) { OnMessage(*index, type, content); });
+			const auto index = std::make_shared<int>(_clientCount);
 
-		_clients.emplace_back(
-			std::make_shared<ClientPipe>(
-				std::move(client),
-				std::move(messageSender),
-				std::move(messageListener)));
-		_clientCount++;
+			auto messageListener = _factory->CreateMessageListener(
+				client.get(),
+				[=](auto type, auto content) { OnMessage(*index, type, content); });
+
+			_clients.emplace_back(
+				std::make_shared<ClientPipe>(
+					std::move(client),
+					std::move(messageSender),
+					std::move(messageListener)));
+			_clientCount++;
+		}
 	}
 
 	static void OnMessage(
@@ -111,5 +121,6 @@ private:
 	std::vector<std::shared_ptr<ClientPipe>> _clients;
 	std::unique_ptr<ThreadGuard> _listenThread;
 	int _clientCount;
+	bool _isTerminationRequested;
 };
 
