@@ -23,9 +23,10 @@ std::unique_ptr<IConnectionListener> CommunicationFactory::CreateWinSockConnecti
 
 std::unique_ptr<IMessageListener> CommunicationFactory::CreateMessageListener(
 	IConnection* connection,
-	std::function<void(MessageType, std::span<char>)> onMessage)
+	std::function<void(MessageType, std::span<char>)> onMessage,
+	std::function<void()> onDisconnection)
 {
-	return std::make_unique<MessageListener>(connection, onMessage);
+	return std::make_unique<MessageListener>(connection, onMessage, onDisconnection);
 }
 
 std::unique_ptr<ICommunicationFactory> CreateFactory()

@@ -4,7 +4,7 @@
 
 #include "IConnection.h"
 
-class Connection : public IConnection {
+class Connection final : public IConnection {
 public:
 	explicit Connection(const SOCKET& s);
 	~Connection() override;
@@ -17,6 +17,8 @@ public:
 
 private:
 	SOCKET _socket;
+
+	int HandleError(int error) const;
 
 	void CloseSocket() const;
 };

@@ -1,13 +1,16 @@
 #include <memory>
+#include <iostream>
 
 #include "MessageListener.h"
 
 MessageListener::MessageListener(
 	IConnection* connection,
-	std::function<void(MessageType, std::span<char>)> onMessage
+	std::function<void(MessageType, std::span<char>)> onMessage,
+	std::function<void()> onDisconnection
 ) :
 	_connection(connection),
 	_onMessage(std::move(onMessage)),
+	_onDisconnection(std::move(onDisconnection)),
 	_isTerminationRequested(false),
 	_thread(std::make_unique<ThreadGuard>(
 		std::thread(& MessageListener::Listen, this)))
@@ -32,12 +35,15 @@ void MessageListener::Listen() const
 	{
 		const std::unique_ptr<Message> messagePtr = ReceiveMessage();
 
-		if (messagePtr != nullptr)
+		if (messagePtr == nullptr)
 		{
-			_onMessage(
-				messagePtr->GetType(),
-				messagePtr->GetContent());
+			_onDisconnection();
+			break;
 		}
+
+		_onMessage(
+			messagePtr->GetType(),
+			messagePtr->GetContent());
 	}
 }
 

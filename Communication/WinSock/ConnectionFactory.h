@@ -1,5 +1,7 @@
 #pragma once
 
+#include <functional>
+
 #include "IConnectionFactory.h"
 #include "AddressInfo.h"
 
@@ -11,10 +13,9 @@ public:
 	std::unique_ptr<IConnection> Connect() override;
 
 private:
-	SOCKET ConnectToServer() const;
+	[[nodiscard]] SOCKET ConnectToServer() const;
 	
 	std::unique_ptr<AddressInfo> _addressInfo;
 	addrinfo& _addrInfo;
-
 };
 

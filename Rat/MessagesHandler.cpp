@@ -8,7 +8,8 @@ MessagesHandler::MessagesHandler(
 _listener(
 	rat->CreateMessageListener(
 		connection, 
-		[this](auto type, auto message) { OnMessage(type, message); })),
+		[this](auto type, auto message) { OnMessage(type, message); },
+		[]{})),
 _map(map)
 {
 }

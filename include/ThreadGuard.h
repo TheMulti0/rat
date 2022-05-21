@@ -17,6 +17,8 @@ public:
 
     void Join();
 
+    void Detach();
+
     ~ThreadGuard();
 
 private:

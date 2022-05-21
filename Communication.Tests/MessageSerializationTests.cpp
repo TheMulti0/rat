@@ -7,7 +7,8 @@ MessageSerializationTest::MessageSerializationTest():
 	_sender(_rat->CreateMessageSender(_connection.get())),
 	_listener(_rat->CreateMessageListener(
 		_connection.get(),
-		[this](auto type, auto content) { OnMessage(type, content); })),
+		[this](auto type, auto content) { OnMessage(type, content); },
+		[] {})),
 	_latestMessage(nullptr)
 {
 }

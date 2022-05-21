@@ -18,8 +18,9 @@ int main() {
 		[](MessageType type, const std::span<char> content)
 		{
 			const auto message = std::string(content.begin(), content.end());
-			Trace("CLIENT: Received %s\n", message.c_str());
-		});
+			Trace("\nCLIENT: Received %s\n", message.c_str());
+		},
+		[] {});
 
 	do {
 		Trace("\nCLIENT: Enter something to send: ");

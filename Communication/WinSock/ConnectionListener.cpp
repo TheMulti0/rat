@@ -43,9 +43,7 @@ void ConnectionListener::Unbind() const
 
 std::unique_ptr<IConnection> ConnectionListener::AcceptClientConnection() const
 {
-	auto clientSocket = INVALID_SOCKET;
-
-	clientSocket = accept(_listenSocket, nullptr, nullptr);
+	auto clientSocket = accept(_listenSocket, nullptr, nullptr);
 
 	if (clientSocket == INVALID_SOCKET)
 	{
