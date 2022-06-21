@@ -14,7 +14,8 @@ public:
 
 private:
 	[[nodiscard]] SOCKET ConnectToServer() const;
-	
+
+	std::string _address;
 	std::unique_ptr<AddressInfo> _addressInfo;
 	addrinfo& _addrInfo;
 };

@@ -3,13 +3,34 @@
 #include "Connection.h"
 #include "Format.h"
 
-Connection::Connection(const SOCKET& s) : _socket(s)
+std::string InetNtop(const sockaddr_in& address)
+{
+	char ipStr[INET_ADDRSTRLEN];
+
+	inet_ntop(address.sin_family, &address.sin_addr, ipStr, sizeof ipStr);
+
+	return ipStr;
+}
+
+Connection::Connection(const SOCKET& s, const sockaddr_in& address):
+	Connection(s, InetNtop(address))
+{
+}
+
+Connection::Connection(const SOCKET& s, std::string address) :
+	_socket(s),
+	_address(std::move(address))
 {
 }
 
 Connection::~Connection()
 {
 	CloseSocket();
+}
+
+std::string Connection::GetAddress()
+{
+	return _address;
 }
 
 int Connection::Send(const char* buffer, const int length)

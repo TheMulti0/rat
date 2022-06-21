@@ -7,6 +7,8 @@
 class SharedConnection final : public IConnection
 {
 public:
+	std::string GetAddress() override;
+
 	int Send(const char* buffer, int length) override;
 
 	int Receive(char* buffer, int length) override;

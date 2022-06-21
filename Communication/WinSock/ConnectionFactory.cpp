@@ -7,6 +7,7 @@
 #include "Connection.h"
 
 ConnectionFactory::ConnectionFactory(const char* ip, const int port) :
+	_address(Format("%s:%d", ip, port)),
 	_addressInfo(std::make_unique<AddressInfo>(ip, port)),
 	_addrInfo(_addressInfo->Get())
 {
@@ -21,7 +22,7 @@ std::unique_ptr<IConnection> ConnectionFactory::Connect()
 		throw std::runtime_error(Format("Unable to connect to server!"));
 	}
 
-	return std::make_unique<Connection>(connectSocket);
+	return std::make_unique<Connection>(connectSocket, _address);
 }
 
 SOCKET ConnectionFactory::ConnectToServer() const

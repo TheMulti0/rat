@@ -1,13 +1,19 @@
 #pragma once
 
+#include <string>
 #include <WinSock2.h>
 
 #include "IConnection.h"
 
+std::string InetNtop(const sockaddr_in& address);
+
 class Connection final : public IConnection {
 public:
-	explicit Connection(const SOCKET& s);
+	Connection(const SOCKET& s, const sockaddr_in& address);
+	Connection(const SOCKET& s, std::string address);
 	~Connection() override;
+
+	std::string GetAddress() override;
 
 	int Send(const char* buffer, int length) override;
 
@@ -17,6 +23,7 @@ public:
 
 private:
 	SOCKET _socket;
+	std::string _address;
 
 	int HandleError(int error) const;
 

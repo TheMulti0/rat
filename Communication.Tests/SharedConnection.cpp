@@ -1,5 +1,10 @@
 #include "SharedConnection.h"
 
+std::string SharedConnection::GetAddress()
+{
+	return "";
+}
+
 int SharedConnection::Send(const char* buffer, const int length)
 {
 	_data.insert(_data.end(), buffer, buffer + length);

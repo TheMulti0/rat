@@ -43,7 +43,10 @@ void ConnectionListener::Unbind() const
 
 std::unique_ptr<IConnection> ConnectionListener::AcceptClientConnection() const
 {
-	auto clientSocket = accept(_listenSocket, nullptr, nullptr);
+	sockaddr_in address;
+	int addressLen = sizeof address;
+
+	auto clientSocket = accept(_listenSocket, reinterpret_cast<sockaddr*>(&address), &addressLen);
 
 	if (clientSocket == INVALID_SOCKET)
 	{
@@ -51,7 +54,7 @@ std::unique_ptr<IConnection> ConnectionListener::AcceptClientConnection() const
 		throw std::runtime_error(Format("accept failed with error: %d", WSAGetLastError()));
 	}
 
-	return std::make_unique<Connection>(clientSocket);
+	return std::make_unique<Connection>(clientSocket, address);
 }
 
 void ConnectionListener::ListenForConnections() const
