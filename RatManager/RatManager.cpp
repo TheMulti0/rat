@@ -25,16 +25,21 @@ int RatManager::GetClientCount() const
 	return _clientCount;
 }
 
+std::vector<std::shared_ptr<ClientPipe>> RatManager::GetClients()
+{
+	return _clients;
+}
+
 int RatManager::Send(const int client, const MessageType type, const std::span<char> content) const
 {
-	return _clients[client]->Send(type, content);
+	return _clients[client]->GetSender()->Send(type, content);
 }
 
 void RatManager::Join()
 {
 	std::ranges::for_each(
 		_clients, 
-		[](const std::shared_ptr<ClientPipe>& client) { client->Join(); });
+		[](const std::shared_ptr<ClientPipe>& client) { client->GetListener()->Join(); });
 }
 
 void RatManager::Listen()

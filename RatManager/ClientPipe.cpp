@@ -8,12 +8,18 @@ ClientPipe::ClientPipe(std::unique_ptr<IConnection> connection, std::unique_ptr<
 {
 }
 
-int ClientPipe::Send(MessageType type, std::span<char> content)
+IConnection* ClientPipe::GetConnection() const
 {
-	return _sender->Send(type, content);
+	return _connection.get();
 }
 
-void ClientPipe::Join()
+IMessageSender* ClientPipe::GetSender() const
 {
-	_listener->Join();
+	return _sender.get();
 }
+
+IMessageListener* ClientPipe::GetListener() const
+{
+	return _listener.get();
+}
+

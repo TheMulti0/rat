@@ -6,7 +6,7 @@
 #include "IMessageListener.h"
 #include "IMessageSender.h"
 
-class ClientPipe : public IMessageSender, public IMessageListener
+class ClientPipe
 {
 public:
 	ClientPipe(
@@ -23,9 +23,9 @@ public:
 
 	ClientPipe& operator=(ClientPipe&&) noexcept = default;
 
-	int Send(MessageType type, std::span<char> content) override;
-
-	void Join() override;
+	IConnection* GetConnection() const;
+	IMessageSender* GetSender() const;
+	IMessageListener* GetListener() const;
 
 private:
 	std::unique_ptr<IConnection> _connection;

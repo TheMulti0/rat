@@ -7,11 +7,6 @@
 #include "IConnectionListener.h"
 #include "ThreadGuard.h"
 
-class ClientInfo
-{
-	
-};
-
 class RatManager
 {
 public:
@@ -21,9 +16,9 @@ public:
 
 	~RatManager();
 
-	//std::vector<std::shared_ptr<ClientInfo>> GetClientInfos();
-
 	[[nodiscard]] int GetClientCount() const;
+
+	std::vector<std::shared_ptr<ClientPipe>> GetClients();
 
 	int Send(int client, MessageType type, std::span<char> content) const;
 
