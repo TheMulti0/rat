@@ -9,7 +9,7 @@
 int main() {
 	const auto rat = CreateFactory();
 
-	const auto client = rat->CreateWinSockConnectionFactory("localhost", 4444);
+	const auto client = rat->CreateWinSockConnectionFactory("localhost", 4545);
 	const auto connection = client->Connect();
 	const auto sender = rat->CreateMessageSender(connection.get());
 
