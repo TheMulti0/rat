@@ -20,7 +20,7 @@ public:
 
 	std::vector<std::shared_ptr<ClientPipe>> GetClients();
 
-	int Send(int client, MessageType type, std::span<char> content) const;
+	[[nodiscard]] int Send(int client, MessageType type, std::span<char> content) const;
 
 	void Join();
 

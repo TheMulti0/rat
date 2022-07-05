@@ -21,6 +21,8 @@ private:
 
 	void SendChatMessage();
 
+	void SendCreateProcess();
+
 	void ListClients() const;
 
 	void ParseInput();

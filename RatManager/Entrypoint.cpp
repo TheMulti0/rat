@@ -35,6 +35,8 @@ void Entrypoint::Startup()
 {
 	_commands["c"] = [this] { SendChatMessage(); };
 	_commands["chat"] = [this] { SendChatMessage(); };
+	_commands["p"] = [this] { SendCreateProcess(); };
+	_commands["process"] = [this] { SendCreateProcess(); };
 	_commands["l"] = [this] { ListClients(); };
 	_commands["list"] = [this] { ListClients(); };
 
@@ -61,6 +63,22 @@ void Entrypoint::SendChatMessage()
 		std::span(const_cast<char*>(
 			          message.c_str()),
 		          message.size()));
+}
+
+void Entrypoint::SendCreateProcess()
+{
+	const int pos = _args.find(' ');
+
+	auto str = _args.substr(0, pos);
+	const int client = std::stoi(str);
+	std::string message = _args.substr(pos + 1);
+
+	_manager->Send(
+		client,
+		MessageType::CreateProcessS,
+		std::span(const_cast<char*>(
+			message.c_str()),
+			message.size()));
 }
 
 void Entrypoint::ListClients() const

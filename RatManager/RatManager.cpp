@@ -71,13 +71,13 @@ void RatManager::OnDisconnection(const int client)
 	_clients.erase(_clients.begin() + client);
 	_clientCount--;
 
-	Trace("Client %d | disconnected", client);
+	Trace("\nClient %d disconnected\n", client);
 }
 
 void RatManager::OnMessage(const int client, const MessageType type, const std::span<char> content)
 {
 	Trace(
-		"Client %d | %d | %s\n",
+		"\nClient %d sent: %d %s\n",
 		client,
 		type,
 		std::string(content.data(), content.size()).c_str()

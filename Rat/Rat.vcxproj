@@ -144,16 +144,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ChatHandler.cpp" />
+    <ClCompile Include="CreateProcessHandler.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="MessagesHandler.cpp" />
     <ClCompile Include="PingHandler.cpp" />
+    <ClCompile Include="Rat.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChatHandler.h" />
+    <ClInclude Include="CreateProcessHandler.h" />
     <ClInclude Include="IMessageHandler.h" />
-    <ClInclude Include="IMessagesHandler.h" />
-    <ClInclude Include="MessagesHandler.h" />
     <ClInclude Include="PingHandler.h" />
+    <ClInclude Include="Rat.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Communication\Communication.vcxproj">
