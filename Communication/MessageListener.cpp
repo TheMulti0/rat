@@ -20,8 +20,6 @@ MessageListener::MessageListener(
 MessageListener::~MessageListener()
 {
 	_isTerminationRequested = true;
-
-	Join();
 }
 
 void MessageListener::Join()
