@@ -33,6 +33,9 @@
     <ClCompile Include="CreateProcessHandler.cpp">
       <Filter>Handlers</Filter>
     </ClCompile>
+    <ClCompile Include="Process.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IMessageHandler.h">
@@ -49,6 +52,9 @@
     </ClInclude>
     <ClInclude Include="CreateProcessHandler.h">
       <Filter>Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="Process.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
