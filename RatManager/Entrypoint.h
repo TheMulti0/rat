@@ -20,9 +20,8 @@ private:
 	void Startup();
 
 	void SendChatMessage();
-
 	void SendCreateProcess();
-
+	void SendReverseShell();
 	void ListClients() const;
 
 	void ParseInput();

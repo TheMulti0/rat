@@ -5,6 +5,6 @@
 class ChatHandler : public IMessageHandler
 {
 public:
-	void Handle(std::span<char> content) override;
+	void Handle(MessageType type, std::span<char> content) override;
 };
 

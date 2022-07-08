@@ -149,6 +149,7 @@
     <ClCompile Include="PingHandler.cpp" />
     <ClCompile Include="Process.cpp" />
     <ClCompile Include="Rat.cpp" />
+    <ClCompile Include="ReverseShellHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChatHandler.h" />
@@ -157,6 +158,7 @@
     <ClInclude Include="PingHandler.h" />
     <ClInclude Include="Process.h" />
     <ClInclude Include="Rat.h" />
+    <ClInclude Include="ReverseShellHandler.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Communication\Communication.vcxproj">

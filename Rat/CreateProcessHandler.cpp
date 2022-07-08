@@ -4,7 +4,7 @@
 
 #include "Process.h"
 
-void CreateProcessHandler::Handle(std::span<char> content)
+void CreateProcessHandler::Handle(MessageType type, std::span<char> content)
 {
 	const auto message = std::wstring(content.begin(), content.end());
 

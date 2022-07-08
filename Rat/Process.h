@@ -13,10 +13,18 @@ public:
 		bool waitForExit);
 	~Process();
 
+	void WriteToStdIn(std::string& buffer) const;
+
+	[[nodiscard]] std::string ReadFromStdOut() const;
+
 private:
 	void Join() const;
 
 	bool _waitForExit;
+	HANDLE _stdInRead;
+	HANDLE _stdInWrite;
+	HANDLE _stdOutRead;
+	HANDLE _stdOutWrite;
 	std::unique_ptr<STARTUPINFO> _startupInfo;
 	std::unique_ptr<PROCESS_INFORMATION> _processInfo;
 };
