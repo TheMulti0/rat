@@ -19,12 +19,13 @@ public:
 
 private:
 	void Join() const;
+	void Kill() const;
 
 	bool _waitForExit;
-	HANDLE _stdInRead;
-	HANDLE _stdInWrite;
-	HANDLE _stdOutRead;
-	HANDLE _stdOutWrite;
+	HANDLE _stdInRead{};
+	HANDLE _stdInWrite{};
+	HANDLE _stdOutRead{};
+	HANDLE _stdOutWrite{};
 	std::unique_ptr<STARTUPINFO> _startupInfo;
 	std::unique_ptr<PROCESS_INFORMATION> _processInfo;
 };

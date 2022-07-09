@@ -1,5 +1,9 @@
 ﻿#include "Process.h"
 
+#include <stdexcept>
+
+#include "Format.h"
+
 Process::Process(
 	const std::wstring& name, 
 	bool inheritHandles,
@@ -57,9 +61,35 @@ Process::~Process()
 	{
 		Join();
 	}
+	else
+	{
+		Kill();
+	}
 
 	CloseHandle(_processInfo->hProcess);
 	CloseHandle(_processInfo->hThread);
+}
+
+void Process::Join() const
+{
+	DWORD result = WaitForSingleObject(_processInfo->hProcess, INFINITE);
+
+	if (result == WAIT_FAILED)
+	{
+		auto error = GetLastError();
+		throw std::runtime_error(Format("Wait for process failed %d", error));
+	}
+}
+
+void Process::Kill() const
+{
+	auto result = TerminateProcess(_processInfo->hProcess, 1);
+
+	if (!result)
+	{
+		auto error = GetLastError();
+		throw std::runtime_error(Format("Terminate process failed %d", error));
+	}
 }
 
 void Process::WriteToStdIn(std::string& buffer) const
@@ -105,9 +135,4 @@ std::string Process::ReadFromStdOut() const
 	}
 
 	return output;
-}
-
-void Process::Join() const
-{
-	WaitForSingleObject(_processInfo->hProcess, INFINITE);
 }
