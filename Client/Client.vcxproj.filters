@@ -40,8 +40,12 @@
     <ClInclude Include="..\include\IRat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SingleProcessManager.h" />
-    <ClInclude Include="..\include\ISingleProcessManager.h" />
+    <ClInclude Include="..\include\ISingleProcessManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SingleProcessManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Rat.cpp">
@@ -65,7 +69,11 @@
     <ClCompile Include="IRat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="IProcessManager.cpp" />
-    <ClCompile Include="SingleProcessManager.cpp" />
+    <ClCompile Include="ISingleProcessManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SingleProcessManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

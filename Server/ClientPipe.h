@@ -2,11 +2,12 @@
 
 #include <memory>
 
+#include "IClientPipe.h"
 #include "IConnection.h"
 #include "IMessageListener.h"
 #include "IMessageSender.h"
 
-class ClientPipe
+class ClientPipe : public IClientPipe
 {
 public:
 	ClientPipe(
@@ -23,9 +24,9 @@ public:
 
 	ClientPipe& operator=(ClientPipe&&) noexcept = default;
 
-	IConnection* GetConnection() const;
-	IMessageSender* GetSender() const;
-	IMessageListener* GetListener() const;
+	[[nodiscard]] IConnection* GetConnection() const override;
+	[[nodiscard]] IMessageSender* GetSender() const override;
+	[[nodiscard]] IMessageListener* GetListener() const override;
 
 private:
 	std::unique_ptr<IConnection> _connection;

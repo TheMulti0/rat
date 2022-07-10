@@ -3,7 +3,8 @@
 #include <map>
 #include <memory>
 
-#include "RatManager.h"
+#include "ICommunicationFactory.h"
+#include "IRatManager.h"
 
 enum CommandType {
 	SendChatMessage,
@@ -28,7 +29,7 @@ private:
 
 	std::map<std::string, std::function<void()>> _commands;
 	std::unique_ptr<ICommunicationFactory> _factory;
-	std::unique_ptr<RatManager> _manager;
+	std::unique_ptr<IRatManager> _manager;
 	std::string _command;
 	std::string _args;
 };

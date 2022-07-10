@@ -7,8 +7,8 @@ ReverseShellHandler::ReverseShellHandler(
 ) :
 	_sender(sender),
 	_manager(
-		std::make_unique<SingleProcessManager>(
-			[&](const std::string& l) { ReadOutput(l); },
+		CreateSingleProcessManager(
+			[&](const std::string l) { ReadOutput(l); },
 			false,
 			true))
 {

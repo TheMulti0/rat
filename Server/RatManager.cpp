@@ -25,7 +25,7 @@ int RatManager::GetClientCount() const
 	return _clientCount;
 }
 
-std::vector<std::shared_ptr<ClientPipe>> RatManager::GetClients()
+std::vector<std::shared_ptr<IClientPipe>> RatManager::GetClients()
 {
 	return _clients;
 }
@@ -39,7 +39,7 @@ void RatManager::Join()
 {
 	std::ranges::for_each(
 		_clients, 
-		[](const std::shared_ptr<ClientPipe>& client) { client->GetListener()->Join(); });
+		[](const std::shared_ptr<IClientPipe>& client) { client->GetListener()->Join(); });
 }
 
 void RatManager::Listen()

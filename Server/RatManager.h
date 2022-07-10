@@ -5,24 +5,25 @@
 #include "ClientPipe.h"
 #include "ICommunicationFactory.h"
 #include "IConnectionListener.h"
+#include "IRatManager.h"
 #include "ThreadGuard.h"
 
-class RatManager
+class RatManager final : public IRatManager
 {
 public:
 	explicit RatManager(
 		ICommunicationFactory* factory,
 		std::unique_ptr<IConnectionListener> server);
 
-	~RatManager();
+	~RatManager() override;
 
-	[[nodiscard]] int GetClientCount() const;
+	[[nodiscard]] int GetClientCount() const override;
 
-	std::vector<std::shared_ptr<ClientPipe>> GetClients();
+	std::vector<std::shared_ptr<IClientPipe>> GetClients() override;
 
-	[[nodiscard]] int Send(int client, MessageType type, std::span<char> content) const;
+	[[nodiscard]] int Send(int client, MessageType type, std::span<char> content) const override;
 
-	void Join();
+	void Join() override;
 
 private:
 	void Listen();
@@ -36,7 +37,7 @@ private:
 
 	ICommunicationFactory* _factory;
 	std::unique_ptr<IConnectionListener> _server;
-	std::vector<std::shared_ptr<ClientPipe>> _clients;
+	std::vector<std::shared_ptr<IClientPipe>> _clients;
 	std::unique_ptr<ThreadGuard> _listenThread;
 	int _clientCount;
 	bool _isTerminationRequested;

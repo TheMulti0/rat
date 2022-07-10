@@ -168,7 +168,7 @@
   <ItemGroup>
     <ClCompile Include="ChatHandler.cpp" />
     <ClCompile Include="CreateProcessHandler.cpp" />
-    <ClCompile Include="IProcessManager.cpp" />
+    <ClCompile Include="ISingleProcessManager.cpp" />
     <ClCompile Include="IRat.cpp" />
     <ClCompile Include="PingHandler.cpp" />
     <ClCompile Include="Process.cpp" />
