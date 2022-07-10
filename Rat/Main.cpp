@@ -1,16 +1,15 @@
 #include "ICommunicationFactory.h"
-#include "Rat.h"
+#include "IRat.h"
 
 int main() {
 	const auto factory = CreateFactory();
 
-	const auto rat = Rat(
+	const std::unique_ptr<IRat> rat = CreateRat(
 		factory.get(),
 		factory->CreateWinSockConnectionFactory("localhost", 4545));
 
 	while (true)
 	{
-		
 	}
 
 	return 0;

@@ -4,8 +4,9 @@
 
 #include "ICommunicationFactory.h"
 #include "IMessageHandler.h"
+#include "IRat.h"
 
-class Rat
+class Rat : public IRat
 {
 public:
 	Rat(ICommunicationFactory* factory, std::unique_ptr<IConnectionFactory> client);

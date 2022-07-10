@@ -3,8 +3,7 @@
 
 #include "IMessageHandler.h"
 #include "IMessageSender.h"
-#include "Process.h"
-#include "ThreadGuard.h"
+#include "ISingleProcessManager.h"
 
 class ReverseShellHandler : public IMessageHandler
 {
@@ -14,10 +13,10 @@ public:
 
 	void Handle(MessageType type, std::span<char> content) override;
 
-	void ReadOutput() const;
 private:
+	void ReadOutput(std::string line) const;
+
 	IMessageSender* _sender;
-	std::unique_ptr<Process> _process;
-	std::unique_ptr<ThreadGuard> _thread;
+	std::unique_ptr<ISingleProcessManager> _manager;
 };
 

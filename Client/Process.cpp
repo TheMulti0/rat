@@ -92,7 +92,7 @@ void Process::Kill() const
 	}
 }
 
-void Process::WriteToStdIn(std::string& buffer) const
+void Process::WriteToStdIn(std::string buffer) const
 {
 	buffer += '\n';
 	DWORD dwWritten = 0;
