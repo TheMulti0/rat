@@ -8,7 +8,7 @@ ReverseShellHandler::ReverseShellHandler(
 	_sender(sender),
 	_manager(
 		CreateSingleProcessManager(
-			[&](const std::string l) { ReadOutput(l); },
+			[&](const std::string& l) { ReadOutput(l); },
 			false,
 			true))
 {
@@ -41,7 +41,7 @@ void ReverseShellHandler::Handle(const MessageType type, std::span<char> content
 	}
 }
 
-void ReverseShellHandler::ReadOutput(const std::string line) const
+void ReverseShellHandler::ReadOutput(const std::string& line) const
 {
 	const auto content = std::span(
 		const_cast<char*>(line.c_str()),

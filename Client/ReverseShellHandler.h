@@ -14,7 +14,7 @@ public:
 	void Handle(MessageType type, std::span<char> content) override;
 
 private:
-	void ReadOutput(std::string line) const;
+	void ReadOutput(const std::string& line) const;
 
 	IMessageSender* _sender;
 	std::unique_ptr<ISingleProcessManager> _manager;

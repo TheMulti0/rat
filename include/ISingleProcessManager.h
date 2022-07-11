@@ -16,6 +16,6 @@ public:
 
 __declspec(dllexport)
 std::unique_ptr<ISingleProcessManager> CreateSingleProcessManager(
-	std::function<void(std::string)> onMessage,
+	const std::function<void(std::string)>& onMessage,
 	bool inheritHandles,
 	bool waitForExit);

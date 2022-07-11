@@ -8,7 +8,7 @@
 CreateProcessHandler::CreateProcessHandler()
 	: _manager(
 		CreateSingleProcessManager(
-			[](const std::string _) {},
+			[](const std::string& _) {},
 			false,
 			true))
 {
