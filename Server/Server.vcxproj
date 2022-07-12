@@ -26,12 +26,14 @@
   <ItemGroup>
     <ClCompile Include="ClientPipe.cpp" />
     <ClCompile Include="IRatManager.cpp" />
+    <ClCompile Include="IRatManagerApi.cpp" />
     <ClCompile Include="RatManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\IClientPipe.h" />
     <ClInclude Include="..\include\IRatManager.h" />
     <ClInclude Include="ClientPipe.h" />
+    <ClInclude Include="IRatManagerApi.h" />
     <ClInclude Include="RatManager.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -90,6 +90,9 @@
     <ClInclude Include="..\include\ThreadGuard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CommunicationFactoryApi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Message.cpp">
@@ -120,6 +123,9 @@
       <Filter>Factory</Filter>
     </ClCompile>
     <ClCompile Include="ThreadGuard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CommunicationFactoryApi.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
