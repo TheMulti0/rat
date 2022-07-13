@@ -4,17 +4,17 @@ namespace RatManagerUI
 {
     public partial class Form1 : Form
     {
+        private readonly RatManager _ratManager;
+
         public Form1()
         {
             InitializeComponent();
+            _ratManager = new RatManager(4545);
         }
 
-        private async void button1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
-            var ratManager = new RatManager(4545);
-            await Task.Delay(1000);
-            var clientCount = ratManager.GetClientCount();
-            Console.WriteLine();
+            _ratManager.Send(0, MessageType.Chat, "cmd.exe".Select(c => (byte)c));
         }
     }
 }
