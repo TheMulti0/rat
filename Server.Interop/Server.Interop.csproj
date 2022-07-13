@@ -7,10 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Update="Communication.dll">
+    <None Include="../bin/Communication.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Server.dll">
+    <None Include="../bin/Server.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
