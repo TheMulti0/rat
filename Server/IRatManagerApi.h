@@ -10,6 +10,8 @@ extern "C"
 	__declspec(dllexport)
 	int GetClientCount(const IRatManager* manager);
 
+	IClientPipe** GetClients(IRatManager* manager);
+
 	__declspec(dllexport)
 	int Send(
 		const IRatManager* manager,

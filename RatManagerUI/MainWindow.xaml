@@ -14,5 +14,6 @@
     <StackPanel>
         <Label Content="{Binding ClientCount}" />
         <Button Content="Button"/>
+        <Button Content="Button 2" Click="ButtonBase_OnClick" />
     </StackPanel>
 </Window>

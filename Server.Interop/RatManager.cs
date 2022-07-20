@@ -4,17 +4,19 @@ namespace Server.Interop;
 
 public class RatManager : IRatManager
 {
-    private const string ServerDll = "Server.dll";
-
     private IntPtr _manager;
 
-    [DllImport(ServerDll)]
+    [DllImport(Dependencies.ServerDll)]
     private static extern IntPtr CreateRatManager(int port);
 
-    [DllImport(ServerDll)]
+    [DllImport(Dependencies.ServerDll)]
     private static extern int GetClientCount(IntPtr manager);
 
-    [DllImport(ServerDll)]
+    [DllImport(Dependencies.ServerDll)]
+    [return: MarshalAs(UnmanagedType.LPArray)]
+    private static extern IntPtr GetClients(IntPtr manager);
+
+    [DllImport(Dependencies.ServerDll)]
     private static extern int Send(
         IntPtr manager,
         int client,
@@ -22,10 +24,10 @@ public class RatManager : IRatManager
         byte[] content,
         int contentLength);
 
-    [DllImport(ServerDll)]
+    [DllImport(Dependencies.ServerDll)]
     private static extern void Join(IntPtr manager);
 
-    [DllImport(ServerDll)]
+    [DllImport(Dependencies.ServerDll)]
     private static extern int DisposeRatManager(IntPtr manager);
 
     public RatManager(int port)
@@ -36,6 +38,11 @@ public class RatManager : IRatManager
     public int GetClientCount()
     {
         return GetClientCount(_manager);
+    }
+
+    public IEnumerable<IClientPipe> GetClients()
+    {
+        throw new NotImplementedException();
     }
 
     public int Send(int client, MessageType type, IEnumerable<byte> content)

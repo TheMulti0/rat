@@ -32,6 +32,8 @@
     <ClInclude Include="..\include\Trace.h" />
     <ClInclude Include="CommunicationFactory.h" />
     <ClInclude Include="CommunicationFactoryApi.h" />
+    <ClInclude Include="IConnectionApi.h" />
+    <ClInclude Include="IMessageSenderApi.h" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="MessageListener.h" />
     <ClInclude Include="Serializer.h" />
@@ -44,6 +46,8 @@
   <ItemGroup>
     <ClCompile Include="CommunicationFactory.cpp" />
     <ClCompile Include="CommunicationFactoryApi.cpp" />
+    <ClCompile Include="IConnectionApi.cpp" />
+    <ClCompile Include="IMessageSenderApi.cpp" />
     <ClCompile Include="Message.cpp" />
     <ClCompile Include="MessageListener.cpp" />
     <ClCompile Include="MessageSender.cpp" />

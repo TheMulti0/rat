@@ -24,5 +24,10 @@ namespace RatManagerUI
         {
             InitializeComponent();
         }
+
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
+            MainWindowViewModel? dataContext = DataContext as MainWindowViewModel;
+        }
     }
 }

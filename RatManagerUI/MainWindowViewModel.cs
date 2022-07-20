@@ -5,7 +5,7 @@ namespace RatManagerUI
 {
     internal partial class MainWindowViewModel
     {
-        private readonly RatManagerService _service = new();
+        public readonly RatManagerService _service = new();
 
         [Notify]
         private int _clientCount;
