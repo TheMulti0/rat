@@ -25,9 +25,24 @@ int RatManager::GetClientCount() const
 	return _clientCount;
 }
 
-std::vector<std::shared_ptr<IClientPipe>> RatManager::GetClients()
+ClientInfo* RatManager::GetClients()
 {
-	return _clients;
+	const auto clients = new ClientInfo[_clients.size()];
+
+	int index = 0;
+	for (const auto& pipe : _clients)
+	{
+		std::string str = pipe->GetConnection()->GetAddress();
+
+		std::copy_n(
+			str.c_str(), 
+			str.size() + 1,
+			clients[index].Address);
+
+		index++;
+	}
+
+	return clients;
 }
 
 int RatManager::Send(const int client, const MessageType type, const std::span<char> content) const

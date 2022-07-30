@@ -20,4 +20,8 @@
     <ProjectReference Include="..\Server.Interop\Server.Interop.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
 </Project>

@@ -13,8 +13,9 @@ public class RatManager : IRatManager
     private static extern int GetClientCount(IntPtr manager);
 
     [DllImport(Dependencies.ServerDll)]
-    [return: MarshalAs(UnmanagedType.LPArray)]
-    private static extern IntPtr GetClients(IntPtr manager);
+    private static extern void GetClients(
+        IntPtr manager, 
+        [In, Out, MarshalAs(UnmanagedType.LPArray)] ClientInfo[] infos);
 
     [DllImport(Dependencies.ServerDll)]
     private static extern int Send(
@@ -40,9 +41,27 @@ public class RatManager : IRatManager
         return GetClientCount(_manager);
     }
 
-    public IEnumerable<IClientPipe> GetClients()
+    public unsafe IEnumerable<ClientInfo> GetClients()
     {
-        throw new NotImplementedException();
+       // IntPtr[] array = IntPtr.Zero;
+
+        int length = GetClientCount();
+        ClientInfo[] infos = new ClientInfo[length];
+        GetClients(_manager, infos);
+        //IntPtr[] newArr = new IntPtr[length];
+        //Marshal.Copy(array, newArr, 0, length);
+        ////Marshal.FreeHGlobal(array);
+
+        //var arr = array.Select(Marshal.PtrToStructure<ClientInfo>)!.ToArray();
+
+        //ClientInfo[] arr = new ClientInfo[length];
+        //for (int i = 0; i < length; i++)
+        //{
+        //    arr[i] = (ClientInfo)Marshal.PtrToStructure(array, typeof(ClientInfo))!;
+        //    array += Marshal.SizeOf(typeof(ClientInfo));
+        //}
+
+        return infos;
     }
 
     public int Send(int client, MessageType type, IEnumerable<byte> content)

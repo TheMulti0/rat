@@ -16,8 +16,12 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Server", "Server\Server.vcxproj", "{477A3B6C-1D8D-4AE6-9E58-E18FC389E983}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server.Interop", "Server.Interop\Server.Interop.csproj", "{BE432346-3CAF-40E6-8FD4-72A8A6F788A5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{077B3B5B-C28E-427D-9789-29A8758926E8} = {077B3B5B-C28E-427D-9789-29A8758926E8}
+		{477A3B6C-1D8D-4AE6-9E58-E18FC389E983} = {477A3B6C-1D8D-4AE6-9E58-E18FC389E983}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RatManagerUI", "RatManagerUI\RatManagerUI.csproj", "{48CEFCF4-A304-4617-9078-E1A1CC1A968F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RatManagerUI", "RatManagerUI\RatManagerUI.csproj", "{48CEFCF4-A304-4617-9078-E1A1CC1A968F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

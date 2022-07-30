@@ -4,7 +4,7 @@ public interface IRatManager : IDisposable
 {
     int GetClientCount();
 
-    IEnumerable<IClientPipe> GetClients();
+    IEnumerable<ClientInfo> GetClients();
 
     int Send(int client, MessageType type, IEnumerable<byte> content);
 

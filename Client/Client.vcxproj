@@ -159,6 +159,7 @@
     <ClInclude Include="ChatHandler.h" />
     <ClInclude Include="CreateProcessHandler.h" />
     <ClInclude Include="IMessageHandler.h" />
+    <ClInclude Include="KeyLogger.h" />
     <ClInclude Include="PingHandler.h" />
     <ClInclude Include="Process.h" />
     <ClInclude Include="SingleProcessManager.h" />
@@ -170,6 +171,7 @@
     <ClCompile Include="CreateProcessHandler.cpp" />
     <ClCompile Include="ISingleProcessManager.cpp" />
     <ClCompile Include="IRat.cpp" />
+    <ClCompile Include="KeyLogger.cpp" />
     <ClCompile Include="PingHandler.cpp" />
     <ClCompile Include="Process.cpp" />
     <ClCompile Include="SingleProcessManager.cpp" />

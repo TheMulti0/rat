@@ -19,7 +19,9 @@ std::unique_ptr<IConnection> ConnectionFactory::Connect()
 
 	if (connectSocket == INVALID_SOCKET)
 	{
-		throw std::runtime_error(Format("Unable to connect to server!"));
+		//throw std::runtime_error(Format("Unable to connect to server!"));
+		Sleep(1000);
+		Connect();
 	}
 
 	return std::make_unique<Connection>(connectSocket, _address);

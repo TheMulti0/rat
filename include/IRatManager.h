@@ -4,7 +4,7 @@
 #include <span>
 #include <vector>
 
-#include "IClientPipe.h"
+#include "ClientInfo.h"
 #include "ICommunicationFactory.h"
 #include "MessageType.h"
 
@@ -15,7 +15,7 @@ public:
 
 	[[nodiscard]] virtual int GetClientCount() const = 0;
 
-	virtual std::vector<std::shared_ptr<IClientPipe>> GetClients() = 0;
+	[[nodiscard]] virtual ClientInfo* GetClients() = 0;
 
 	[[nodiscard]] virtual int Send(int client, MessageType type, std::span<char> content) const = 0;
 

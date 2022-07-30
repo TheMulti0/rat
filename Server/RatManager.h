@@ -19,7 +19,7 @@ public:
 
 	[[nodiscard]] int GetClientCount() const override;
 
-	std::vector<std::shared_ptr<IClientPipe>> GetClients() override;
+	[[nodiscard]] ClientInfo* GetClients() override;
 
 	[[nodiscard]] int Send(int client, MessageType type, std::span<char> content) const override;
 

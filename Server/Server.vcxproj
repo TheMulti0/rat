@@ -33,6 +33,7 @@
   <ItemGroup>
     <ClInclude Include="..\include\IClientPipe.h" />
     <ClInclude Include="..\include\IRatManager.h" />
+    <ClInclude Include="ClientInfo.h" />
     <ClInclude Include="ClientPipe.h" />
     <ClInclude Include="IClientPipeApi.h" />
     <ClInclude Include="IRatManagerApi.h" />

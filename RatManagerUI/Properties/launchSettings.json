@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "RatManagerUI": {
+      "commandName": "Project",
+      "nativeDebugging": false
+    }
+  }
+}

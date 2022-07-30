@@ -2,7 +2,8 @@
 
 #include <string>
 
-class IConnection {
+class IConnection
+{
 public:
 	virtual ~IConnection() = default;
 

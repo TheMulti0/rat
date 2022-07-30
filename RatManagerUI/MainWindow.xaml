@@ -11,9 +11,22 @@
         <local:MainWindowViewModel />
     </Window.DataContext>
 
+    <Window.Resources>
+        <DataTemplate x:Key="ClientTemplate">
+            <StackPanel Orientation="Horizontal">
+                <Label Content="{Binding Address}"/>
+                <Button />
+            </StackPanel>
+        </DataTemplate>
+    </Window.Resources>
+
     <StackPanel>
-        <Label Content="{Binding ClientCount}" />
-        <Button Content="Button"/>
-        <Button Content="Button 2" Click="ButtonBase_OnClick" />
+        <StackPanel Orientation="Horizontal">
+            <Label Content="Client count: " />
+            <Label Content="{Binding ClientCount}" />
+        </StackPanel>
+        <Button Content="Refresh" Command="{Binding RefreshCommand}" />
+        <ListBox ItemsSource="{Binding Clients}" 
+                 ItemTemplate="{StaticResource ClientTemplate}" />
     </StackPanel>
 </Window>
