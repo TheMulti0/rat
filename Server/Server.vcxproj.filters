@@ -50,8 +50,5 @@
     <ClInclude Include="IClientPipeApi.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ClientInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

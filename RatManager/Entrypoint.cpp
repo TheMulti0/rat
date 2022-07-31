@@ -111,9 +111,14 @@ void Entrypoint::SendReverseShell()
 void Entrypoint::ListClients() const
 {
 	int i = 0;
-	for (const auto& clientPipe : _manager->GetClients())
+
+	const auto clients = std::span(
+		_manager->GetClients(),
+		_manager->GetClientCount());
+
+	for (const ClientInfo& clientInfo : clients)
 	{
-		Trace("Client %d: %s\n", i, clientPipe->GetConnection()->GetAddress().c_str());
+		Trace("Client %d: %s\n", i, clientInfo.Address);
 		i++;
 	}
 }
@@ -134,7 +139,7 @@ void Entrypoint::SelectClient()
 
 	const auto clientPipe = _manager->GetClients()[*_client];
 
-	Trace("Selected client %d: %s\n", *_client, clientPipe->GetConnection()->GetAddress().c_str());
+	Trace("Selected client %d: %s\n", *_client, clientPipe.Address);
 }
 
 void Entrypoint::ParseInput()
