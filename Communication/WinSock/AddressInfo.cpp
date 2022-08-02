@@ -2,7 +2,8 @@
 #include <string>
 
 #include "AddressInfo.h"
-#include "Format.h"
+
+#include "ErrorExtensions.h"
 
 AddressInfo::AddressInfo(const char* ip, const int port) :
 	_addressInfo(ResolveAddressInfo(ip, port))
@@ -33,7 +34,7 @@ addrinfo* AddressInfo::ResolveAddressInfo(const char* ip, int port)
 
 	if (returnCode != 0)
 	{
-		throw std::runtime_error(Format("getaddrinfo failed with error: %d", returnCode));
+		ThrowWinApiException("Get address info failed");
 	}
 
 	return result;

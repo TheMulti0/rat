@@ -5,7 +5,7 @@
 
 #include "IConnection.h"
 
-std::string InetNtop(const sockaddr_in& address);
+std::string ToString(const sockaddr_in& address);
 
 class Connection final : public IConnection {
 public:
@@ -24,8 +24,4 @@ public:
 private:
 	SOCKET _socket;
 	std::string _address;
-
-	int HandleError(int error) const;
-
-	void CloseSocket() const;
 };

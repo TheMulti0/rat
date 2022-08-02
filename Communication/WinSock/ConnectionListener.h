@@ -1,6 +1,5 @@
 ﻿#pragma once
 
-#include <functional>
 #include <memory>
 
 #include "IConnection.h"
@@ -16,9 +15,6 @@ public:
 	std::unique_ptr<IConnection> WaitForConnection() override;
 
 private:
-	void Bind() const;
-	void Unbind() const;
-
 	SOCKET CreateListenSocket() const;
 
 	void ListenForConnections() const;

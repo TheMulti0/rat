@@ -5,6 +5,7 @@
 #include "IConnection.h"
 #include "ConnectionFactory.h"
 #include "Connection.h"
+#include "ErrorExtensions.h"
 
 ConnectionFactory::ConnectionFactory(const char* ip, const int port) :
 	_address(Format("%s:%d", ip, port)),
@@ -19,9 +20,8 @@ std::unique_ptr<IConnection> ConnectionFactory::Connect()
 
 	if (connectSocket == INVALID_SOCKET)
 	{
-		//throw std::runtime_error(Format("Unable to connect to server!"));
 		Sleep(1000);
-		Connect();
+		return Connect();
 	}
 
 	return std::make_unique<Connection>(connectSocket, _address);
@@ -36,11 +36,11 @@ SOCKET ConnectionFactory::ConnectToServer() const
 
 	if (connectSocket == INVALID_SOCKET)
 	{
-		throw std::runtime_error(Format("connectSocket failed with error: %d", WSAGetLastError()));
+		ThrowWinApiException("Failed to create the socket for connecting to the server");
 	}
 
 	// Connect to server
-	const int returnCode = connect(connectSocket, _addrInfo.ai_addr, (int)_addrInfo.ai_addrlen);
+	const int returnCode = connect(connectSocket, _addrInfo.ai_addr, static_cast<int>(_addrInfo.ai_addrlen));
 
 	if (returnCode == SOCKET_ERROR)
 	{

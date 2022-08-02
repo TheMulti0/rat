@@ -2,7 +2,7 @@
 
 #include <sstream>
 
-std::map<int, std::string> _keyNames{
+std::map<int, std::string> PressedKey::_keyNames{
 	{VK_BACK, "[BACKSPACE]"},
 	{VK_RETURN, "\n"},
 	{VK_SPACE, "_"},

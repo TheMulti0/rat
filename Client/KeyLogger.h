@@ -21,7 +21,7 @@ private:
 	static HKL GetKeyboardLayout(HWND windowHandle);
 	static std::string GetWindowPrefix(HWND windowHandle);
 
-	void LogKeyboardEvent(const std::string& log);
+	void LogKeyboardEvent(const std::string& log) const;
 
 	static std::mutex _mutex;
 	static std::vector<KeyLogger*> _instances;

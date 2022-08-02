@@ -1,21 +1,25 @@
-#include <iostream>
 #include <WinSock2.h>
 
-#include "Trace.h"
 #include "Initializer.h"
+#include "ErrorExtensions.h"
 
 Initializer::Initializer()
 {
 	WSADATA wsaData;
 	const int returnCode = WSAStartup(MAKEWORD(2, 2), &wsaData);
 
-	if (returnCode != 0) {
-		Trace("WSAStartup failed with error: %d\n", returnCode);
-		throw std::exception();
+	if (returnCode != 0) 
+	{
+		ThrowWinApiException("WSAStartup failed");
 	}
 }
 
 Initializer::~Initializer()
 {
-	WSACleanup();
+	const int returnCode = WSACleanup();
+
+	if (returnCode != 0)
+	{
+		ThrowWinApiException("WSAStartup failed");
+	}
 }

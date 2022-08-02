@@ -49,7 +49,10 @@
     <ClInclude Include="KeyLogger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PressedKey.h" />
+    <ClInclude Include="PressedKey.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UniqueWrappers.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Rat.cpp">
@@ -82,6 +85,8 @@
     <ClCompile Include="KeyLogger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PressedKey.cpp" />
+    <ClCompile Include="PressedKey.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

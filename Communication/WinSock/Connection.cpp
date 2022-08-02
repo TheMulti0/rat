@@ -1,19 +1,20 @@
 #include <WS2tcpip.h>
 
 #include "Connection.h"
-#include "Format.h"
+#include "ErrorExtensions.h"
 
-std::string InetNtop(const sockaddr_in& address)
+std::string ToString(const sockaddr_in& address)
 {
-	char ipStr[INET_ADDRSTRLEN];
+	size_t bufferSize = INET_ADDRSTRLEN;
+	const auto ipStr = std::make_unique<char[]>(bufferSize);
 
-	inet_ntop(address.sin_family, &address.sin_addr, ipStr, sizeof ipStr);
+	inet_ntop(address.sin_family, &address.sin_addr, ipStr.get(), bufferSize);
 
-	return ipStr;
+	return { ipStr.get(), bufferSize };
 }
 
 Connection::Connection(const SOCKET& s, const sockaddr_in& address):
-	Connection(s, InetNtop(address))
+	Connection(s, ToString(address))
 {
 }
 
@@ -25,7 +26,7 @@ Connection::Connection(const SOCKET& s, std::string address) :
 
 Connection::~Connection()
 {
-	CloseSocket();
+	closesocket(_socket);
 }
 
 std::string Connection::GetAddress()
@@ -43,11 +44,7 @@ int Connection::Send(const char* buffer, const int length)
 
 	if (bytesSent == SOCKET_ERROR)
 	{
-		const int error = WSAGetLastError();
-
-		return HandleError(error);
-
-		//throw std::runtime_error(Format("send failed with error: %d", error));
+		ThrowWinApiException("Socket send failed");
 	}
 
 	return bytesSent;
@@ -63,11 +60,7 @@ int Connection::Receive(char* buffer, const int length)
 
 	if (result == SOCKET_ERROR)
 	{
-		const int error = WSAGetLastError();
-
-		return HandleError(error);
-
-		//throw std::runtime_error(Format("recv failed with error: %d", error));
+		ThrowWinApiException("Socket recv failed");
 	}
 
 	return result;
@@ -79,27 +72,6 @@ void Connection::Shutdown()
 
 	if (returnCode == SOCKET_ERROR)
 	{
-		const int error = WSAGetLastError();
-
-		HandleError(error);
-
-		//throw std::runtime_error(Format("shutdown failed with error: %d\n", error));
+		ThrowWinApiException("Socket shutdown failed");
 	}
-}
-
-int Connection::HandleError(const int error) const
-{
-	CloseSocket();
-
-	if (error == WSAECONNRESET || error == WSAESHUTDOWN)
-	{
-		return error;
-	}
-
-	return 0;
-}
-
-void Connection::CloseSocket() const
-{
-	closesocket(_socket);
 }

