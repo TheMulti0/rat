@@ -2,57 +2,24 @@
 
 #include <stdexcept>
 
-#include "Format.h"
+#include "ErrorExtensions.h"
 
 Process::Process(
-	const std::wstring& name, 
-	bool inheritHandles,
+	const std::wstring& name,
+	const bool inheritHandles,
 	const bool waitForExit
 ) :
-	_waitForExit(waitForExit)
+	_waitForExit(waitForExit),
+	_securityAttributes(CreateSecurityAttributes()),
+	_processInfo(CreateProcessInfo()),
+	_stdIn(Pipe(_securityAttributes)),
+	_stdOut(Pipe(_securityAttributes)),
+	_startupInfo(CreateStartupInfo())
 {
-	SECURITY_ATTRIBUTES saAttr;
-	saAttr.nLength = sizeof(SECURITY_ATTRIBUTES);
-	saAttr.bInheritHandle = TRUE;
-	saAttr.lpSecurityDescriptor = nullptr;
+	Create(name, inheritHandles);
 
-	CreatePipe(&_stdOutRead, &_stdOutWrite, &saAttr, 0);
-	SetHandleInformation(_stdOutRead, HANDLE_FLAG_INHERIT, 0);
-
-	CreatePipe(&_stdInRead, &_stdInWrite, &saAttr, 0);
-	SetHandleInformation(_stdOutRead, HANDLE_FLAG_INHERIT, 0);
-
-	constexpr size_t startupInfoSize = sizeof STARTUPINFO;
-	_startupInfo = std::make_unique<STARTUPINFO>();
-
-	std::memset(_startupInfo.get(), 0, startupInfoSize);
-	_startupInfo->cb = startupInfoSize;
-	_startupInfo->hStdError = _stdOutWrite;
-	_startupInfo->hStdOutput = _stdOutWrite;
-	_startupInfo->hStdInput = _stdInRead;
-	_startupInfo->dwFlags |= STARTF_USESTDHANDLES;
-
-	_processInfo = std::make_unique<PROCESS_INFORMATION>();
-	std::memset(_processInfo.get(), 0, sizeof PROCESS_INFORMATION);
-
-	const auto result = CreateProcess(
-		nullptr, // No module name (use command line)
-		const_cast<LPWSTR>(name.c_str()), // Command line
-		nullptr, // Process handle not inheritable
-		nullptr, // Thread handle not inheritable
-		inheritHandles,
-		CREATE_NO_WINDOW, // creation flags
-		nullptr, // Use parent's environment block
-		nullptr, // Use parent's starting directory 
-		_startupInfo.get(),
-		_processInfo.get()
-	);
-
-	if (!result)
-	{
-		printf("CreateProcess failed (%d).\n", GetLastError());
-		return;
-	}
+	_processHandle = MakeUniqueHandle(_processInfo.hProcess);
+	_threadHandle = MakeUniqueHandle(_processInfo.hThread);
 }
 
 Process::~Process()
@@ -65,31 +32,6 @@ Process::~Process()
 	{
 		Kill();
 	}
-
-	CloseHandle(_processInfo->hProcess);
-	CloseHandle(_processInfo->hThread);
-}
-
-void Process::Join() const
-{
-	DWORD result = WaitForSingleObject(_processInfo->hProcess, INFINITE);
-
-	if (result == WAIT_FAILED)
-	{
-		auto error = GetLastError();
-		throw std::runtime_error(Format("Wait for process failed %d", error));
-	}
-}
-
-void Process::Kill() const
-{
-	auto result = TerminateProcess(_processInfo->hProcess, 1);
-
-	if (!result)
-	{
-		auto error = GetLastError();
-		throw std::runtime_error(Format("Terminate process failed %d", error));
-	}
 }
 
 void Process::WriteToStdIn(std::string buffer) const
@@ -97,42 +39,168 @@ void Process::WriteToStdIn(std::string buffer) const
 	buffer += '\n';
 	DWORD dwWritten = 0;
 
-	bool result = WriteFile(
-		_stdInWrite, 
+	if (!WriteFile(
+		_stdIn.Write(), 
 		buffer.c_str(),
 		buffer.size(),
 		&dwWritten, 
-		nullptr);
+		nullptr))
+	{
+		ThrowWinApiException("Failed to write to std in");
+	}
 }
 
-std::string Process::ReadFromStdOut() const
+std::string Process::ReadFromStd() const
 {
 	DWORD bytesAvailable = 0;
-	DWORD bytesRead = 0;
-	int intBytesAvailable = 0;
-	char buffer[128] = "";
-	std::string output;
 
-	do		//loop until bytes are available (until response is processed)
+	do
 	{
-		PeekNamedPipe(_stdOutRead, nullptr, 0, nullptr, &bytesAvailable, nullptr);
+		bytesAvailable = GetBytesAvailable();
 		Sleep(50);
-	} while (bytesAvailable <= 0);
-	/*
-	if (bytesAvailable >= 2048)
-		bytesAvailable = 2048;
-		*/
-	intBytesAvailable = bytesAvailable;
-	while (intBytesAvailable > 0)		//while there is something to read, read it into buffer and append buffer to string
+	}
+	while (bytesAvailable <= 0);
+
+	std::string output;
+	while (bytesAvailable > 0)
 	{
-		ReadFile(_stdOutRead, buffer, 127, &bytesRead, nullptr);
-		buffer[127] = '\0';	//NULL terminator of string
-		output += buffer;
-		intBytesAvailable -= bytesRead;
-		if (intBytesAvailable <= 0)
-			intBytesAvailable = 0;
-		ZeroMemory(buffer, 128);					//clears buffer (else memory leak)
+		constexpr int bufferSize = 128;
+		bytesAvailable = Read(bytesAvailable, bufferSize, output);
 	}
 
 	return output;
+}
+
+void Process::Join() const
+{
+	const DWORD result = WaitForSingleObject(_processHandle.get(), INFINITE);
+
+	if (result == WAIT_FAILED)
+	{
+		ThrowWinApiException("Waiting for process has failed");
+	}
+}
+
+void Process::Kill() const
+{
+	const auto result = TerminateProcess(_processHandle.get(), 1);
+
+	if (!result)
+	{
+		ThrowWinApiException("Process termination failed");
+	}
+}
+
+SECURITY_ATTRIBUTES Process::CreateSecurityAttributes()
+{
+	SECURITY_ATTRIBUTES securityAttributes;
+
+	securityAttributes.nLength = sizeof(SECURITY_ATTRIBUTES);
+	securityAttributes.bInheritHandle = TRUE;
+	securityAttributes.lpSecurityDescriptor = nullptr;
+
+	return securityAttributes;
+}
+
+PROCESS_INFORMATION Process::CreateProcessInfo()
+{
+	PROCESS_INFORMATION processInfo;
+
+	std::memset(&processInfo, 0, sizeof PROCESS_INFORMATION);
+
+	return processInfo;
+}
+
+STARTUPINFO Process::CreateStartupInfo() const
+{
+	constexpr size_t startupInfoSize = sizeof STARTUPINFO;
+
+	STARTUPINFO startupInfo;
+
+	std::memset(&startupInfo, 0, startupInfoSize);
+
+	startupInfo.cb = startupInfoSize;
+	startupInfo.hStdError = _stdOut.Write();
+	startupInfo.hStdOutput = _stdOut.Write();
+	startupInfo.hStdInput = _stdIn.Read();
+	startupInfo.dwFlags |= STARTF_USESTDHANDLES;
+
+	return startupInfo;
+}
+
+void Process::Create(
+	const std::wstring& name,
+	const bool inheritHandles)
+{
+	bool result = CreateProcessW(
+		nullptr, // No module name (use command line)
+		const_cast<LPWSTR>(name.c_str()), // Command line
+		nullptr, // Process handle not inheritable
+		nullptr, // Thread handle not inheritable
+		inheritHandles,
+		CREATE_NO_WINDOW, // creation flags
+		nullptr, // Use parent's environment block
+		nullptr, // Use parent's starting directory 
+		&_startupInfo,
+		&_processInfo
+	);
+
+	if (!result)
+	{
+		ThrowWinApiException("Create process failed");
+	}
+}
+
+DWORD Process::GetBytesAvailable() const
+{
+	DWORD bytesAvailable = 0;
+
+	if (!PeekNamedPipe(
+		_stdOut.Read(),
+		nullptr, 
+		0, 
+		nullptr, 
+		&bytesAvailable, 
+		nullptr))
+	{
+		ThrowWinApiException("Failed to get bytes available from std out");
+	}
+
+	return bytesAvailable;
+}
+
+DWORD Process::Read(
+	char* buffer,
+	const int bufferSize) const
+{
+	DWORD bytesRead = 0;
+
+	if (!ReadFile(
+		_stdOut.Read(),
+		buffer,
+		bufferSize,
+		&bytesRead,
+		nullptr))
+	{
+		ThrowWinApiException("Failed to read from std out");
+	}
+
+	return bytesRead;
+}
+
+DWORD Process::Read(
+	const DWORD bytesAvailable,
+	const int bufferSize, 
+	std::string& output) const
+{
+	const int actualSize = bufferSize + 1;
+	const auto buffer = std::make_unique<char[]>(actualSize);
+
+	const DWORD bytesRead = Read(buffer.get(), bufferSize);
+
+	buffer[actualSize - 1] = '\0';
+	output += buffer.get();
+
+	const DWORD remainder = bytesAvailable - bytesRead;
+	return max(remainder, 0);
 }

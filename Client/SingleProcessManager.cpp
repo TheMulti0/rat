@@ -40,7 +40,7 @@ void SingleProcessManager::ReadOutput() const
 			continue;
 		}
 
-		_onMessage(_process->ReadFromStdOut());
+		_onMessage(_process->ReadFromStd());
 	}
 }
 
