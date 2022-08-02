@@ -14,12 +14,15 @@
     <Filter Include="Source Files">
       <UniqueIdentifier>{e13ef36c-d585-4389-939f-7a6cd92e12e1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Process">
+      <UniqueIdentifier>{5b01ef1b-353f-4d99-b1d7-79ac68fc48d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="KeyLogger">
+      <UniqueIdentifier>{b705dcd1-ef61-4fb6-8795-2b4a4cf4e08a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IMessageHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Process.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Rat.h">
@@ -40,25 +43,30 @@
     <ClInclude Include="..\include\IRat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\ISingleProcessManager.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Pipe.h">
+      <Filter>Process</Filter>
+    </ClInclude>
+    <ClInclude Include="UniqueHandle.h">
+      <Filter>Process</Filter>
     </ClInclude>
     <ClInclude Include="SingleProcessManager.h">
-      <Filter>Header Files</Filter>
+      <Filter>Process</Filter>
+    </ClInclude>
+    <ClInclude Include="Process.h">
+      <Filter>Process</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ISingleProcessManager.h">
+      <Filter>Process</Filter>
     </ClInclude>
     <ClInclude Include="KeyLogger.h">
-      <Filter>Header Files</Filter>
+      <Filter>KeyLogger</Filter>
     </ClInclude>
     <ClInclude Include="PressedKey.h">
-      <Filter>Header Files</Filter>
+      <Filter>KeyLogger</Filter>
     </ClInclude>
-    <ClInclude Include="UniqueWrappers.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Rat.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Process.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ReverseShellHandler.cpp">
@@ -76,17 +84,26 @@
     <ClCompile Include="IRat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ISingleProcessManager.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Process.cpp">
+      <Filter>Process</Filter>
     </ClCompile>
     <ClCompile Include="SingleProcessManager.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Process</Filter>
+    </ClCompile>
+    <ClCompile Include="ISingleProcessManager.cpp">
+      <Filter>Process</Filter>
+    </ClCompile>
+    <ClCompile Include="UniqueHandle.cpp">
+      <Filter>Process</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipe.cpp">
+      <Filter>Process</Filter>
     </ClCompile>
     <ClCompile Include="KeyLogger.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>KeyLogger</Filter>
     </ClCompile>
     <ClCompile Include="PressedKey.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>KeyLogger</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

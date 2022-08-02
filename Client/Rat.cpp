@@ -39,7 +39,14 @@ std::map<MessageType, std::shared_ptr<IMessageHandler>> Rat::GetHandlers()
 
 void Rat::OnMessage(MessageType type, std::span<char> content)
 {
-	_handlers[type]->Handle(type, content);
+	try
+	{
+		_handlers[type]->Handle(type, content);
+	}
+	catch (std::exception& e)
+	{
+		printf(e.what());
+	}
 }
 
 void Rat::OnDisconnection()

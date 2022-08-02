@@ -18,7 +18,7 @@ SingleProcessManager::SingleProcessManager(
 void SingleProcessManager::Run(const std::wstring name)
 {
 	_process.reset();
-	_process = std::make_unique<Process>(name, true, false);
+	_process = std::make_unique<Process>(name, _inheritHandles, _waitForExit);
 }
 
 void SingleProcessManager::WriteToStdIn(const std::string text)

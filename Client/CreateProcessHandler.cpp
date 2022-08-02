@@ -2,7 +2,6 @@
 
 #include "CreateProcessHandler.h"
 
-#include "Process.h"
 #include "SingleProcessManager.h"
 
 CreateProcessHandler::CreateProcessHandler()

@@ -3,7 +3,8 @@
 #include "ICommunicationFactory.h"
 #include "IRat.h"
 
-int main() {
+int main()
+{
 	const auto factory = CreateFactory();
 
 	const std::unique_ptr<IRat> rat = CreateRat(

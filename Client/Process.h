@@ -1,38 +1,10 @@
 ﻿#pragma once
 
 #include "Windows.h"
-#include <memory>
 #include <string>
 
-#include "UniqueWrappers.h"
-
-class Pipe
-{
-public:
-	explicit Pipe(
-		SECURITY_ATTRIBUTES attributes
-	) :
-		_read(MakeUniqueHandle()),
-		_write(MakeUniqueHandle())
-	{
-		CreatePipe(_read.get(), _write.get(), &attributes, 0);
-		SetHandleInformation(_read.get(), HANDLE_FLAG_INHERIT, 0);
-	}
-
-	HANDLE Read() const
-	{
-		return *_read;
-	}
-
-	HANDLE Write() const
-	{
-		return *_write;
-	}
-
-private:
-	UniqueHandle _read;
-	UniqueHandle _write;
-};
+#include "Pipe.h"
+#include "UniqueHandle.h"
 
 class Process
 {
