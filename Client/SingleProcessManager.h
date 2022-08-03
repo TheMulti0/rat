@@ -4,7 +4,7 @@
 
 #include "ISingleProcessManager.h"
 #include "Process.h"
-#include "ThreadGuard.h"
+#include "IThreadGuard.h"
 
 class SingleProcessManager : public ISingleProcessManager
 {
@@ -24,7 +24,7 @@ private:
 	std::function<void(std::string)> _onMessage;
 	bool _inheritHandles;
 	bool _waitForExit;
-	std::unique_ptr<ThreadGuard> _thread;
+	std::unique_ptr<IThreadGuard> _thread;
 	std::unique_ptr<Process> _process;
 };
 

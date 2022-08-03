@@ -99,13 +99,16 @@
     <ClInclude Include="..\include\StringExtensions.h">
       <Filter>Extensions</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\ThreadGuard.h">
+    <ClInclude Include="..\include\IThreadGuard.h">
       <Filter>Extensions</Filter>
     </ClInclude>
     <ClInclude Include="..\include\Format.h">
       <Filter>Extensions</Filter>
     </ClInclude>
     <ClInclude Include="..\include\ErrorExtensions.h">
+      <Filter>Extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadGuard.h">
       <Filter>Extensions</Filter>
     </ClInclude>
   </ItemGroup>
@@ -150,6 +153,9 @@
       <Filter>Extensions</Filter>
     </ClCompile>
     <ClCompile Include="..\include\ErrorExtensions.cpp">
+      <Filter>Extensions</Filter>
+    </ClCompile>
+    <ClCompile Include="IThreadGuard.cpp">
       <Filter>Extensions</Filter>
     </ClCompile>
     <ClCompile Include="ThreadGuard.cpp">

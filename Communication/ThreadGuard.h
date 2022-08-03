@@ -1,25 +1,20 @@
-﻿#pragma once
+#pragma once
+#include "IThreadGuard.h"
 
-#include <thread>
-
-class __declspec(dllexport) ThreadGuard
+class ThreadGuard : public IThreadGuard
 {
 public:
     explicit ThreadGuard(std::thread&& input);
 
     ThreadGuard(ThreadGuard const& t) = delete;
-
     ThreadGuard(ThreadGuard&&) noexcept = default;
 
     ThreadGuard& operator=(ThreadGuard const&) = delete;
-
     ThreadGuard& operator=(ThreadGuard&&) noexcept = default;
 
-    void Join();
+    ~ThreadGuard() override;
 
-    void Detach();
-
-    ~ThreadGuard();
+    void Join() override;
 
 private:
     std::thread _thread;

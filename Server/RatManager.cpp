@@ -8,7 +8,7 @@ RatManager::RatManager(
 ):
 	_factory(factory),
 	_server(std::move(server)),
-	_listenThread(std::make_unique<ThreadGuard>(
+	_listenThread(MakeThreadGuard(
 		std::thread(&RatManager::Listen, this))),
 	_clientCount(0),
 	_isTerminationRequested(false)

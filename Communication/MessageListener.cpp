@@ -12,7 +12,7 @@ MessageListener::MessageListener(
 	_onMessage(std::move(onMessage)),
 	_onDisconnection(std::move(onDisconnection)),
 	_isTerminationRequested(false),
-	_thread(std::make_unique<ThreadGuard>(
+	_thread(MakeThreadGuard(
 		std::thread(& MessageListener::Listen, this)))
 {
 }

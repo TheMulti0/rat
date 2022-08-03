@@ -6,7 +6,7 @@
 #include "IMessageHandler.h"
 #include "IRat.h"
 #include "KeyLogger.h"
-#include "ThreadGuard.h"
+#include "IThreadGuard.h"
 
 class Rat : public IRat
 {

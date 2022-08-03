@@ -6,7 +6,7 @@
 #include "ICommunicationFactory.h"
 #include "IConnectionListener.h"
 #include "IRatManager.h"
-#include "ThreadGuard.h"
+#include "IThreadGuard.h"
 
 class RatManager final : public IRatManager
 {
@@ -38,7 +38,7 @@ private:
 	ICommunicationFactory* _factory;
 	std::unique_ptr<IConnectionListener> _server;
 	std::vector<std::shared_ptr<IClientPipe>> _clients;
-	std::unique_ptr<ThreadGuard> _listenThread;
+	std::unique_ptr<IThreadGuard> _listenThread;
 	int _clientCount;
 	bool _isTerminationRequested;
 };

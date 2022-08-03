@@ -5,7 +5,7 @@ WinSockTestSuite::WinSockTestSuite():
 	_factory(_rat->CreateWinSockConnectionFactory("localhost", 1234)),
 	_listener(_rat->CreateWinSockConnectionListener(1234)),
 	_serverThread(
-		std::make_unique<ThreadGuard>(
+		MakeThreadGuard(
 			std::thread(
 				&WinSockTestSuite::RunServer, this))),
 	_client(_factory->Connect())

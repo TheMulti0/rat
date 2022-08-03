@@ -4,7 +4,7 @@
 
 #include "IConnection.h"
 #include "ICommunicationFactory.h"
-#include "ThreadGuard.h"
+#include "IThreadGuard.h"
 
 class WinSockTestSuite
 {
@@ -28,7 +28,7 @@ private:
 
 	std::mutex _mutex;
 	std::condition_variable _cv;
-	std::unique_ptr<ThreadGuard> _serverThread;
+	std::unique_ptr<IThreadGuard> _serverThread;
 
 	std::unique_ptr<IConnection> _client;
 };

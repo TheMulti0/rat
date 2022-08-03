@@ -10,7 +10,7 @@ SingleProcessManager::SingleProcessManager(
 	_onMessage(std::move(onMessage)),
 	_inheritHandles(inheritHandles),
 	_waitForExit(waitForExit),
-	_thread(std::make_unique<ThreadGuard>(
+	_thread(MakeThreadGuard(
 		std::thread(&SingleProcessManager::ReadOutput, this)))
 {
 }

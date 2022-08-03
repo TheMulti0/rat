@@ -30,7 +30,7 @@
     <ClInclude Include="..\include\MessageSender.h" />
     <ClInclude Include="..\include\MessageType.h" />
     <ClInclude Include="..\include\StringExtensions.h" />
-    <ClInclude Include="..\include\ThreadGuard.h" />
+    <ClInclude Include="..\include\IThreadGuard.h" />
     <ClInclude Include="..\include\Trace.h" />
     <ClInclude Include="CommunicationFactory.h" />
     <ClInclude Include="CommunicationFactoryApi.h" />
@@ -39,6 +39,7 @@
     <ClInclude Include="Message.h" />
     <ClInclude Include="MessageListener.h" />
     <ClInclude Include="Serializer.h" />
+    <ClInclude Include="ThreadGuard.h" />
     <ClInclude Include="WinSock\AddressInfo.h" />
     <ClInclude Include="WinSock\Connection.h" />
     <ClInclude Include="WinSock\ConnectionFactory.h" />
@@ -55,6 +56,7 @@
     <ClCompile Include="MessageListener.cpp" />
     <ClCompile Include="MessageSender.cpp" />
     <ClCompile Include="StringExtensions.cpp" />
+    <ClCompile Include="IThreadGuard.cpp" />
     <ClCompile Include="ThreadGuard.cpp" />
     <ClCompile Include="WinSock\AddressInfo.cpp" />
     <ClCompile Include="WinSock\Connection.cpp" />
