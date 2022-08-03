@@ -1,9 +1,6 @@
 ﻿#include "Process.h"
 
-#include <stdexcept>
-
 #include "ErrorExtensions.h"
-#include "UniqueHandle.h"
 
 Process::Process(
 	const std::wstring& name,
@@ -13,14 +10,11 @@ Process::Process(
 	_waitForExit(waitForExit),
 	_securityAttributes(CreateSecurityAttributes()),
 	_processInfo(CreateProcessInfo()),
-	_stdIn(Pipe(_securityAttributes)),
-	_stdOut(Pipe(_securityAttributes)),
+	_stdIn(Pipe(_securityAttributes, true, true)),
+	_stdOut(Pipe(_securityAttributes, true, true)),
 	_startupInfo(CreateStartupInfo())
 {
 	Create(name, inheritHandles);
-
-	_processHandle = UniqueHandle(_processInfo.hProcess);
-	_threadHandle = UniqueHandle(_processInfo.hThread);
 }
 
 Process::~Process()
@@ -35,8 +29,10 @@ Process::~Process()
 	}
 }
 
-void Process::WriteToStdIn(std::string buffer) const
+void Process::WriteToStdIn(std::string buffer)
 {
+	std::lock_guard guard(_writeMutex);
+
 	buffer += '\n';
 	DWORD dwWritten = 0;
 
@@ -51,10 +47,11 @@ void Process::WriteToStdIn(std::string buffer) const
 	}
 }
 
-std::string Process::ReadFromStd() const
+std::string Process::ReadFromStd()
 {
-	DWORD bytesAvailable = 0;
+	std::lock_guard guard(_readMutex);
 
+	DWORD bytesAvailable = 0;
 	do
 	{
 		bytesAvailable = GetBytesAvailable();
@@ -74,7 +71,7 @@ std::string Process::ReadFromStd() const
 
 void Process::Join() const
 {
-	const DWORD result = WaitForSingleObject(*_processHandle, INFINITE);
+	const DWORD result = WaitForSingleObject(_processInfo.hProcess, INFINITE);
 
 	if (result == WAIT_FAILED)
 	{
@@ -84,7 +81,7 @@ void Process::Join() const
 
 void Process::Kill() const
 {
-	const auto result = TerminateProcess(*_processHandle, 1);
+	const auto result = TerminateProcess(_processInfo.hProcess, 1);
 
 	if (!result)
 	{

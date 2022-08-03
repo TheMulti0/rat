@@ -46,9 +46,6 @@
     <ClInclude Include="Pipe.h">
       <Filter>Process</Filter>
     </ClInclude>
-    <ClInclude Include="UniqueHandle.h">
-      <Filter>Process</Filter>
-    </ClInclude>
     <ClInclude Include="SingleProcessManager.h">
       <Filter>Process</Filter>
     </ClInclude>
@@ -93,9 +90,6 @@
     <ClCompile Include="ISingleProcessManager.cpp">
       <Filter>Process</Filter>
     </ClCompile>
-    <ClCompile Include="UniqueHandle.cpp">
-      <Filter>Process</Filter>
-    </ClCompile>
     <ClCompile Include="Pipe.cpp">
       <Filter>Process</Filter>
     </ClCompile>
@@ -105,5 +99,8 @@
     <ClCompile Include="PressedKey.cpp">
       <Filter>KeyLogger</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

