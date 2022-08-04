@@ -13,8 +13,8 @@ class MessageListener final : public IMessageListener
 public:
 	explicit MessageListener(
 		IConnection* connection,
-		std::function<void(MessageType, std::span<char>)> onMessage,
-		std::function<void()> onDisconnection);
+		OnMessage onMessage,
+		OnDisconnection onDisconnection);
 
 	~MessageListener() override;
 
@@ -23,12 +23,12 @@ public:
 private:
 	void Listen() const;
 	std::unique_ptr<Message> ReceiveMessage() const;
-	int ReceiveMessageLength() const;
+	size_t ReceiveMessageLength() const;
 	int ReceiveAll(char* buffer, int length) const;
 
 	IConnection* _connection;
-	std::function<void(MessageType, std::span<char>)> _onMessage;
-	std::function<void()> _onDisconnection;
+	OnMessage _onMessage;
+	OnDisconnection _onDisconnection;
 	std::atomic_bool _isTerminationRequested;
 	std::unique_ptr<IThreadGuard> _thread;
 };

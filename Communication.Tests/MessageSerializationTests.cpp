@@ -39,16 +39,16 @@ void MessageSerializationTest::TestMessageSerialization(const size_t contentLeng
 		deserialized.GetType(),
 		type);
 	EXPECT_EQ(
-		deserialized.GetContent().size(),
+		deserialized.GetContent().Size(),
 		contentLength);
 	EXPECT_ARRAY_EQ(
 		char,
-		deserialized.GetContent().data(),
+		deserialized.GetContent().Data(),
 		content.get(),
 		contentLength);
 }
 
-void MessageSerializationTest::OnMessage(const MessageType type, const std::span<char> content)
+void MessageSerializationTest::OnMessage(const MessageType type, SharedSpan content)
 {
 	std::unique_lock guard(_mutex);
 
@@ -59,9 +59,13 @@ void MessageSerializationTest::OnMessage(const MessageType type, const std::span
 
 int MessageSerializationTest::Send(const MessageType type, char* content, const size_t contentLength) const
 {
+	auto contentSpan = SharedSpan(contentLength);
+
+	std::copy_n(content, contentLength, contentSpan.Data());
+
 	return _sender->Send(
 		type, 
-		std::span(content, contentLength));
+		contentSpan);
 }
 
 TEST_F(MessageSerializationTest, TestShortMessage)

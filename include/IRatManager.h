@@ -9,6 +9,8 @@
 
 #include <iterator>
 
+#include "SharedSpan.h"
+
 class ClientInfo
 {
 public:
@@ -39,7 +41,7 @@ public:
 
 	[[nodiscard]] virtual ClientInfo* GetClients() = 0;
 
-	[[nodiscard]] virtual int Send(int client, MessageType type, std::span<char> content) const = 0;
+	[[nodiscard]] virtual int Send(int client, MessageType type, SharedSpan content) const = 0;
 
 	virtual void Join() = 0;
 };

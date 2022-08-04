@@ -16,7 +16,7 @@ public:
 private:
 	std::map<MessageType, std::shared_ptr<IMessageHandler>> GetHandlers();
 
-	void OnMessage(MessageType type, std::span<char> content);
+	void OnMessage(MessageType type, SharedSpan content);
 	void OnDisconnection();
 
 	std::unique_ptr<IConnectionFactory> _client;

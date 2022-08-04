@@ -17,8 +17,8 @@ public:
 
 	std::unique_ptr<IMessageListener> CreateMessageListener(
 		IConnection* connection,
-		std::function<void(MessageType, std::span<char>)> onMessage,
-		std::function<void()> onDisconnection) override;
+		OnMessage onMessage,
+		OnDisconnection onDisconnection) override;
 
 private:
 	Initializer _initializer;

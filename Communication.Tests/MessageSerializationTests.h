@@ -17,7 +17,7 @@ protected:
 	void TestMessageSerialization(size_t contentLength);
 
 private:
-	void OnMessage(MessageType type, std::span<char> content);
+	void OnMessage(MessageType type, SharedSpan content);
 
 	[[nodiscard]] int Send(MessageType type, char* content, size_t contentLength) const;
 

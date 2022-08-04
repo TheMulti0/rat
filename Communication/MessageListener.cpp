@@ -5,8 +5,8 @@
 
 MessageListener::MessageListener(
 	IConnection* connection,
-	std::function<void(MessageType, std::span<char>)> onMessage,
-	std::function<void()> onDisconnection
+	OnMessage onMessage,
+	OnDisconnection onDisconnection
 ) :
 	_connection(connection),
 	_onMessage(std::move(onMessage)),
@@ -47,37 +47,36 @@ void MessageListener::Listen() const
 
 std::unique_ptr<Message> MessageListener::ReceiveMessage() const
 {
-	const int length = ReceiveMessageLength();
+	const size_t length = ReceiveMessageLength();
 	if (length < 0)
 	{
 		return nullptr;
 	}
 
-	const auto buffer = new char[length];
+	auto buffer = SharedSpan(length);
 
-	const int bytesReceived = ReceiveAll(buffer, length);
+	const int bytesReceived = ReceiveAll(buffer.Data(), length);
 	if (bytesReceived < 0 || bytesReceived < length)
 	{
 		return nullptr;
 	}
-
-	auto deserialized = Message::Deserialize(std::span(buffer, length));
+	auto deserialized = Message::Deserialize(buffer);
 
 	return std::make_unique<Message>(deserialized);
 }
 
-int MessageListener::ReceiveMessageLength() const
+size_t MessageListener::ReceiveMessageLength() const
 {
-	int length = 0;
+	size_t length = 0;
 
-	const auto buffer = new char[sizeof length];
+	const auto buffer = std::make_unique<char[]>(sizeof length);
 
-	if (const int result = ReceiveAll(buffer, sizeof length) < 0)
+	if (const int result = ReceiveAll(buffer.get(), sizeof length) < 0)
 	{
 		return result;
 	}
 
-	length = *reinterpret_cast<int*>(buffer);
+	length = *reinterpret_cast<int*>(buffer.get());
 
 	return length;
 }

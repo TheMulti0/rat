@@ -11,7 +11,7 @@ public:
 	ReverseShellHandler(
 		IMessageSender* sender);
 
-	void Handle(MessageType type, std::span<char> content) override;
+	void Handle(MessageType type, SharedSpan content) override;
 
 private:
 	void ReadOutput(const std::string& line) const;

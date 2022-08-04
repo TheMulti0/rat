@@ -1,28 +1,29 @@
 ﻿#include "MessageSender.h"
 
+#include <utility>
+
 #include "Message.h"
 #include "Serializer.h"
+#include "Trace.h"
 
 MessageSender::MessageSender(IConnection* connection)
 	: _connection(connection)
 {
 }
 
-int MessageSender::Send(const MessageType type, const std::span<char> content)
+int MessageSender::Send(const MessageType type, const SharedSpan content)
 {
-	const auto message = CreateMessage(type, content);
-
 	return SendAll(
-		message.data(),
-		message.size());
+		CreateMessage(type, content));
 }
 
-std::span<char> MessageSender::CreateMessage(const MessageType type, const std::span<char> content)
+SharedSpan MessageSender::CreateMessage(const MessageType type, SharedSpan content)
 {
-	const auto messageC = Message(type, content);
-	const std::span<char> body = messageC.Serialize();
-	const auto data = body.data();
-	const int length = body.size();
+	auto messageC = Message(type, std::move(content));
+
+	const SharedSpan body = messageC.Serialize();
+
+	const auto length = body.Size();
 
 	Serializer s(length + sizeof length);
 	s.Add(reinterpret_cast<const char*>(&length), sizeof length);
@@ -31,15 +32,15 @@ std::span<char> MessageSender::CreateMessage(const MessageType type, const std::
 	return s.Data();
 }
 
-int MessageSender::SendAll(const char* buffer, const int length) const
+int MessageSender::SendAll(SharedSpan buffer) const
 {
-	int bytesSent = 0;
+	auto bytesSent = 0;
 
-	while (bytesSent < length)
+	while (bytesSent < buffer.Size())
 	{
 		bytesSent += _connection->Send(
-			buffer + bytesSent,
-			length - bytesSent);
+			buffer.Data() + bytesSent,
+			buffer.Size() - bytesSent);
 	}
 
 	return bytesSent;

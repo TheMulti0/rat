@@ -21,7 +21,7 @@ public:
 
 	[[nodiscard]] ClientInfo* GetClients() override;
 
-	[[nodiscard]] int Send(int client, MessageType type, std::span<char> content) const override;
+	[[nodiscard]] int Send(int client, MessageType type, SharedSpan content) const override;
 
 	void Join() override;
 
@@ -33,7 +33,7 @@ private:
 	static void OnMessage(
 		int client,
 		MessageType type,
-		std::span<char> content);
+		SharedSpan content);
 
 	ICommunicationFactory* _factory;
 	std::unique_ptr<IConnectionListener> _server;

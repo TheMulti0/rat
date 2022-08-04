@@ -2,9 +2,9 @@
 
 #include "Trace.h"
 
-void ChatHandler::Handle(MessageType type, std::span<char> content)
+void ChatHandler::Handle(MessageType type, SharedSpan content)
 {
-	const auto message = std::string(content.begin(), content.end());
+	const auto message = content.String();
 
 	Trace("Received %s\n", message.c_str());
 }

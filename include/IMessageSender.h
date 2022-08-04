@@ -3,11 +3,12 @@
 #include <span>
 
 #include "MessageType.h"
+#include "SharedSpan.h"
 
 class IMessageSender
 {
 public:
 	virtual ~IMessageSender() = default;
 
-	virtual int Send(MessageType type, std::span<char> content) = 0;
+	virtual int Send(MessageType type, SharedSpan content) = 0;
 };

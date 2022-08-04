@@ -11,12 +11,12 @@ class MessageSender final : public IMessageSender
 public:
 	explicit MessageSender(IConnection* connection);
 
-	int Send(MessageType type, std::span<char> content) override;
+	int Send(MessageType type, SharedSpan content) override;
 
 private:
-	static std::span<char> CreateMessage(MessageType type, std::span<char> content);
+	static SharedSpan CreateMessage(MessageType type, const SharedSpan content);
 
-	int SendAll(const char* buffer, int length) const;
+	int SendAll(const SharedSpan buffer) const;
 
 	IConnection* _connection;
 };

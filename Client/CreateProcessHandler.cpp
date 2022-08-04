@@ -3,6 +3,7 @@
 #include "CreateProcessHandler.h"
 
 #include "SingleProcessManager.h"
+#include "StringExtensions.h"
 
 CreateProcessHandler::CreateProcessHandler()
 	: _manager(
@@ -13,9 +14,9 @@ CreateProcessHandler::CreateProcessHandler()
 {
 }
 
-void CreateProcessHandler::Handle(MessageType type, std::span<char> content)
+void CreateProcessHandler::Handle(MessageType type, SharedSpan content)
 {
-	const auto name = std::wstring(content.begin(), content.end());
+	const auto name = ToWString(content.String());
 
 	_manager->Run(name);
 }

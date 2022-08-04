@@ -1,13 +1,12 @@
 ﻿#pragma once
 
-#include <span>
-
 #include "MessageType.h"
+#include "SharedSpan.h"
 
 class IMessageHandler
 {
 public:
 	virtual ~IMessageHandler() = default;
 
-	virtual void Handle(MessageType type, std::span<char> content) = 0;
+	virtual void Handle(MessageType type, SharedSpan content) = 0;
 };

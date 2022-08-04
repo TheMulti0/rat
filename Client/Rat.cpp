@@ -16,7 +16,7 @@ Rat::Rat(
 	_listener(
 		factory->CreateMessageListener(
 			_connection.get(),
-			[this](const MessageType t, const std::span<char> c) { OnMessage(t, c); },
+			[this](const MessageType t, const SharedSpan c) { OnMessage(t, c); },
 			[this] { OnDisconnection(); })),
 	_handlers(GetHandlers()),
 	_keylogger(_sender.get())
@@ -37,7 +37,7 @@ std::map<MessageType, std::shared_ptr<IMessageHandler>> Rat::GetHandlers()
 	};
 }
 
-void Rat::OnMessage(MessageType type, std::span<char> content)
+void Rat::OnMessage(MessageType type, SharedSpan content)
 {
 	try
 	{

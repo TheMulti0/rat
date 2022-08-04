@@ -23,8 +23,8 @@ public:
 
 	virtual std::unique_ptr<IMessageListener> CreateMessageListener(
 		IConnection* connection,
-		std::function<void(MessageType, std::span<char>)> onMessage,
-		std::function<void()> onDisconnection) = 0;
+		OnMessage onMessage,
+		OnDisconnection onDisconnection) = 0;
 };
 
 __declspec(dllexport)

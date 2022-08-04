@@ -3,19 +3,20 @@
 #include <span>
 
 #include "MessageType.h"
+#include "SharedSpan.h"
 
 class Message
 {
 public:
-	static Message Deserialize(std::span<char> buffer);
-	[[nodiscard]] std::span<char> Serialize() const;
+	static Message Deserialize(SharedSpan buffer);
+	[[nodiscard]] SharedSpan Serialize();
 
-	Message(MessageType type, std::span<char> content);
+	Message(MessageType type, SharedSpan content);
 
 	MessageType GetType() const;
-	[[nodiscard]] std::span<char> GetContent() const;
+	[[nodiscard]] SharedSpan GetContent() const;
 
 private:
 	MessageType _type;
-	std::span<char> _content;
+	SharedSpan _content;
 };

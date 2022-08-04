@@ -111,6 +111,9 @@
     <ClInclude Include="ThreadGuard.h">
       <Filter>Extensions</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\SharedSpan.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Message.cpp">
@@ -160,6 +163,9 @@
     </ClCompile>
     <ClCompile Include="ThreadGuard.cpp">
       <Filter>Extensions</Filter>
+    </ClCompile>
+    <ClCompile Include="SharedSpan.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

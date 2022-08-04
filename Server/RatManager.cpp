@@ -45,7 +45,7 @@ ClientInfo* RatManager::GetClients()
 	return clients;
 }
 
-int RatManager::Send(const int client, const MessageType type, const std::span<char> content) const
+int RatManager::Send(const int client, const MessageType type, const SharedSpan content) const
 {
 	return _clients[client]->GetSender()->Send(type, content);
 }
@@ -89,9 +89,9 @@ void RatManager::OnDisconnection(const int client)
 	Trace("\nClient %d disconnected\n", client);
 }
 
-void RatManager::OnMessage(const int client, const MessageType type, const std::span<char> content)
+void RatManager::OnMessage(const int client, const MessageType type, const SharedSpan content)
 {
-	const auto str = std::string(content.data(), content.size());
+	const auto str = content.String();
 
 	switch (type)
 	{

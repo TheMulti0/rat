@@ -1,7 +1,6 @@
 ﻿#pragma once
 
 #include <memory>
-#include <span>
 
 class Serializer
 {
@@ -13,9 +12,9 @@ public:
 	{
 	}
 
-	void Add(const std::span<char> item)
+	void Add(SharedSpan item)
 	{
-		Add(item.data(), item.size());
+		Add(item.Data(), item.Size());
 	}
 
 	void Add(const char* item, const size_t size)
@@ -24,9 +23,13 @@ public:
 		_index += size;
 	}
 
-	std::span<char> Data()
+	SharedSpan Data()
 	{
-		return { _data.release(), _size};
+		auto span = SharedSpan(_size);
+
+		std::copy_n(_data.release(), _size, span.Data());
+
+		return span;
 	}
 
 private:

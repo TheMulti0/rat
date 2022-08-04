@@ -150,13 +150,13 @@ void Entrypoint::ParseInput()
 	const int pos = input.find(' ');
 
 	_command = input.substr(0, pos);
-	_commandSpan = std::span(const_cast<char*>(_command.c_str()), _command.size());
+	_commandSpan = SharedSpan(_command);
 
 	pos == -1
 		? _args = ""
 		: _args = input.substr(pos + 1);
 
-	_argsSpan = std::span(const_cast<char*>(_args.c_str()), _args.size());
+	_argsSpan = SharedSpan(_args);
 }
 
 void Entrypoint::ValidateSelection() const

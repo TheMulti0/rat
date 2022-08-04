@@ -5,6 +5,7 @@
 
 #include "ICommunicationFactory.h"
 #include "IRatManager.h"
+#include "SharedSpan.h"
 
 enum CommandType {
 	SendChatMessage,
@@ -36,9 +37,9 @@ private:
 	std::unique_ptr<int> _client = std::make_unique<int>(0);
 
 	std::string _command;
-	std::span<char> _commandSpan;
+	SharedSpan _commandSpan;
 
 	std::string _args;
-	std::span<char> _argsSpan;
+	SharedSpan _argsSpan;
 };
 

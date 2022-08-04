@@ -11,7 +11,7 @@ class CreateProcessHandler : public IMessageHandler
 public:
 	CreateProcessHandler();
 
-	void Handle(MessageType type, std::span<char> content) override;
+	void Handle(MessageType type, SharedSpan content) override;
 
 private:
 	std::unique_ptr<ISingleProcessManager> _manager;

@@ -29,7 +29,9 @@ int Send(
 	char* content,
 	const int contentLength)
 {
-	const auto contentSpan = std::span(content, contentLength);
+	auto contentSpan = SharedSpan(contentLength);
+
+	std::copy_n(content, contentLength, contentSpan.Data());
 
 	return manager->Send(client, type, contentSpan);
 }
