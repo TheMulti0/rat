@@ -3,31 +3,55 @@
 #include <memory>
 #include <string>
 
-#ifdef MAKEDLL
-#  define EXPORT __declspec(dllexport)
-#else
-#  define EXPORT __declspec(dllimport)
-#endif
-
 class SharedSpan
 {
 public:
-	EXPORT SharedSpan();
+	SharedSpan();
 
-	EXPORT explicit SharedSpan(
-		const std::string& str
-	);
+	explicit SharedSpan(const std::string& str);
 
-	EXPORT SharedSpan(
-		size_t size
-	);
+	explicit SharedSpan(const size_t size);
 
-	EXPORT [[nodiscard]] size_t Size() const;
-	EXPORT [[nodiscard]] char* Data();
-	EXPORT [[nodiscard]] std::string String() const;
+	[[nodiscard]] size_t Size() const;
+
+	[[nodiscard]] char* Data();
+
+	[[nodiscard]] std::string String() const;
 
 private:
 	size_t _size;
 	std::shared_ptr<char> _buffer;
 };
+
+inline SharedSpan::SharedSpan(): _size(0)
+{
+}
+
+inline SharedSpan::SharedSpan(const std::string& str):
+	_size(str.size()),
+	_buffer(std::shared_ptr<char>(new char[_size]))
+{
+	std::ranges::copy(str, _buffer.get());
+}
+
+inline SharedSpan::SharedSpan(const size_t size):
+	_size(size),
+	_buffer(std::shared_ptr<char>(new char[_size]))
+{
+}
+
+inline size_t SharedSpan::Size() const
+{
+	return _size;
+}
+
+inline char* SharedSpan::Data()
+{
+	return _buffer.get();
+}
+
+inline std::string SharedSpan::String() const
+{
+	return std::basic_string<char>(_buffer.get(), _size);
+}
 
