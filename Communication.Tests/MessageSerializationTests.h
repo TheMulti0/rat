@@ -19,7 +19,7 @@ protected:
 private:
 	void OnMessage(MessageType type, SharedSpan content);
 
-	[[nodiscard]] int Send(MessageType type, char* content, size_t contentLength) const;
+	void Send(MessageType type, char* content, size_t contentLength) const;
 
 	std::unique_ptr<IConnection> _connection;
 	std::unique_ptr<ICommunicationFactory> _rat;

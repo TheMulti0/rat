@@ -45,9 +45,9 @@ ClientInfo* RatManager::GetClients()
 	return clients;
 }
 
-int RatManager::Send(const int client, const MessageType type, const SharedSpan content) const
+void RatManager::Send(const int client, const MessageType type, const SharedSpan content) const
 {
-	return _clients[client]->GetSender()->Send(type, content);
+	_clients[client]->GetSender()->Send(type, content);
 }
 
 void RatManager::Join()

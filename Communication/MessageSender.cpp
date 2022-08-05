@@ -4,17 +4,18 @@
 
 #include "Message.h"
 #include "Serializer.h"
-#include "Trace.h"
 
 MessageSender::MessageSender(IConnection* connection)
 	: _connection(connection)
 {
 }
 
-int MessageSender::Send(const MessageType type, const SharedSpan content)
+void MessageSender::Send(const MessageType type, const SharedSpan content)
 {
-	return SendAll(
-		CreateMessage(type, content));
+	_queue.Add(std::bind(
+		&MessageSender::SendAll,
+		this,
+		CreateMessage(type, content)));
 }
 
 SharedSpan MessageSender::CreateMessage(const MessageType type, SharedSpan content)

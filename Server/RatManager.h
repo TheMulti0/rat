@@ -21,7 +21,7 @@ public:
 
 	[[nodiscard]] ClientInfo* GetClients() override;
 
-	[[nodiscard]] int Send(int client, MessageType type, SharedSpan content) const override;
+	[[nodiscard]] void Send(int client, MessageType type, SharedSpan content) const override;
 
 	void Join() override;
 

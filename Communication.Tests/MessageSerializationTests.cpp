@@ -31,7 +31,7 @@ void MessageSerializationTest::TestMessageSerialization(const size_t contentLeng
 	const auto content = std::unique_ptr<char>(new char[contentLength]);
 	std::fill_n(content.get(), contentLength, 1);
 
-	int sent = Send(type, content.get(), contentLength);
+	Send(type, content.get(), contentLength);
 
 	const auto deserialized = GetLatestDeserializedMessage();
 
@@ -57,13 +57,13 @@ void MessageSerializationTest::OnMessage(const MessageType type, SharedSpan cont
 	_cv.notify_all();
 }
 
-int MessageSerializationTest::Send(const MessageType type, char* content, const size_t contentLength) const
+void MessageSerializationTest::Send(const MessageType type, char* content, const size_t contentLength) const
 {
 	auto contentSpan = SharedSpan(contentLength);
 
 	std::copy_n(content, contentLength, contentSpan.Data());
 
-	return _sender->Send(
+	_sender->Send(
 		type, 
 		contentSpan);
 }

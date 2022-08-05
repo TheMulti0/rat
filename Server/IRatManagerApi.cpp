@@ -22,7 +22,7 @@ void GetClients(IRatManager* manager, ClientInfo* infos)
 	*infos = *manager->GetClients();
 }
 
-int Send(
+void Send(
 	const IRatManager* manager,
 	const int client,
 	const MessageType type,
@@ -33,7 +33,7 @@ int Send(
 
 	std::copy_n(content, contentLength, contentSpan.Data());
 
-	return manager->Send(client, type, contentSpan);
+	manager->Send(client, type, contentSpan);
 }
 
 void Join(IRatManager* manager)

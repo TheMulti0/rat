@@ -1,6 +1,6 @@
 #include "IMessageSenderApi.h"
 
-int Send(
+void Send(
 	IMessageSender* sender,
 	const MessageType type, 
 	char* content,
@@ -10,5 +10,5 @@ int Send(
 
 	std::copy_n(content, contentLength, contentSpan.Data());
 
-	return sender->Send(type, contentSpan);
+	sender->Send(type, contentSpan);
 }

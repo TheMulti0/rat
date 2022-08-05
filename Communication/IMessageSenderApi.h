@@ -5,7 +5,7 @@
 extern "C"
 {
 	__declspec(dllexport)
-	int Send(
+	void Send(
 		const IMessageSender* sender,
 		MessageType type,
 		char* content,
