@@ -41,7 +41,7 @@ public:
 
 	[[nodiscard]] virtual ClientInfo* GetClients() = 0;
 
-	virtual void Send(int client, MessageType type, SharedSpan content) const = 0;
+	virtual void Send(int client, MessageType type, SharedSpan content) = 0;
 
 	virtual void Join() = 0;
 };

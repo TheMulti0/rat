@@ -8,6 +8,7 @@ class MessageSender final : public IMessageSender
 {
 public:
 	explicit MessageSender(IConnection* connection);
+	~MessageSender();
 
 	void Send(MessageType type, SharedSpan content) override;
 

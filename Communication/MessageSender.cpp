@@ -10,6 +10,10 @@ MessageSender::MessageSender(IConnection* connection)
 {
 }
 
+MessageSender::~MessageSender()
+{
+}
+
 void MessageSender::Send(const MessageType type, const SharedSpan content)
 {
 	_queue.Add(std::bind(

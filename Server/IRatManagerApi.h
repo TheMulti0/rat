@@ -15,7 +15,7 @@ extern "C"
 
 	__declspec(dllexport)
 	void Send(
-		const IRatManager* manager,
+		IRatManager* manager,
 		int client, 
 		MessageType type, 
 		char* content, 

@@ -31,7 +31,15 @@ void MessageListener::Listen() const
 {
 	while (!_isTerminationRequested)
 	{
-		const std::unique_ptr<Message> messagePtr = ReceiveMessage();
+		std::unique_ptr<Message> messagePtr;
+
+		try
+		{
+			messagePtr = ReceiveMessage();
+		}
+		catch (std::runtime_error&)
+		{
+		}
 
 		if (messagePtr == nullptr)
 		{

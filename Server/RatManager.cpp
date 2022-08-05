@@ -27,6 +27,8 @@ int RatManager::GetClientCount() const
 
 ClientInfo* RatManager::GetClients()
 {
+	std::lock_guard guard(_clientsLock);
+
 	const auto clients = new ClientInfo[_clients.size()];
 
 	int index = 0;
@@ -45,13 +47,17 @@ ClientInfo* RatManager::GetClients()
 	return clients;
 }
 
-void RatManager::Send(const int client, const MessageType type, const SharedSpan content) const
+void RatManager::Send(const int client, const MessageType type, const SharedSpan content)
 {
+	std::lock_guard guard(_clientsLock);
+
 	_clients[client]->GetSender()->Send(type, content);
 }
 
 void RatManager::Join()
 {
+	std::lock_guard guard(_clientsLock);
+
 	std::ranges::for_each(
 		_clients, 
 		[](const std::shared_ptr<IClientPipe>& client) { client->GetListener()->Join(); });
@@ -72,18 +78,24 @@ void RatManager::Listen()
 			[this, index](auto type, auto content) { OnMessage(*index, type, content); },
 			[this, index]() { OnDisconnection(*index); });
 
+		std::lock_guard guard(_clientsLock);
+
 		_clients.emplace_back(
 			std::make_shared<ClientPipe>(
 				std::move(client),
 				std::move(messageSender),
 				std::move(messageListener)));
 		_clientCount++;
+
+		Trace("\nClient %d connected\n", *index);
 	}
 }
 
 void RatManager::OnDisconnection(const int client)
 {
-	_clients.erase(_clients.begin() + client);
+	std::lock_guard guard(_clientsLock);
+
+	std::erase(_clients, _clients[client]);
 	_clientCount--;
 
 	Trace("\nClient %d disconnected\n", client);

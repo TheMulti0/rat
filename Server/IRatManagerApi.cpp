@@ -23,7 +23,7 @@ void GetClients(IRatManager* manager, ClientInfo* infos)
 }
 
 void Send(
-	const IRatManager* manager,
+	IRatManager* manager,
 	const int client,
 	const MessageType type,
 	char* content,

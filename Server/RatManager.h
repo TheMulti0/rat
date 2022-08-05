@@ -1,5 +1,6 @@
 #pragma once
 
+#include <mutex>
 #include <vector>
 
 #include "ClientPipe.h"
@@ -21,7 +22,7 @@ public:
 
 	[[nodiscard]] ClientInfo* GetClients() override;
 
-	[[nodiscard]] void Send(int client, MessageType type, SharedSpan content) const override;
+	void Send(int client, MessageType type, SharedSpan content) override;
 
 	void Join() override;
 
@@ -37,6 +38,7 @@ private:
 
 	ICommunicationFactory* _factory;
 	std::unique_ptr<IConnectionListener> _server;
+	std::mutex _clientsLock;
 	std::vector<std::shared_ptr<IClientPipe>> _clients;
 	std::unique_ptr<IThreadGuard> _listenThread;
 	int _clientCount;

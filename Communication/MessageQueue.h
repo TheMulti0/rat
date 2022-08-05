@@ -12,6 +12,7 @@ class MessageQueue
 {
 public:
 	MessageQueue();
+	~MessageQueue();
 
 	void Add(const SendMessage& s);
 
@@ -25,4 +26,5 @@ private:
 	std::mutex _waitForMessagesLock;
 	std::condition_variable _cv;
 	std::unique_ptr<IThreadGuard> _sendThread;
+	bool _isTerminationRequested;
 };

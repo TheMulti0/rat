@@ -1,9 +1,17 @@
 #include "MessageQueue.h"
 
-MessageQueue::MessageQueue(): _sendThread(
-	MakeThreadGuard(
-		std::thread(&MessageQueue::HandleMessages, this)))
+MessageQueue::MessageQueue():
+	_sendThread(
+		MakeThreadGuard(
+			std::thread(&MessageQueue::HandleMessages, this))),
+	_isTerminationRequested(false)
 {
+}
+
+MessageQueue::~MessageQueue()
+{
+	_isTerminationRequested = true;
+	_cv.notify_one();
 }
 
 void MessageQueue::Add(const SendMessage& s)
@@ -16,15 +24,15 @@ void MessageQueue::Add(const SendMessage& s)
 
 void MessageQueue::HandleMessages()
 {
-	while (true)
+	while (!_isTerminationRequested)
 	{
+		Send();
+
 		std::unique_lock guard(_waitForMessagesLock);
 
 		_cv.wait(
 			guard,
-			[this] { return !_messages.empty(); });
-
-		Send();
+			[this] { return !_messages.empty() || _isTerminationRequested; });
 	}
 
 }
