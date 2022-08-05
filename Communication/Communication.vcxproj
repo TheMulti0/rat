@@ -58,6 +58,7 @@
     <ClCompile Include="MessageListener.cpp" />
     <ClCompile Include="MessageQueue.cpp" />
     <ClCompile Include="MessageSender.cpp" />
+    <ClCompile Include="Serializer.cpp" />
     <ClCompile Include="StringExtensions.cpp" />
     <ClCompile Include="IThreadGuard.cpp" />
     <ClCompile Include="ThreadGuard.cpp" />

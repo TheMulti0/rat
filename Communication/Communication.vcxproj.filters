@@ -170,5 +170,8 @@
     <ClCompile Include="MessageQueue.cpp">
       <Filter>Message\Implementation</Filter>
     </ClCompile>
+    <ClCompile Include="Serializer.cpp">
+      <Filter>Message\Implementation</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
