@@ -14,12 +14,12 @@ protected:
 
 	Message GetLatestDeserializedMessage();
 
-	void TestMessageSerialization(size_t contentLength);
+	void TestMessageSerialization(int contentLength);
 
 private:
 	void OnMessage(MessageType type, SharedSpan content);
 
-	void Send(MessageType type, char* content, size_t contentLength) const;
+	void Send(MessageType type, char* content, int contentLength) const;
 
 	std::unique_ptr<IConnection> _connection;
 	std::unique_ptr<ICommunicationFactory> _rat;

@@ -5,12 +5,12 @@
 
 std::string ToString(const sockaddr_in& address)
 {
-	size_t bufferSize = INET_ADDRSTRLEN;
+	const int bufferSize = INET_ADDRSTRLEN;
 	const auto ipStr = std::make_unique<char[]>(bufferSize);
 
 	inet_ntop(address.sin_family, &address.sin_addr, ipStr.get(), bufferSize);
 
-	return { ipStr.get(), bufferSize };
+	return { ipStr.get(), static_cast<std::string::size_type>(bufferSize) };
 }
 
 Connection::Connection(const SOCKET& s, const sockaddr_in& address):

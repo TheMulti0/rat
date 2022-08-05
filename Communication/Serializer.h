@@ -5,7 +5,7 @@
 class Serializer
 {
 public:
-	explicit Serializer(const size_t size) :
+	explicit Serializer(const int size) :
 		_index(0),
 		_size(size),
 		_data(new char[size])
@@ -17,7 +17,7 @@ public:
 		Add(item.Data(), item.Size());
 	}
 
-	void Add(const char* item, const size_t size)
+	void Add(const char* item, const int size)
 	{
 		std::copy_n(item, size, _data.get() + _index);
 		_index += size;
@@ -33,7 +33,7 @@ public:
 	}
 
 private:
-	size_t _index;
-	size_t _size;
+	int _index;
+	int _size;
 	std::unique_ptr<char> _data;
 };

@@ -47,7 +47,7 @@ void MessageListener::Listen() const
 
 std::unique_ptr<Message> MessageListener::ReceiveMessage() const
 {
-	const size_t length = ReceiveMessageLength();
+	const int length = ReceiveMessageLength();
 	if (length < 0)
 	{
 		return nullptr;
@@ -65,9 +65,9 @@ std::unique_ptr<Message> MessageListener::ReceiveMessage() const
 	return std::make_unique<Message>(deserialized);
 }
 
-size_t MessageListener::ReceiveMessageLength() const
+int MessageListener::ReceiveMessageLength() const
 {
-	size_t length = 0;
+	int length = 0;
 
 	const auto buffer = std::make_unique<char[]>(sizeof length);
 

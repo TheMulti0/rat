@@ -24,7 +24,7 @@ Message MessageSerializationTest::GetLatestDeserializedMessage()
 	return *_latestMessage;
 }
 
-void MessageSerializationTest::TestMessageSerialization(const size_t contentLength)
+void MessageSerializationTest::TestMessageSerialization(const int contentLength)
 {
 	constexpr auto type = MessageType::Chat;
 
@@ -57,7 +57,7 @@ void MessageSerializationTest::OnMessage(const MessageType type, SharedSpan cont
 	_cv.notify_all();
 }
 
-void MessageSerializationTest::Send(const MessageType type, char* content, const size_t contentLength) const
+void MessageSerializationTest::Send(const MessageType type, char* content, const int contentLength) const
 {
 	auto contentSpan = SharedSpan(contentLength);
 
