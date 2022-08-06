@@ -6,7 +6,6 @@
 #include "IMessageHandler.h"
 #include "IRat.h"
 #include "KeyLogger.h"
-#include "IThreadGuard.h"
 
 class Rat : public IRat
 {
@@ -24,5 +23,5 @@ private:
 	std::unique_ptr<IMessageSender> _sender;
 	std::unique_ptr<IMessageListener> _listener;
 	std::map<MessageType, std::shared_ptr<IMessageHandler>> _handlers;
-	KeyLogger _keylogger;
+	KeyLogger _keyLogger;
 };

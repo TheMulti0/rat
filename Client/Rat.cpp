@@ -19,7 +19,7 @@ Rat::Rat(
 			[this](const MessageType t, const SharedSpan c) { OnMessage(t, c); },
 			[this] { OnDisconnection(); })),
 	_handlers(GetHandlers()),
-	_keylogger(_sender.get())
+	_keyLogger(_sender.get())
 {
 }
 

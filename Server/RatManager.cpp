@@ -113,7 +113,7 @@ void RatManager::OnMessage(const int client, const MessageType type, const Share
 
 		default:
 			Trace(
-				"\nClient %d sent: %d %s\n",
+				"\nClient %d sent: %d %s",
 				client,
 				type,
 				str.c_str()

