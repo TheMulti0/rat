@@ -5,21 +5,19 @@
 #include "Message.h"
 #include "Serializer.h"
 
-MessageSender::MessageSender(IConnection* connection)
-	: _connection(connection)
-{
-}
-
-MessageSender::~MessageSender()
+MessageSender::MessageSender(IConnection* connection) :
+	_connection(connection),
+	_queue(CreateOperationQueue())
 {
 }
 
 void MessageSender::Send(const MessageType type, const SharedSpan content)
 {
-	_queue.Add(std::bind(
-		&MessageSender::SendAll,
-		this,
-		CreateMessage(type, content)));
+	_queue->Add(
+		[=]
+		{
+			SendAll(CreateMessage(type, content));
+		});
 }
 
 SharedSpan MessageSender::CreateMessage(const MessageType type, SharedSpan content)

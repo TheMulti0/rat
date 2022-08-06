@@ -2,21 +2,20 @@
 
 #include "IConnection.h"
 #include "IMessageSender.h"
-#include "MessageQueue.h"
+#include "IOperationQueue.h"
 
 class MessageSender final : public IMessageSender
 {
 public:
 	explicit MessageSender(IConnection* connection);
-	~MessageSender();
 
 	void Send(MessageType type, SharedSpan content) override;
 
 private:
 	static SharedSpan CreateMessage(MessageType type, const SharedSpan content);
 
-	int SendAll(const SharedSpan buffer) const;
+	[[nodiscard]] int SendAll(SharedSpan buffer) const;
 
 	IConnection* _connection;
-	MessageQueue _queue;
+	std::unique_ptr<IOperationQueue> _queue;
 };

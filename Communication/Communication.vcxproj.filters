@@ -114,8 +114,11 @@
     <ClInclude Include="..\include\SharedSpan.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MessageQueue.h">
+    <ClInclude Include="OperationQueue.h">
       <Filter>Message\Implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IOperationQueue.h">
+      <Filter>Message</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -167,11 +170,14 @@
     <ClCompile Include="ThreadGuard.cpp">
       <Filter>Extensions</Filter>
     </ClCompile>
-    <ClCompile Include="MessageQueue.cpp">
+    <ClCompile Include="OperationQueue.cpp">
       <Filter>Message\Implementation</Filter>
     </ClCompile>
     <ClCompile Include="Serializer.cpp">
       <Filter>Message\Implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="IOperationQueue.cpp">
+      <Filter>Message</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

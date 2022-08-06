@@ -27,6 +27,7 @@
     <ClInclude Include="..\include\IMessageListener.h" />
     <ClInclude Include="..\include\IMessageSender.h" />
     <ClInclude Include="..\include\ICommunicationFactory.h" />
+    <ClInclude Include="..\include\IOperationQueue.h" />
     <ClInclude Include="..\include\MessageSender.h" />
     <ClInclude Include="..\include\MessageType.h" />
     <ClInclude Include="..\include\SharedSpan.h" />
@@ -39,7 +40,7 @@
     <ClInclude Include="IMessageSenderApi.h" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="MessageListener.h" />
-    <ClInclude Include="MessageQueue.h" />
+    <ClInclude Include="OperationQueue.h" />
     <ClInclude Include="Serializer.h" />
     <ClInclude Include="ThreadGuard.h" />
     <ClInclude Include="WinSock\AddressInfo.h" />
@@ -54,9 +55,10 @@
     <ClCompile Include="CommunicationFactoryApi.cpp" />
     <ClCompile Include="IConnectionApi.cpp" />
     <ClCompile Include="IMessageSenderApi.cpp" />
+    <ClCompile Include="IOperationQueue.cpp" />
     <ClCompile Include="Message.cpp" />
     <ClCompile Include="MessageListener.cpp" />
-    <ClCompile Include="MessageQueue.cpp" />
+    <ClCompile Include="OperationQueue.cpp" />
     <ClCompile Include="MessageSender.cpp" />
     <ClCompile Include="Serializer.cpp" />
     <ClCompile Include="StringExtensions.cpp" />
