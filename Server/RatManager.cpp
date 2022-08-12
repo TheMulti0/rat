@@ -1,8 +1,10 @@
 #include "RatManager.h"
 
 #include <fstream>
+#include <Windows.h>
 
 #include "Trace.h"
+#include "Format.h"
 
 RatManager::RatManager(
 	ICommunicationFactory* factory, 
@@ -103,6 +105,42 @@ void RatManager::OnDisconnection(const int client)
 	Trace("\nClient %d disconnected\n", client);
 }
 
+std::string RatManager::FormatDate(const std::chrono::system_clock::time_point time)
+{
+	const std::time_t timeT = std::chrono::system_clock::to_time_t(time);
+
+	std::string formattedString(30, '\0');
+
+	tm timeInfo;
+	localtime_s(&timeInfo, &timeT);
+
+	std::strftime(
+		&formattedString[0],
+		formattedString.size(),
+		"%Y-%m-%d %H-%M-%S",
+		&timeInfo);
+
+	return formattedString;
+}
+
+void RatManager::OnScreenshot(SharedSpan content)
+{
+	auto date = FormatDate(std::chrono::system_clock::now());
+
+	auto fileName = Format("%s.png", date.c_str());
+
+	std::ofstream(fileName, std::ios::binary)
+		.write(content.Data(), content.Size());
+
+	ShellExecuteA(
+		nullptr, 
+		"open",
+		fileName.c_str(),
+		nullptr, 
+		nullptr, 
+		SW_SHOW);
+}
+
 void RatManager::OnMessage(const int client, const MessageType type, SharedSpan content)
 {
 	const auto str = content.String();
@@ -115,7 +153,7 @@ void RatManager::OnMessage(const int client, const MessageType type, SharedSpan 
 
 		case MessageType::Screenshot:
 			
-			std::ofstream("myfile.png", std::ios::binary).write(content.Data(), content.Size());
+			OnScreenshot(content);
 			break;
 
 

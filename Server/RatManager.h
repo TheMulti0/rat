@@ -31,6 +31,10 @@ private:
 
 	void OnDisconnection(int client);
 
+	static std::string FormatDate(const std::chrono::system_clock::time_point time);
+
+	static void OnScreenshot(SharedSpan content);
+
 	static void OnMessage(
 		int client,
 		MessageType type,
