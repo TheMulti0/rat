@@ -2,25 +2,17 @@
 
 #include "IMessageHandler.h"
 #include "IMessageSender.h"
-#include "Screenshot.h"
+#include "Screenshotter.h"
 
 class TakeScreenshotHandler : public IMessageHandler
 {
 public:
-	TakeScreenshotHandler(IMessageSender* sender) :
-		_sender(sender)
-	{
-	}
+	TakeScreenshotHandler(IMessageSender* sender);
 
-	void Handle(MessageType type, SharedSpan content) override
-	{
-		_sender->Send(
-			MessageType::Screenshot, 
-			_screenshot.ScreenshotScreen());
-	}
+	void Handle(MessageType type, SharedSpan content) override;
 
 private:
 	IMessageSender* _sender;
-	Screenshot _screenshot;
+	Screenshotter _screenshotter;
 };
 

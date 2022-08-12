@@ -167,6 +167,7 @@
     <ClInclude Include="PressedKey.h" />
     <ClInclude Include="Process.h" />
     <ClInclude Include="Screenshot.h" />
+    <ClInclude Include="Screenshotter.h" />
     <ClInclude Include="SingleProcessManager.h" />
     <ClInclude Include="Rat.h" />
     <ClInclude Include="ReverseShellHandler.h" />
@@ -184,6 +185,7 @@
     <ClCompile Include="PressedKey.cpp" />
     <ClCompile Include="Process.cpp" />
     <ClCompile Include="Screenshot.cpp" />
+    <ClCompile Include="Screenshotter.cpp" />
     <ClCompile Include="SingleProcessManager.cpp" />
     <ClCompile Include="Rat.cpp" />
     <ClCompile Include="ReverseShellHandler.cpp" />

@@ -1,5 +1,4 @@
 #include <memory>
-#include <iostream>
 
 #include "MessageListener.h"
 

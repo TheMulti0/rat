@@ -23,5 +23,5 @@ private:
 	std::unique_ptr<IMessageSender> _sender;
 	std::unique_ptr<IMessageListener> _listener;
 	std::map<MessageType, std::shared_ptr<IMessageHandler>> _handlers;
-	KeyLogger _keyLogger;
+	//KeyLogger _keyLogger;
 };

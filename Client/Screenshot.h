@@ -1,16 +1,37 @@
 #pragma once
 
+#include <wil/resource.h>
+
 #include "GdiPlusInitializer.h"
 #include "SharedSpan.h"
 
 class Screenshot
 {
 public:
-	SharedSpan ScreenshotScreen();
+	explicit Screenshot(HWND window);
 
-	static SharedSpan ScreenshotWindow(HWND window);
+	~Screenshot();
+
+	SharedSpan Save();
 
 private:
-	GdiPlusInitializer _initializer;
+	RECT CreateRect();
+	IStream* CreateMemoryStream();
+	CLSID GetEncoder();
+
+	void Capture();
+	ULARGE_INTEGER GetImageSize();
+
+	HWND _window;
+	wil::unique_hdc_window _screenDc;
+	wil::unique_hdc _memoryDc;
+	RECT _rect;
+	int _width;
+	int _height;
+	wil::unique_hbitmap _bitmapHandle;
+	IStream* _stream;
+	CLSID _encoder;
+
+	std::unique_ptr<Bitmap> _bitmap;
 };
 

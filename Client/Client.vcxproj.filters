@@ -70,7 +70,12 @@
     <ClInclude Include="TakeScreenshotHandler.h">
       <Filter>Handlers</Filter>
     </ClInclude>
-    <ClInclude Include="GdiPlusInitializer.h" />
+    <ClInclude Include="Screenshotter.h">
+      <Filter>Screenshot</Filter>
+    </ClInclude>
+    <ClInclude Include="GdiPlusInitializer.h">
+      <Filter>Screenshot</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Rat.cpp">
@@ -115,7 +120,12 @@
     <ClCompile Include="TakeScreenshotHandler.cpp">
       <Filter>Handlers</Filter>
     </ClCompile>
-    <ClCompile Include="GdiPlusInitializer.cpp" />
+    <ClCompile Include="Screenshotter.cpp">
+      <Filter>Screenshot</Filter>
+    </ClCompile>
+    <ClCompile Include="GdiPlusInitializer.cpp">
+      <Filter>Screenshot</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
