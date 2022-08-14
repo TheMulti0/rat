@@ -160,6 +160,7 @@
     <ClInclude Include="ChatHandler.h" />
     <ClInclude Include="CreateProcessHandler.h" />
     <ClInclude Include="GdiPlusInitializer.h" />
+    <ClInclude Include="KeyLoggerHandler.h" />
     <ClInclude Include="Pipe.h" />
     <ClInclude Include="IMessageHandler.h" />
     <ClInclude Include="KeyLogger.h" />
@@ -172,6 +173,7 @@
     <ClInclude Include="Rat.h" />
     <ClInclude Include="ReverseShellHandler.h" />
     <ClInclude Include="TakeScreenshotHandler.h" />
+    <ClInclude Include="KeyLoggerOwner.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ChatHandler.cpp" />
@@ -180,6 +182,7 @@
     <ClCompile Include="ISingleProcessManager.cpp" />
     <ClCompile Include="IRat.cpp" />
     <ClCompile Include="KeyLogger.cpp" />
+    <ClCompile Include="KeyLoggerHandler.cpp" />
     <ClCompile Include="PingHandler.cpp" />
     <ClCompile Include="Pipe.cpp" />
     <ClCompile Include="PressedKey.cpp" />
@@ -190,6 +193,7 @@
     <ClCompile Include="Rat.cpp" />
     <ClCompile Include="ReverseShellHandler.cpp" />
     <ClCompile Include="TakeScreenshotHandler.cpp" />
+    <ClCompile Include="KeyLoggerOwner.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Communication\Communication.vcxproj">

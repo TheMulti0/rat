@@ -11,11 +11,15 @@ int main()
 		factory.get(),
 		factory->CreateWinSockConnectionFactory("localhost", 4545));
 
-	MSG Msg; // msg object to be processed, but actually never is processed
-	while (GetMessage(&Msg, NULL, 0, 0)) // empties console window
+	//MSG Msg; // msg object to be processed, but actually never is processed
+	//while (GetMessage(&Msg, NULL, 0, 0)) // empties console window
+	//{
+	//	TranslateMessage(&Msg);
+	//	DispatchMessage(&Msg);
+	//}
+	while (true)
 	{
-		TranslateMessage(&Msg);
-		DispatchMessage(&Msg);
+		
 	}
 
 	return 0;

