@@ -4,7 +4,8 @@
 
 std::unique_ptr<IRat> CreateRat(
 	ICommunicationFactory* factory,
-	std::unique_ptr<IConnectionFactory> client)
+	const char* ip,
+	const int port)
 {
-	return std::make_unique<Rat>(factory, std::move(client));
+	return std::make_unique<Rat>(factory, ip, port);
 }

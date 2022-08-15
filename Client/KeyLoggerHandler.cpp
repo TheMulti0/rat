@@ -1,6 +1,6 @@
 #include "KeyLoggerHandler.h"
 
-KeyLoggerHandler::KeyLoggerHandler(IMessageSender* sender) :
+KeyLoggerHandler::KeyLoggerHandler(std::shared_ptr<IMessageSender> sender) :
 	_sender(sender)
 {
 }

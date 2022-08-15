@@ -8,15 +8,15 @@
 class ReverseShellHandler : public IMessageHandler
 {
 public:
-	ReverseShellHandler(
-		IMessageSender* sender);
+	explicit ReverseShellHandler(
+		std::shared_ptr<IMessageSender> sender);
 
 	void Handle(MessageType type, SharedSpan content) override;
 
 private:
 	void ReadOutput(const std::string& line) const;
 
-	IMessageSender* _sender;
+	std::shared_ptr<IMessageSender> _sender;
 	std::unique_ptr<ISingleProcessManager> _manager;
 };
 

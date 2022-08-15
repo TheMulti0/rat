@@ -1,0 +1,3 @@
+[submodule "Hypodermic"]
+	path = Hypodermic
+	url = https://github.com/ybainier/Hypodermic.git

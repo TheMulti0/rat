@@ -76,8 +76,13 @@
     <ClInclude Include="GdiPlusInitializer.h">
       <Filter>Screenshot</Filter>
     </ClInclude>
-    <ClInclude Include="KeyLoggerHandler.h" />
-    <ClInclude Include="KeyLoggerOwner.h" />
+    <ClInclude Include="KeyLoggerHandler.h">
+      <Filter>KeyLogger</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyLoggerOwner.h">
+      <Filter>KeyLogger</Filter>
+    </ClInclude>
+    <ClInclude Include="CommunicationContainerBuilder.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Rat.cpp">
@@ -128,8 +133,13 @@
     <ClCompile Include="GdiPlusInitializer.cpp">
       <Filter>Screenshot</Filter>
     </ClCompile>
-    <ClCompile Include="KeyLoggerHandler.cpp" />
-    <ClCompile Include="KeyLoggerOwner.cpp" />
+    <ClCompile Include="KeyLoggerHandler.cpp">
+      <Filter>KeyLogger</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyLoggerOwner.cpp">
+      <Filter>KeyLogger</Filter>
+    </ClCompile>
+    <ClCompile Include="CommunicationContainerBuilder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

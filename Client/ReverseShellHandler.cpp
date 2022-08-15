@@ -4,7 +4,7 @@
 #include "StringExtensions.h"
 
 ReverseShellHandler::ReverseShellHandler(
-	IMessageSender* sender
+	const std::shared_ptr<IMessageSender> sender
 ) :
 	_sender(sender),
 	_manager(

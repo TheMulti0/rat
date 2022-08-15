@@ -59,15 +59,23 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\Hypodermic\Hypodermic.props" />
+    <Import Project="..\Hypodermic\boost.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\Hypodermic\Hypodermic.props" />
+    <Import Project="..\Hypodermic\boost.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\Hypodermic\Hypodermic.props" />
+    <Import Project="..\Hypodermic\boost.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\Hypodermic\Hypodermic.props" />
+    <Import Project="..\Hypodermic\boost.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -143,7 +151,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;CLIENT_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
@@ -158,6 +166,7 @@
     <ClInclude Include="..\include\ISingleProcessManager.h" />
     <ClInclude Include="..\include\IRat.h" />
     <ClInclude Include="ChatHandler.h" />
+    <ClInclude Include="CommunicationContainerBuilder.h" />
     <ClInclude Include="CreateProcessHandler.h" />
     <ClInclude Include="GdiPlusInitializer.h" />
     <ClInclude Include="KeyLoggerHandler.h" />
@@ -177,6 +186,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ChatHandler.cpp" />
+    <ClCompile Include="CommunicationContainerBuilder.cpp" />
     <ClCompile Include="CreateProcessHandler.cpp" />
     <ClCompile Include="GdiPlusInitializer.cpp" />
     <ClCompile Include="ISingleProcessManager.cpp" />
@@ -198,6 +208,10 @@
   <ItemGroup>
     <ProjectReference Include="..\Communication\Communication.vcxproj">
       <Project>{077b3b5b-c28e-427d-9789-29a8758926e8}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Hypodermic\Hypodermic\Hypodermic.vcxproj">
+      <Project>{8dbc5914-bb29-46a9-b50c-4c37ea34c849}</Project>
+      <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

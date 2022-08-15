@@ -1,6 +1,6 @@
 #include "TakeScreenshotHandler.h"
 
-TakeScreenshotHandler::TakeScreenshotHandler(IMessageSender* sender):
+TakeScreenshotHandler::TakeScreenshotHandler(std::shared_ptr<IMessageSender> sender, std::shared_ptr<IMessageListener> ptr):
 	_sender(sender)
 {
 }
