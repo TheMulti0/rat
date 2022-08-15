@@ -36,7 +36,7 @@ void MessageListener::Listen() const
 		{
 			messagePtr = ReceiveMessage();
 		}
-		catch (std::runtime_error&)
+		catch (std::runtime_error& e)
 		{
 		}
 

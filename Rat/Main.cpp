@@ -5,10 +5,10 @@
 
 int main()
 {
-	const auto factory = CreateFactory();
+	const auto factory = std::shared_ptr<ICommunicationFactory>(CreateFactory().release());
 
-	const std::unique_ptr<IRat> rat = CreateRat(
-		factory.get(),
+	const auto rat = CreateRat(
+		factory,
 		"localhost", 
 		4545);
 

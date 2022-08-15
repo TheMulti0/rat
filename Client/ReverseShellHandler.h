@@ -11,6 +11,8 @@ public:
 	explicit ReverseShellHandler(
 		std::shared_ptr<IMessageSender> sender);
 
+	bool CanHandle(MessageType type) override;
+
 	void Handle(MessageType type, SharedSpan content) override;
 
 private:

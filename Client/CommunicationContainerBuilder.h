@@ -3,15 +3,13 @@
 #include "ICommunicationFactory.h"
 #include "Hypodermic/Hypodermic.h"
 
-class CommunicationContainerBuilder : public Hypodermic::ContainerBuilder
+class CommunicationContainerBuilder :public Hypodermic::ContainerBuilder
 {
 public:
 	CommunicationContainerBuilder(
-		ICommunicationFactory* factory,
+		std::shared_ptr<ICommunicationFactory> factory,
 		const char* ip, 
-		int port,
-		OnMessage onMessage,
-		OnDisconnection onDisconnection);
+		int port);
 
 private:
 	template <typename T>

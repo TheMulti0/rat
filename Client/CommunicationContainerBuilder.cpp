@@ -1,12 +1,12 @@
 #include "CommunicationContainerBuilder.h"
 
 CommunicationContainerBuilder::CommunicationContainerBuilder(
-	ICommunicationFactory* factory, 
+	std::shared_ptr<ICommunicationFactory> factory,
 	const char* ip,
-	const int port,
-	const OnMessage onMessage,
-	const OnDisconnection onDisconnection)
+	const int port)
 {
+	registerInstance(factory);
+
 	Register<IConnectionFactory>([=](Hypodermic::ComponentContext&)
 	{
 		return factory->CreateWinSockConnectionFactory(ip, port);
@@ -21,13 +21,5 @@ CommunicationContainerBuilder::CommunicationContainerBuilder(
 	{
 		return factory->CreateMessageSender(
 			context.resolve<IConnection>().get());
-	});
-
-	Register<IMessageListener>([=](Hypodermic::ComponentContext& context)
-	{
-		return factory->CreateMessageListener(
-			context.resolve<IConnection>().get(),
-			onMessage,
-			onDisconnection);
 	});
 }

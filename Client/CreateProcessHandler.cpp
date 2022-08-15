@@ -14,6 +14,11 @@ CreateProcessHandler::CreateProcessHandler()
 {
 }
 
+bool CreateProcessHandler::CanHandle(const MessageType type)
+{
+	return type == MessageType::CreateProcessS;
+}
+
 void CreateProcessHandler::Handle(MessageType type, SharedSpan content)
 {
 	const auto name = ToWString(content.String());

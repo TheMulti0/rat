@@ -10,6 +10,8 @@ class CreateProcessHandler : public IMessageHandler
 public:
 	CreateProcessHandler();
 
+	bool CanHandle(MessageType type) override;
+
 	void Handle(MessageType type, SharedSpan content) override;
 
 private:
