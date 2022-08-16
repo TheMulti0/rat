@@ -35,8 +35,6 @@
     <ClInclude Include="..\include\IThreadGuard.h" />
     <ClInclude Include="..\include\Trace.h" />
     <ClInclude Include="CommunicationFactory.h" />
-    <ClInclude Include="CommunicationFactoryApi.h" />
-    <ClInclude Include="IConnectionApi.h" />
     <ClInclude Include="IMessageSenderApi.h" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="MessageListener.h" />
@@ -50,10 +48,8 @@
     <ClInclude Include="WinSock\Initializer.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\include\ErrorExtensions.cpp" />
     <ClCompile Include="CommunicationFactory.cpp" />
-    <ClCompile Include="CommunicationFactoryApi.cpp" />
-    <ClCompile Include="IConnectionApi.cpp" />
+    <ClCompile Include="ErrorExtensions.cpp" />
     <ClCompile Include="IMessageSenderApi.cpp" />
     <ClCompile Include="IOperationQueue.cpp" />
     <ClCompile Include="Message.cpp" />

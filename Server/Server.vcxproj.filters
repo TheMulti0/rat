@@ -18,16 +18,7 @@
     <ClCompile Include="IRatManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ClientPipe.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="RatManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="IRatManagerApi.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="IClientPipeApi.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -35,19 +26,10 @@
     <ClInclude Include="..\include\IRatManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ClientPipe.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="RatManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\IClientPipe.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="IRatManagerApi.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IClientPipeApi.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -25,6 +25,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RatManagerUI", "RatManagerU
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Hypodermic", "Hypodermic\Hypodermic\Hypodermic.vcxproj", "{8DBC5914-BB29-46A9-B50C-4C37EA34C849}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{6057C03C-7889-490E-9B4D-23A1AE2DF5EE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DotNet", "DotNet", "{B0F840BC-9C17-47B8-8A5F-1D8ACB001905}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{4EBF2B81-99E3-4D08-829B-046EBD63C354}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -146,6 +152,12 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B0AF0776-E8F8-4880-A135-1359C8639064} = {4EBF2B81-99E3-4D08-829B-046EBD63C354}
+		{BE432346-3CAF-40E6-8FD4-72A8A6F788A5} = {B0F840BC-9C17-47B8-8A5F-1D8ACB001905}
+		{48CEFCF4-A304-4617-9078-E1A1CC1A968F} = {B0F840BC-9C17-47B8-8A5F-1D8ACB001905}
+		{8DBC5914-BB29-46A9-B50C-4C37EA34C849} = {6057C03C-7889-490E-9B4D-23A1AE2DF5EE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3064D08F-ECC6-42DD-8BE5-A878A902D038}
