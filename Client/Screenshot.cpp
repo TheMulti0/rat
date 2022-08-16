@@ -28,9 +28,9 @@ SharedSpan Screenshot::Save()
 
 	const auto imageSize = GetImageSize();
 
-	const ULONG size = imageSize.QuadPart;
+	const auto size = static_cast<ULONG>(imageSize.QuadPart);
 
-	auto imageSpan = SharedSpan(size);
+	auto imageSpan = SharedSpan(static_cast<int>(size));
 
 	ULONG bytesRead = 0;
 	while (bytesRead < size)
@@ -38,7 +38,7 @@ SharedSpan Screenshot::Save()
 		ULONG read = 0;
 
 		_stream->Read(
-			imageSpan.Data(),
+			imageSpan.begin(),
 			size - bytesRead,
 			&read);
 

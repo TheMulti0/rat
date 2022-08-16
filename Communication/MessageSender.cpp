@@ -1,5 +1,6 @@
 ﻿#include "MessageSender.h"
 
+#include <stdexcept>
 #include <utility>
 
 #include "Message.h"
@@ -16,7 +17,12 @@ void MessageSender::Send(const MessageType type, const SharedSpan content)
 	_queue->Add(
 		[=]
 		{
-			SendAll(CreateMessage(type, content));
+			const int result = SendAll(CreateMessage(type, content));
+
+			if ( result < 0)
+			{
+				throw std::runtime_error(std::to_string(result));
+			}
 		});
 }
 
@@ -26,7 +32,7 @@ SharedSpan MessageSender::CreateMessage(const MessageType type, SharedSpan conte
 
 	const SharedSpan body = messageC.Serialize();
 
-	const auto length = body.Size();
+	const auto length = body.size();
 
 	Serializer s(length + sizeof length);
 	s.Add(reinterpret_cast<const char*>(&length), sizeof length);
@@ -39,11 +45,11 @@ int MessageSender::SendAll(SharedSpan buffer) const
 {
 	auto bytesSent = 0;
 
-	while (bytesSent < buffer.Size())
+	while (bytesSent < buffer.size())
 	{
 		bytesSent += _connection->Send(
-			buffer.Data() + bytesSent,
-			buffer.Size() - bytesSent);
+			buffer.begin() + bytesSent,
+			buffer.size() - bytesSent);
 	}
 
 	return bytesSent;

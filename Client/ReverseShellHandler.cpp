@@ -24,7 +24,7 @@ bool ReverseShellHandler::CanHandle(const MessageType type)
 
 void ReverseShellHandler::Handle(const MessageType type, SharedSpan content)
 {
-	const auto command = content.String();
+	const auto command = content.toString();
 
 	switch (type)
 	{

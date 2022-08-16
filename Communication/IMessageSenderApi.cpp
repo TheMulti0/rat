@@ -8,7 +8,7 @@ void Send(
 {
 	auto contentSpan = SharedSpan(contentLength);
 
-	std::copy_n(content, contentLength, contentSpan.Data());
+	std::copy_n(content, contentLength, contentSpan.begin());
 
 	sender->Send(type, contentSpan);
 }

@@ -31,7 +31,7 @@ void Send(
 {
 	auto contentSpan = SharedSpan(contentLength);
 
-	std::copy_n(content, contentLength, contentSpan.Data());
+	std::copy_n(content, contentLength, contentSpan.begin());
 
 	manager->Send(client, type, contentSpan);
 }

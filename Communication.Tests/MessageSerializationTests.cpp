@@ -39,11 +39,11 @@ void MessageSerializationTest::TestMessageSerialization(const int contentLength)
 		deserialized.GetType(),
 		type);
 	EXPECT_EQ(
-		deserialized.GetContent().Size(),
+		deserialized.GetContent().size(),
 		contentLength);
 	EXPECT_ARRAY_EQ(
 		char,
-		deserialized.GetContent().Data(),
+		deserialized.GetContent().begin(),
 		content.get(),
 		contentLength);
 }
@@ -61,7 +61,7 @@ void MessageSerializationTest::Send(const MessageType type, char* content, const
 {
 	auto contentSpan = SharedSpan(contentLength);
 
-	std::copy_n(content, contentLength, contentSpan.Data());
+	std::copy_n(content, contentLength, contentSpan.begin());
 
 	_sender->Send(
 		type, 

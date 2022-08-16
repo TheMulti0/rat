@@ -9,7 +9,7 @@ class Message
 {
 public:
 	static Message Deserialize(SharedSpan buffer);
-	[[nodiscard]] SharedSpan Serialize();
+	[[nodiscard]] SharedSpan Serialize() const;
 
 	Message(MessageType type, SharedSpan content);
 
@@ -17,6 +17,8 @@ public:
 	[[nodiscard]] SharedSpan GetContent() const;
 
 private:
+	Message() = default;
+
 	MessageType _type;
 	SharedSpan _content;
 };

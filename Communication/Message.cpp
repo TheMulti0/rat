@@ -3,13 +3,13 @@
 
 Message Message::Deserialize(SharedSpan buffer)
 {
-	auto type = *reinterpret_cast<const MessageType*>(buffer.Data());
+	auto type = *reinterpret_cast<const MessageType*>(buffer.begin());
 
-	const auto contentSize = buffer.Size() - sizeof type;
+	const auto contentSize = static_cast<int>(buffer.size() - sizeof type);
 
 	auto content = SharedSpan(contentSize);
 
-	std::copy_n(buffer.Data() + sizeof type, contentSize, content.Data());
+	std::copy_n(buffer.begin() + sizeof type, contentSize, content.begin());
 
 	return
 	{
@@ -18,9 +18,9 @@ Message Message::Deserialize(SharedSpan buffer)
 	};
 }
 
-SharedSpan Message::Serialize()
+SharedSpan Message::Serialize() const
 {
-	const auto length = _content.Size();
+	const auto length = _content.size();
 
 	constexpr auto typeSize = sizeof _type;
 	const int actualMessageSize = typeSize + length;

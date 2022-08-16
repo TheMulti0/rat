@@ -36,7 +36,7 @@ void MessageListener::Listen() const
 		{
 			messagePtr = ReceiveMessage();
 		}
-		catch (std::runtime_error& e)
+		catch (std::runtime_error&)
 		{
 		}
 
@@ -62,7 +62,7 @@ std::unique_ptr<Message> MessageListener::ReceiveMessage() const
 
 	auto buffer = SharedSpan(length);
 
-	const int bytesReceived = ReceiveAll(buffer.Data(), length);
+	const int bytesReceived = ReceiveAll(buffer.begin(), length);
 	if (bytesReceived < 0 || bytesReceived < length)
 	{
 		return nullptr;

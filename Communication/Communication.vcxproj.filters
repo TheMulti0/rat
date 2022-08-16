@@ -111,14 +111,14 @@
     <ClInclude Include="ThreadGuard.h">
       <Filter>Extensions</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\SharedSpan.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="OperationQueue.h">
       <Filter>Message\Implementation</Filter>
     </ClInclude>
     <ClInclude Include="..\include\IOperationQueue.h">
       <Filter>Message</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SharedSpan.h">
+      <Filter>Extensions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

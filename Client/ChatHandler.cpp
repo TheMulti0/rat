@@ -9,7 +9,7 @@ bool ChatHandler::CanHandle(const MessageType type)
 
 void ChatHandler::Handle(MessageType type, SharedSpan content)
 {
-	const auto message = content.String();
+	const auto message = content.toString();
 
 	Trace("Received %s\n", message.c_str());
 }

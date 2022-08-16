@@ -9,7 +9,7 @@ Serializer::Serializer(const int size):
 
 void Serializer::Add(SharedSpan item)
 {
-	Add(item.Data(), item.Size());
+	Add(item.begin(), item.size());
 }
 
 void Serializer::Add(const char* item, const int size)
@@ -22,7 +22,7 @@ SharedSpan Serializer::Data()
 {
 	auto span = SharedSpan(_size);
 
-	std::copy_n(_data.release(), _size, span.Data());
+	std::copy_n(_data.release(), _size, span.begin());
 
 	return span;
 }

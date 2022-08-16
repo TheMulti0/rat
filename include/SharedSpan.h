@@ -12,11 +12,12 @@ public:
 
 	explicit SharedSpan(int size);
 
-	[[nodiscard]] int Size() const;
+	[[nodiscard]] char* begin();
+	[[nodiscard]] char* end();
 
-	[[nodiscard]] char* Data();
+	[[nodiscard]] int size() const;
 
-	[[nodiscard]] std::string String() const;
+	[[nodiscard]] std::string toString() const;
 
 private:
 	int _size;
@@ -28,7 +29,7 @@ inline SharedSpan::SharedSpan(): _size(0)
 }
 
 inline SharedSpan::SharedSpan(const std::string& str):
-	_size(str.size()),
+	_size(static_cast<int>(str.size())),
 	_buffer(std::shared_ptr<char>(new char[_size]))
 {
 	std::ranges::copy(str, _buffer.get());
@@ -40,18 +41,23 @@ inline SharedSpan::SharedSpan(const int size):
 {
 }
 
-inline int SharedSpan::Size() const
+inline int SharedSpan::size() const
 {
 	return _size;
 }
 
-inline char* SharedSpan::Data()
+inline std::string SharedSpan::toString() const
+{
+	return std::string(_buffer.get(), _size);
+}
+
+inline char* SharedSpan::begin()
 {
 	return _buffer.get();
 }
 
-inline std::string SharedSpan::String() const
+inline char* SharedSpan::end()
 {
-	return std::basic_string(_buffer.get(), _size);
+	return begin() + _size;
 }
 

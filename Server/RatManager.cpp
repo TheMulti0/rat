@@ -130,7 +130,7 @@ void RatManager::OnScreenshot(SharedSpan content)
 	auto fileName = Format("%s.png", date.c_str());
 
 	std::ofstream(fileName, std::ios::binary)
-		.write(content.Data(), content.Size());
+		.write(content.begin(), content.size());
 
 	ShellExecuteA(
 		nullptr, 
@@ -143,7 +143,7 @@ void RatManager::OnScreenshot(SharedSpan content)
 
 void RatManager::OnMessage(const int client, const MessageType type, SharedSpan content)
 {
-	const auto str = content.String();
+	const auto str = content.toString();
 
 	switch (type)
 	{

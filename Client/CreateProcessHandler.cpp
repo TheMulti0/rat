@@ -21,7 +21,7 @@ bool CreateProcessHandler::CanHandle(const MessageType type)
 
 void CreateProcessHandler::Handle(MessageType type, SharedSpan content)
 {
-	const auto name = ToWString(content.String());
+	const auto name = ToWString(content.toString());
 
 	_manager->Run(name);
 }
